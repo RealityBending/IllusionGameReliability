@@ -1,0 +1,472 @@
+<head>
+    <!-- Customize the title! -->
+    <title>Illusion Game</title>
+    <!-- jsPsych Scripts -->
+    <script src="utils/jspsych/jspsych.js"></script>
+    <script src="utils/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="utils/jspsych/plugin-html-button-response.js"></script>
+    <script src="utils/jspsych/plugin-fullscreen.js"></script>
+    <script src="utils/jspsych/plugin-survey-text.js"></script>
+    <script src="utils/jspsych/plugin-preload.js"></script>
+    <script src="utils/jspsych/plugin-image-keyboard-response.js"></script>
+    <script src="utils/jspsych/plugin-survey-multi-choice.js"></script>
+    <script src="utils/jspsych/plugin-browser-check.js"></script>
+    <!-- Other modules -->
+    <script src="https://realitybending.github.io/JSmisc/misc/utils.js"></script>
+    <!--<script src = "utils/jspsych/plugin-jsPsychPavlovia.js"></script>-->
+    <!--<script src = "utils/jspsych/plugin-jspsych-pavlovia-2021.js"></script>-->
+    <!-- Load stimuli -->
+    <script src="stimuli/stimuli_training.js"></script>
+    <script src="stimuli/stimuli_part1.js"></script>
+    <script src="stimuli/stimuli_part2.js"></script>
+    <script src="stimuli/stimuli_perceptual1.js"></script>
+    <script src="stimuli/stimuli_perceptual2.js"></script>
+
+    <script src="experiment.js"></script>
+    <script src="utils/plugin-survey-multiple-slider.js"></script>
+    <!-- CSS -->
+    <link href="utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <!--<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>-->
+    <!--<script type="text/javascript" src="lib/jspsych-7-pavlovia-2022.1.1.js"></script>-->
+
+    <style>
+        /* set canvas to be full screen */
+        .jspsych-content {
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+            overflow-x: flow;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
+</head>
+
+<body></body>
+
+
+
+<script>
+
+
+    /* ----------------- Initialize experiment ----------------- */
+    var timeline = []
+
+
+    // /* Initialize connection to Pavlovia ----*/
+    // var pavlovia_init = {
+    //     type: jsPsychPavlovia,
+    //     command: "init",
+    //     setPavloviaInfo: function (info) {
+    //         console.log(info);
+    //         pavloviaInfo = info;
+    //     }
+    // }
+
+
+    // timeline.push(pavlovia_init);
+
+    var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        message_progress_bar: "Completion",
+        // exclusions: { min_width: 800, min_height: 600 }, /* exclude browsers that are not at least 800x600 pix */
+        //  on_interaction_data_update: function (data) {console.log(JSON.stringify(data))}, /* record browser interactions */
+        on_finish: function () {
+            jsPsych.data.displayData("json")
+            jsPsych.data
+                .get()
+                .localSave(
+                    "json",
+                    `${jsPsych.data.get().values()[0]["participant_id"]
+                    }_IllusionGame.json`
+                )
+            // window.location = "https://app.prolific.co/submissions/complete?cc=XXX" /* redirect to prolific when experiment is finished */
+        },
+    })
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        delay_after: 0,
+    })
+
+    // Retrieve and save browser info
+    var browser_check = {
+        type: jsPsychBrowserCheck,
+        data: {
+            screen: "browser_info",
+            version: "1.0",
+            date: new Date().toLocaleDateString("fr-FR"),
+            time: new Date().toLocaleTimeString("fr-FR"),
+        },
+        on_finish: function () {
+            data = jsPsych.data.get().filter({screen: "browser_info"}).values()[0]
+            jsPsych.data.addProperties({
+                ["screen_height"]: data["height"],
+                ["screen_width"]: data["width"],
+            })
+            for (var key in data) {
+                if (
+                    [
+                        "vsync_rate",
+                        "os",
+                        "mobile",
+                        "browser",
+                        "browser_version",
+                    ].includes(key)
+                ) {
+                    jsPsych.data.addProperties({
+                        [key]: data[key],
+                    })
+                }
+            }
+            jsPsych.data.addProperties()
+        },
+    }
+    timeline.push(browser_check)
+
+    /* ----------------- Experiment  ----------------- */
+
+    // Subject Information (Get from Prolific)
+    var prolific_id = jsPsych.data.getURLVariable("PROLIFIC_PID")
+    var jspsych_id = jsPsych.randomization.randomID(5)
+    var participant_id = `${prolific_id}_${jspsych_id}`
+    var study_id = jsPsych.data.getURLVariable("STUDY_ID")
+    var session_id = jsPsych.data.getURLVariable("SESSION_ID")
+
+    var participant_info = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "Please enter your age (in years, e.g., '31')",
+                name: "age",
+                required: true,
+            },
+            {
+                prompt: "Please enter your country of birth (e.g., 'France')",
+                name: "nationality",
+                required: true,
+            },
+            {
+                prompt: "Please enter your ethnicity (e.g., 'Caucasian')",
+                name: "ethnicity",
+                required: true,
+            }
+        ],
+        on_finish: function () {
+            jsPsych.data.addProperties({
+                participant_id: participant_id,
+                study_id: study_id,
+                session_id: session_id,
+            })
+        },
+        data: {
+            screen: "demographics",
+        },
+    }
+
+    var demographics = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: 'What is your gender?',
+                options: ["Male", "Female", "Other", "Prefer not to say"],
+                name: "sex",
+                required: true,
+            },
+            {
+                prompt: "What is your highest completed education level?",
+                options: ["University (doctorate)", "University (master)", "University (bachelor)", "High school", "Other", "Prefer not to say"],
+                name: "education",
+                required: true,
+            }
+        ],
+        data: {
+            screen: "demographics",
+        },
+    }
+
+    // timeline.push(participant_info, demographics);
+    //timeline.push(fixation)
+
+    // Preload Instructions Stimuli
+    timeline.push({
+        type: jsPsychPreload,
+        images: [
+            "materials/instructions/Ebbinghaus_Demo.png",
+            "materials/instructions/Ebbinghaus_DemoPerceptual.png",
+            "materials/instructions/MullerLyer_Demo.png",
+            "materials/instructions/MullerLyer_DemoPerceptual.png",
+            "materials/instructions/VerticalHorizontal_Demo.png",
+            "materials/instructions/VerticalHorizontal_DemoPerceptual.png",
+        ],
+    })
+
+    // General Instructions
+    var general_instructions = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Start the practice!"],
+        stimulus:
+            "<p><b>The Illusion Game</b></p>" +
+            "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
+            "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
+        data: {screen: "general_instructions"},
+    }
+    timeline.push(general_instructions)
+
+
+    /* ============================================================== */
+    /*  -----------------------Practice Block-------------------------*/
+    /* ============================================================== */
+
+    // var block_number = 0
+    // var trial_number = 0
+
+    /* ----------------------Ebbinghaus Practice----------------------------*/
+    // Ebbinghaus Practice
+    var ebbinghaus_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + ebbinghaus_instructions),
+        (illusion_name = "Ebbinghaus"),
+        (type = 'leftright'))
+
+    timeline.push({timeline: ebbinghaus_practice})
+
+    /* ----------------------Muller-Lyer Practice----------------------------*/
+    var mullerlyer_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + mullerlyer_instructions),
+        (illusion_name = "MullerLyer"),
+        (type = 'updown'))
+
+    timeline.push({timeline: mullerlyer_practice})
+
+    // /* ----------------------Vertical Horizaontal Practice----------------------------*/
+    var verticalhorizontal_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
+        (type = 'leftright'))
+
+    timeline.push({timeline: verticalhorizontal_practice})
+
+    /* ================================================================ */
+    /* ---------------------- END OF Practice ----------------------- */
+    /* ================================================================ */
+    var end_practice = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Let's Play!"],
+        stimulus: "<p><b>TRAINING COMPLETED</b></p>" +
+            "<p><i>Are you ready for the real game?</i></p>" +
+            "<p>This time, there will be more trials, and some might be harder too. Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
+            "<p>Try to keep up a high score!</p><br>" +
+            "<p>Note that it can be <i>really</i> challenging at times, so you will need to rely on your <b>intuition</b> and gut feeling to answer as fast as you can without making errors.</p>" +
+            "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score!), but the order of the blocks is random.</p>" +
+            "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
+            "<p>Good luck!</p><br>",
+        data: {screen: "practice_debrief"},
+    }
+    timeline.push(end_practice)
+
+
+    /* ============================================================== */
+    /*  -----------------------Experiment Block-------------------------*/
+    /* ============================================================== */
+    // Set experiment variables
+    var trial_number = 1 // trial indexing variable starts at 1 for convenience
+    var block_number = 1 // block indexing variable
+
+    // Set up block loop for different stimuli set
+    for (var i of [1, 2]) {
+        if (i === 1) {
+            stimuli = stimuli_part1
+        } else {
+            stimuli = stimuli_part2
+        }
+
+        /* ================================================================ */
+        /* ---------------------- MULLERLYER ILLUSION --------------------- */
+        /* ================================================================ */
+        var timeline_mullerlyer = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "</b></p>" +
+                    mullerlyer_instructions
+            }),
+            (illusion_name = "MullerLyer"),
+            (type = "updown")
+        )
+
+        /* ================================================================ */
+        /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
+        /* ================================================================ */
+        var timeline_ebbinghaus = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "</b></p>" +
+                    ebbinghaus_instructions
+            }),
+            (illusion_name = "Ebbinghaus"),
+            (type = "leftright")
+        )
+
+
+        /* ================================================================ */
+        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
+        /* ================================================================ */
+        var timeline_verticalhorizontal = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "</b></p>" +
+                    verticalhorizontal_instructions
+            }),
+            (illusion_name = "VerticalHorizontal"),
+            (type = "leftright")
+        )
+
+         /* ================================================================ */
+        /* --------------------- Psychometric scales----------------------- */
+        /* ================================================================ */
+        var IPIP_items = []
+        for (const [index, element] of IPIP.entries()) {
+            IPIP_items.push({
+                prompt: element,
+                name: IPIP_dim[index],
+                ticks:  ["Very Inaccurate", "Very Accurate"],
+                required: true
+            })
+        }
+
+        var IPIP6 = {
+            type: jsPsychMultipleSlider,  // custom plugin in utils
+            questions: IPIP_items,
+            randomize_question_order: false,
+            preamble: "<p>For this part, we are interested in finding out more about your traits.</p>" +
+                "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
+            require_movement: true,
+            slider_width: 600,
+            min: 0,
+            max: 100,
+            slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'IPIP6',
+            }
+        };
+
+        var PID_items = []
+        for (const [index, element] of PID.entries()) {
+            PID_items.push({
+                prompt: element,
+                name: PID_dim[index],
+                ticks: ["Often False", "Often True"],
+                required: true
+            })
+        }
+
+        var PID5 = {
+            type: jsPsychMultipleSlider,
+            questions: PID_items,
+            randomize_question_order: false,
+            preamble: "<p>Below is a list of things different people might say about themselves.</p>" +
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            require_movement: true,
+            slider_width: 600,
+            min: 0,
+            max: 100,
+            slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'PID5',
+            }
+        };
+
+        /* ================================================================ */
+        /* ---------------------- END OF EXPERIMENT ----------------------- */
+        /* ================================================================ */
+        for (var t of jsPsych.randomization.shuffleNoRepeats([
+            timeline_mullerlyer,
+            timeline_ebbinghaus,
+            timeline_verticalhorizontal,
+        ])) {
+            timeline.push({timeline: t})
+        }
+        if (i === 1) {
+            timeline.push(make_break1)
+            timeline.push(IPIP6)
+            timeline.push(PID5)
+            timeline.push(make_break2)
+        }
+    }
+
+    // Debriefing Information
+    var end_experiment = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["End"],
+        stimulus: function () {
+            var results = get_results(
+                1000, // population_scores["Total"]["IES_Mean"][0],
+                400 // population_scores["Total"]["IES_SD"][0]
+            )
+            var show_screen = get_debrief_display(results, "Final")
+            return (
+                //show_screen.display_score +
+                // "<hr>" +
+                // show_screen.display_comparison +
+                //"<hr>" +
+                "<p>Thank you for participating!</p>" +
+                "<p>You will now be redirected to Prolific to be reimbursed.</p>" +
+                "<p>Please click 'OK' when asked to leave the site.</p>"
+            )
+        },
+        data: {screen: "final_results"},
+    }
+    timeline.push(end_experiment)
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+    })
+
+
+    // /* Close connection to Pavlovia---*/
+    // var pavlovia_finish = {
+    //         type: jsPsychPavlovia,
+    //         command: "finish",
+    //         participantId: participant_id,
+    //         completedCallback: function (){
+    //             window.location.replace('https://app.prolific.co/submissions/complete?cc=XXX');
+    //     }
+    // }
+
+
+    jsPsych.run(timeline)
+
+
+
+
+
+</script>
+
+</html>

@@ -2,6 +2,7 @@
 import glob
 import json
 import os
+import random
 
 import matplotlib.pyplot as plt
 import neurokit2 as nk
@@ -81,6 +82,9 @@ def generate_images(
                 else:
                     correct = "arrowdown"
 
+            # Randomize fixation cross position
+            fix_cross = ["+", " +", "+ ", "\n+", "+\n", "\n +", "\n+ ", " +\n", "+ \n"]
+
             # Save parameters
             data.append(
                 {
@@ -88,11 +92,12 @@ def generate_images(
                     "Illusion_Strength": f"{strength:<012}",
                     "Difference": f"{difference:<012}",
                     "stimulus": "stimuli/" + path,
+                    "fix_cross": random.choice(fix_cross),
                     "data": {"screen": "Trial", "block": name, "correct_response": correct},
                 }
             )
 
-    save_mosaic(strengths, differences, function, name=name, **kwargs)
+   # save_mosaic(strengths, differences, function, name=name, **kwargs)
     return data
 
 
