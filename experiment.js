@@ -70,38 +70,36 @@ function get_debrief_display(results, type = "Block") {
     }
 }
 
-// Set fixation cross
-// var randFixCross = [{fix_cross:"+",
-//                  fix_cross: "+",
-//                  fix_cross: "+ ",
-//                  fix_cross: "\n+",
-//                  fix_cross: "+\n",
-//                  fix_cross:"\n +",
-//                  fix_cross:"\n+ ",
-//                  fix_cross:" +\n",
-//                  fix_cross:"+ \n"}]
+// Set fixation cross to jitter
+var fix_cross = ["+", " +", "+ ", "\n+", "+\n", "\n +", "\n+ ", " +\n", "+ \n"]
 
-// function random_item(items){
-//     return items[Math.floor(Math.random()*items.length)];
-// }
+// Function to pick an element randomly from an array
+function random_item(items){
+    return items[Math.floor(Math.random()*items.length)];
+}
 
-// var fixation = {
-//     type: jsPsychHtmlKeyboardResponse,
-//     stimulus:
-//         '<p style="color: black; font-size: 60px;">' +
-//         jsPsych.timelineVariable("fix_cross") +
-//         //fix_cross[randomInteger(0, fix_cross.length-1)] +
-//         "</p>",
-//     choices: "NO_KEYS" /* no responses will be accepted as a valid response */,
-//     // trial_duration: 0, // (for testing)
-//     trial_duration: function () {
-//         return randomInteger(500, 1000) // Function from RealityBending/JSmisc
-//     },
-//     save_trial_parameters: {
-//         trial_duration: true,
-//     },
-//     data: { screen: "fixation" },
-// }
+function randomize_fixation(){
+    var fixation = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function(){
+            var cross = random_item(fix_cross)
+            return '<p style="color: black; font-size: 60px;">' + cross + "</p>"
+            //jsPsych.timelineVariable("fixCross") +
+           // fix_cross[randomInteger(0, fix_cross.length-1)] +
+          // "</p>",
+        },
+        choices: "NO_KEYS" /* no responses will be accepted as a valid response */,
+        // trial_duration: 0, // (for testing)
+        trial_duration: function () {
+            return randomInteger(500, 1000) // Function from RealityBending/JSmisc
+        },
+        save_trial_parameters: {
+            trial_duration: true,
+        },
+        data: { screen: "fixation" },
+    }
+    return fixation
+}
 
 // Break
 var make_break1 = {
@@ -329,28 +327,11 @@ function make_trial(stimuli, instructions, illusion_name, type) {
     var trial = create_trial(illusion_name, (type = type))
 
     // Define fixation
-    var fixation = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: function(){
-            var rand_cross = `<p style="color: black; font-size: 60px;">`+
-            jsPsych.timelineVariable("fix_cross")+
-            `</p>`;
-            return rand_cross
-        },
-        choices: "NO_KEYS" /* no responses will be accepted as a valid response */,
-        // trial_duration: 0, // (for testing)
-        trial_duration: function () {
-            return randomInteger(500, 1000) // Function from RealityBending/JSmisc
-        },
-        save_trial_parameters: {
-            trial_duration: true,
-        },
-        data: { screen: "fixation" },
-    }
+    var randFix = randomize_fixation()
 
     // Create Trials timeline
     timeline.push({
-        timeline: [fixation, trial],
+        timeline: [randFix, trial],
         timeline_variables: stim_list,
         randomize_order: true,
         repetitions: 1,
@@ -409,34 +390,63 @@ const verticalhorizontal_instructions =
     "<p class='small'>In this example, the correct answer is the <b>LEFT arrow</b>.</p></div>" +
     "<p>Are you ready? <b>Press ENTER to start</b></p>"
 
+// Instructions for Perceptual Trials
+
+const mullerlyer_instructions_perceptual =
+    "<p>In this part, two horizontal red lines will appear one above the other.</p>" +
+    "<p>Your task is to select which <b>line is longer</b> in length as fast as you can, without making errors.</p>" +
+    "<p>Press <b>the UP or the DOWN arrow</b> to indicate where is the longer <b>red line.</b></p>" +
+    "<div style='float: center'><img src='materials/instructions/MullerLyer_DemoPerceptual.png' height='300'></img>" +
+    "<p><img src='utils/answer/answer_updown_keyboard.PNG' height='150'></img></p>" +
+    "<p class='small'>In this example, the correct answer is the <b>UP arrow</b>.</p></div>" +
+    "<p>Are you ready? <b>Press ENTER to start</b></p>"
+
+const ebbinghaus_instructions_perceptual =
+    "<p>In this part, two red circles will appear side by side on the screen.</p>" +
+    "<p>Your task is to select which <b>red circle is bigger</b> in size as fast as you can, without making errors.</p>" +
+    "<p>Press <b>the LEFT or the RIGHT arrow</b> to indicate which is the bigger <b>red circle.</b></p>" +
+    "<div style='float: center'><img src='materials/instructions/Ebbinghaus_DemoPerceptual.png' height='300'></img>" +
+    "<p><img src='utils/answer/answer_leftright_keyboard.PNG' height='150'></img></p>" +
+    "<p class='small'>In this example, the correct answer is the <b>LEFT arrow</b>.</p></div>" +
+    "<p>Are you ready? <b>Press ENTER to start</b></p>"
+
+const verticalhorizontal_instructions_perceptual =
+    "<p>In this part, two red lines will appear side by side.</p>" +
+    "<p>Your task is to tell <b>which line is longer</b> in length as fast as you can, and without making errors.</p>" +
+    "<p>Press <b>the LEFT or the RIGHT arrow</b> to indicate which <b>line is the longer one.</b></p>" +
+    "<div style='float: center'><img src='materials/instructions/VerticalHorizontal_DemoPerceptual.png' height='300'></img>" +
+    "<p><img src='utils/answer/answer_leftright_keyboard.PNG' height='150'></img></p>" +
+    "<p class='small'>In this example, the correct answer is the <b>LEFT arrow</b>.</p></div>" +
+    "<p>Are you ready? <b>Press ENTER to start</b></p>"
+
 /* Psychometric scales---------------------------------------------------------------------*/
 
 // Mini IPIP scale
 var IPIP = [
-    "I am the life of the party<br>",
-    "I sympathize with others' feelings<br>",
-    "I get chores done right away<br>",
-    "I have frequent mood swings<br>",
-    "I have a vivid imagination<br>",
-    "I feel entitled to more of everything<br>",
-    "I do not talk a lot<br>",
-    "I am not interested in other people's problems<br>",
-    "I have difficulty understanding abstract ideas<br>",
-    "I like order<br>",
-    "I make a mess of things<br>",
-    "I deserve more things in life<br>",
-    "I do not have a good imagination<br>",
-    "I feel other's emotions<br>",
-    "I am relaxed most of the time<br>",
-    "I get upset easily<br>",
-    "I seldom feel blue<br>",
-    "I would like to be seen driving around in a very expensive car<br>",
-    "I keep in the background<br>",
-    "I am not really interested in others<br>",
-    "I am not interested in abstract ideas<br>",
-    "I often forget to put things back in their proper place<br>",
-    "I talk to a lot of different people at parties<br>",
-    "I would get a lot of pleasure from owning expensive luxury goods<br>",
+    "<b>I am the life of the party</b><br>",
+    "<b>I sympathize with others' feelings</b><br>",
+    "<b>I get chores done right away</b><br>",
+    "<b>I have frequent mood swings</b><br>",
+    "<b>I have a vivid imagination</b><br>",
+    "<b>I feel entitled to more of everything</b><br>",
+    "<b>I do not talk a lot</b><br>",
+    "<b>I am not interested in other people's problems</b><br>",
+    "<b>I have difficulty understanding abstract ideas</b><br>",
+    "<b>I like order</b><br>",
+    "<b>I make a mess of things</b><br>",
+    "<b>I deserve more things in life</b><br>",
+    "<b>I do not have a good imagination</b><br>",
+    "<b>I feel other's emotions</b><br>",
+    "<b>I am relaxed most of the time</b><br>",
+    "<b>I get upset easily</b><br>",
+    "<b>I seldom feel blue</b><br>",
+    "<b>I would like to be seen driving around in a very expensive car</b><br>",
+    "<b>I keep in the background</b><br>",
+    "<b>I am not really interested in others</b><br>",
+    "<b>I am not interested in abstract ideas</b><br>",
+    "<b>I often forget to put things back in their proper place</b><br>",
+    "<b>I talk to a lot of different people at parties</b><br>",
+    "<b>I would get a lot of pleasure from owning expensive luxury goods</b><br>",
 ]
 
 var IPIP_dim = [
@@ -467,31 +477,31 @@ var IPIP_dim = [
 ]
 
 var PID = [
-    "People would describe me as reckless<br>",
-    "I feel like I act totally on impulse<br>",
-    "Even though I know better, I can't stop making rash decisions<br>",
-    "I often feel like nothing I do really matters<br>",
-    "Others see me as irresponsible<br>",
-    "I'm not good at planning ahead<br>",
-    "My thoughts often don't make sense to others<br>",
-    "I worry about almost everything<br>",
-    "I get emotional easily, often for very little reason<br>",
-    "I fear being alone in life more than anything else<br>",
-    "I get stuck on one way of doing things,even when it's clear it won't work<br>",
-    "I have seen things that weren't really there<br>",
-    "I steer clear of romantic relationships<br>",
-    "I'm not interested in making friends<br>",
-    "I get irritated easily by all sorts of things<br>",
-    "I don't like to get too close to people<br>",
-    "It's no big deal if I hurt other people's feelings<br>",
-    "I rarely get enthusiastic about anything<br>",
-    "I crave attention<br>",
-    "I often have to deal with people who are less important than me<br>",
-    "I often have thoughts that make sense to me but that other people say are strange<br>",
-    "I use people to get what I want<br>",
-    "I often 'zone out' and then suddenly come to and realize that a lot of time has passed<br>",
-    "Things around me often feel unreal, or more real than usual<br>",
-    "It is easy for me to take advantage of others<br>",
+    "<b>People would describe me as reckless</b><br>",
+    "<b>I feel like I act totally on impulse</b><br>",
+    "<b>Even though I know better, I can't stop making rash decisions</b><br>",
+    "<b>I often feel like nothing I do really matters</b><br>",
+    "<b>Others see me as irresponsible</b><br>",
+    "<b>I'm not good at planning ahead</b><br>",
+    "<b>My thoughts often don't make sense to others</b><br>",
+    "<b>I worry about almost everything</b><br>",
+    "<b>I get emotional easily, often for very little reason</b><br>",
+    "<b>I fear being alone in life more than anything else</b><br>",
+    "<b>I get stuck on one way of doing things,even when it's clear it won't work</b><br>",
+    "<b>I have seen things that weren't really there</b><br>",
+    "<b>I steer clear of romantic relationships</b><br>",
+    "<b>I'm not interested in making friends</b><br>",
+    "<b>I get irritated easily by all sorts of things</b><br>",
+    "<b>I don't like to get too close to people</b><br>",
+    "<b>It's no big deal if I hurt other people's feelings</b><br>",
+    "<b>I rarely get enthusiastic about anything</b><br>",
+    "<b>I crave attention</b><br>",
+    "<b>I often have to deal with people who are less important than me</b><br>",
+    "<b>I often have thoughts that make sense to me but that other people say are strange</b><br>",
+    "<b>I use people to get what I want</b><br>",
+    "<b>I often 'zone out' and then suddenly come to and realize that a lot of time has passed</b><br>",
+    "<b>Things around me often feel unreal, or more real than usual</b><br>",
+    "<b>It is easy for me to take advantage of others</b><br>",
 ]
 
 var PID_dim = [
