@@ -301,6 +301,7 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     mullerlyer_instructions
             }),
@@ -315,6 +316,7 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     ebbinghaus_instructions
             }),
@@ -330,12 +332,29 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     verticalhorizontal_instructions
             }),
             (illusion_name = "VerticalHorizontal"),
             (type = "leftright")
         )
+
+         /* ================================================================ */
+        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
+        /* ================================================================ */
+
+        var perceptual_instructions = {
+            type: jsPsychHtmlButtonResponse,
+            choices: ["I'm Ready!"],
+            stimulus:
+                "<p><i>Are you ready for the next part?</i></p>" +
+                "<p>This time, we are going to test your visual abilities by seeing how fast you can spot <b>small</b> differences in sizes</p>" +
+                "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
+                "<p>Good luck!</p><br>",
+            data: {screen: "perceptual_instructions"},
+        }
+
 
         /* ================================================================ */
         /* ---------------------- MULLERLYER Perceptual --------------------- */
@@ -344,6 +363,7 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     mullerlyer_instructions_perceptual
             }),
@@ -358,6 +378,7 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     ebbinghaus_instructions_perceptual
             }),
@@ -373,6 +394,7 @@
             (instructions = function () {
                 return "<p><b>Part " +
                     block_number +
+                    "/6" +
                     "</b></p>" +
                     verticalhorizontal_instructions_perceptual
             }),
@@ -530,6 +552,9 @@
         //         timeline.push({timeline: t})
         //     }
         // } else {
+        if (i===3){
+            timeline.push(perceptual_instructions)
+        }
         for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
                 timeline_mullerlyer_perceptual,
                 timeline_ebbinghaus_perceptual,
