@@ -71,27 +71,27 @@ function get_debrief_display(results, type = "Block") {
 }
 
 // Set fixation cross to jitter
-var fix_cross = ["+", " +", "+ ", "\n+", "+\n", "\n +", "\n+ ", " +\n", "+ \n"]
-
-// Function to pick an element randomly from an array
-function random_item(items){
-    return items[Math.floor(Math.random()*items.length)];
-}
-
-function randomize_fixation(){
+function fixation_cross() {
     var fixation = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: function(){
-            var cross = random_item(fix_cross)
-            return '<p style="color: black; font-size: 60px;">' + cross + "</p>"
-            //jsPsych.timelineVariable("fixCross") +
-           // fix_cross[randomInteger(0, fix_cross.length-1)] +
-          // "</p>",
+        stimulus: function () {
+            return (
+                '<p style="color: black; font-size: 80px; padding-left: ' +
+                randomInteger(0, 50) +
+                "%; padding-right: " +
+                randomInteger(0, 50) +
+                "%; padding-top: " +
+                randomInteger(0, 50) +
+                "%; padding-bottom: " +
+                randomInteger(0, 50) +
+                '%">+</p>'
+            )
         },
-        choices: "NO_KEYS" /* no responses will be accepted as a valid response */,
-        trial_duration: 0, // (for testing)
+        choices:
+            "NO_KEYS" /* no responses will be accepted as a valid response */,
+        trial_duration: 200, // (for testing)
         // trial_duration: function () {
-        //     return randomInteger(500, 1000) // Function from RealityBending/JSmisc
+        //     return randomInteger(500, 1000)
         // },
         save_trial_parameters: {
             trial_duration: true,
@@ -323,15 +323,12 @@ function make_trial(stimuli, instructions, illusion_name, type) {
         post_trial_gap: 500,
     })
 
-    // Define trial
-    var trial = create_trial(illusion_name, (type = type))
-
-    // Define fixation
-    var randFix = randomize_fixation()
-
     // Create Trials timeline
     timeline.push({
-        timeline: [randFix, trial],
+        timeline: [
+            fixation_cross(),
+            create_trial(illusion_name, (type = type)),
+        ],
         timeline_variables: stim_list,
         randomize_order: true,
         repetitions: 1,
