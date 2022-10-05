@@ -335,9 +335,9 @@ function make_trial(stimuli, instructions, illusion_name, type) {
     })
 
     // Debriefing Information
-    if (stimuli == stimuli_part1||stimuli == stimuli_part2) {
+    if (stimuli == stimuli_part1 || stimuli == stimuli_part2) {
         timeline.push(create_debrief((illusion_name = illusion_name)))
-    } else if ((stimuli === stimuli_training)) {
+    } else if (stimuli === stimuli_training) {
         timeline.push({
             type: jsPsychHtmlButtonResponse,
             choices: ["Continue"],
@@ -351,34 +351,8 @@ function make_trial(stimuli, instructions, illusion_name, type) {
             stimulus: "<p><b>Great job!</b></p>",
             data: { screen: "practice_block" },
         })
-    } else {
-        timeline.push({
-            type: jsPsychHtmlButtonResponse,
-            choices: ["Continue"],
-            on_start: function () {
-                ;(document.body.style.cursor = "auto"),
-                    (document.querySelector(
-                        "#jspsych-progressbar-container"
-                    ).style.display = "inline")
-            },
-            stimulus: function () {
-                var results = get_results(
-                    1000, // population_scores[illusion_name]["IES_Mean"][0],
-                    400, // population_scores[illusion_name]["IES_SD"][0],
-                    illusion_name
-                )
-                return (
-                    "<p>Can you do better in the next illusion?</p>"
-                )
-            },
-            data: { screen: "perceptual_results" },
-            // Reset trial number and update block number
-            on_finish: function () {
-                block_number += 1
-                trial_number = 1
-            },
-        })
     }
+
     return timeline
 }
 
