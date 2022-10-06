@@ -89,10 +89,10 @@ function fixation_cross() {
         },
         choices:
             "NO_KEYS" /* no responses will be accepted as a valid response */,
-        trial_duration: 200, // (for testing)
-        // trial_duration: function () {
-        //     return randomInteger(500, 1000)
-        // },
+        // trial_duration: 200, // (for testing)
+        trial_duration: function () {
+            return randomInteger(500, 1000)
+        },
         save_trial_parameters: {
             trial_duration: true,
         },
@@ -391,7 +391,7 @@ const verticalhorizontal_instructions =
 // Instructions for Perceptual Trials
 
 const mullerlyer_instructions_perceptual =
-    "<p>In this part, two horizontal red lines will appear one above the other.</p>" +
+    "<p>In this part, two parallel horizontal red lines will appear one above the other.</p>" +
     "<p>Your task is to select which <b>line is longer</b> in length as fast as you can, without making errors.</p>" +
     "<p>Press <b>the UP or the DOWN arrow</b> to indicate where is the longer <b>red line.</b></p>" +
     "<div style='float: center'><img src='materials/instructions/MullerLyer_DemoPerceptual.png' height='300'></img>" +
@@ -409,7 +409,7 @@ const ebbinghaus_instructions_perceptual =
     "<p>Are you ready? <b>Press ENTER to start</b></p>"
 
 const verticalhorizontal_instructions_perceptual =
-    "<p>In this part, two red lines will appear side by side.</p>" +
+    "<p>In this part, two parallel red lines will appear side by side.</p>" +
     "<p>Your task is to tell <b>which line is longer</b> in length as fast as you can, and without making errors.</p>" +
     "<p>Press <b>the LEFT or the RIGHT arrow</b> to indicate which <b>line is the longer one.</b></p>" +
     "<div style='float: center'><img src='materials/instructions/VerticalHorizontal_DemoPerceptual.png' height='300'></img>" +

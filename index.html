@@ -140,60 +140,60 @@
     var study_id = jsPsych.data.getURLVariable("STUDY_ID")
     var session_id = jsPsych.data.getURLVariable("SESSION_ID")
 
-    // var participant_info = {
-    //     type: jsPsychSurveyText,
-    //     questions: [
-    //         {
-    //             prompt: "Please enter your age (in years, e.g., '31')",
-    //             name: "age",
-    //             required: true,
-    //         },
-    //         {
-    //             prompt: "Please enter your country of birth (e.g., 'France')",
-    //             name: "nationality",
-    //             required: true,
-    //         },
-    //         {
-    //             prompt: "Please enter your ethnicity (e.g., 'Caucasian')",
-    //             name: "ethnicity",
-    //             required: true,
-    //         }
-    //     ],
-    //     on_finish: function () {
-    //         jsPsych.data.addProperties({
-    //             participant_id: participant_id,
-    //             study_id: study_id,
-    //             session_id: session_id,
-    //         })
-    //     },
-    //     data: {
-    //         screen: "demographics",
-    //     },
-    // }
+    var participant_info = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "Please enter your age (in years, e.g., '31')",
+                name: "age",
+                required: true,
+            },
+            {
+                prompt: "Please enter your country of birth (e.g., 'France')",
+                name: "nationality",
+                required: true,
+            },
+            {
+                prompt: "Please enter your ethnicity (e.g., 'Caucasian')",
+                name: "ethnicity",
+                required: true,
+            }
+        ],
+        on_finish: function () {
+            jsPsych.data.addProperties({
+                participant_id: participant_id,
+                study_id: study_id,
+                session_id: session_id,
+            })
+        },
+        data: {
+            screen: "demographics",
+        },
+    }
 
-    // var demographics = {
-    //     type: jsPsychSurveyMultiChoice,
-    //     questions: [
-    //         {
-    //             prompt: 'What is your gender?',
-    //             options: ["Male", "Female", "Other", "Prefer not to say"],
-    //             name: "sex",
-    //             required: true,
-    //         },
-    //         {
-    //             prompt: "What is your highest completed education level?",
-    //             options: ["University (doctorate)", "University (master)", "University (bachelor)", "High school", "Other", "Prefer not to say"],
-    //             name: "education",
-    //             required: true,
-    //         }
-    //     ],
-    //     data: {
-    //         screen: "demographics",
-    //     },
-    // }
+    var demographics = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: 'What is your gender?',
+                options: ["Male", "Female", "Other", "Prefer not to say"],
+                name: "sex",
+                required: true,
+            },
+            {
+                prompt: "What is your highest completed education level?",
+                options: ["University (doctorate)", "University (master)", "University (bachelor)", "High school", "Other", "Prefer not to say"],
+                name: "education",
+                required: true,
+            }
+        ],
+        data: {
+            screen: "demographics",
+        },
+    }
 
-    // // timeline.push(participant_info, demographics);
-    // //timeline.push(fixation)
+    timeline.push(participant_info, demographics);
+    // timeline.push(fixation)
 
     // // Preload Instructions Stimuli
     // timeline.push({
