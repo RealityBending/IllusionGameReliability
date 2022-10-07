@@ -196,82 +196,82 @@
     // timeline.push(fixation)
 
     // // Preload Instructions Stimuli
-    // timeline.push({
-    //     type: jsPsychPreload,
-    //     images: [
-    //         "materials/instructions/Ebbinghaus_Demo.png",
-    //         "materials/instructions/Ebbinghaus_DemoPerceptual.png",
-    //         "materials/instructions/MullerLyer_Demo.png",
-    //         "materials/instructions/MullerLyer_DemoPerceptual.png",
-    //         "materials/instructions/VerticalHorizontal_Demo.png",
-    //         "materials/instructions/VerticalHorizontal_DemoPerceptual.png",
-    //     ],
-    // })
+    timeline.push({
+        type: jsPsychPreload,
+        images: [
+            "materials/instructions/Ebbinghaus_Demo.png",
+            "materials/instructions/Ebbinghaus_DemoPerceptual.png",
+            "materials/instructions/MullerLyer_Demo.png",
+            "materials/instructions/MullerLyer_DemoPerceptual.png",
+            "materials/instructions/VerticalHorizontal_Demo.png",
+            "materials/instructions/VerticalHorizontal_DemoPerceptual.png",
+        ],
+    })
 
-    // // General Instructions
-    // var general_instructions = {
-    //     type: jsPsychHtmlButtonResponse,
-    //     choices: ["Start the practice!"],
-    //     stimulus:
-    //         "<p><b>The Illusion Game</b></p>" +
-    //         "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
-    //         "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
-    //     data: {screen: "general_instructions"},
-    // }
-    // timeline.push(general_instructions)
+    // General Instructions
+    var general_instructions = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Start the practice!"],
+        stimulus:
+            "<p><b>The Illusion Game</b></p>" +
+            "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
+            "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
+        data: {screen: "general_instructions"},
+    }
+    timeline.push(general_instructions)
 
 
-    // /* ============================================================== */
-    // /*  -----------------------Practice Block-------------------------*/
-    // /* ============================================================== */
+    /* ============================================================== */
+    /*  -----------------------Practice Block-------------------------*/
+    /* ============================================================== */
 
-    // // var block_number = 0   //For debugging only
-    // // var trial_number = 0
+    // var block_number = 0   //For debugging only
+    // var trial_number = 0
 
-    // /* ----------------------Ebbinghaus Practice----------------------------*/
-    // // Ebbinghaus Practice
-    // var ebbinghaus_practice = make_trial(
-    //     (stimuli = stimuli_training),
-    //     (instructions = "<p><b>Practice</b></p>" + ebbinghaus_instructions),
-    //     (illusion_name = "Ebbinghaus"),
-    //     (type = 'leftright'))
+    /* ----------------------Ebbinghaus Practice----------------------------*/
+    // Ebbinghaus Practice
+    var ebbinghaus_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + ebbinghaus_instructions),
+        (illusion_name = "Ebbinghaus"),
+        (type = 'leftright'))
 
-    // timeline.push({timeline: ebbinghaus_practice})
+    timeline.push({timeline: ebbinghaus_practice})
 
-    // /* ----------------------Muller-Lyer Practice----------------------------*/
-    // var mullerlyer_practice = make_trial(
-    //     (stimuli = stimuli_training),
-    //     (instructions = "<p><b>Practice</b></p>" + mullerlyer_instructions),
-    //     (illusion_name = "MullerLyer"),
-    //     (type = 'updown'))
+    /* ----------------------Muller-Lyer Practice----------------------------*/
+    var mullerlyer_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + mullerlyer_instructions),
+        (illusion_name = "MullerLyer"),
+        (type = 'updown'))
 
-    // timeline.push({timeline: mullerlyer_practice})
+    timeline.push({timeline: mullerlyer_practice})
 
-    // // /* ----------------------Vertical Horizaontal Practice----------------------------*/
-    // var verticalhorizontal_practice = make_trial(
-    //     (stimuli = stimuli_training),
-    //     (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
-    //     (type = 'leftright'))
+    // /* ----------------------Vertical Horizaontal Practice----------------------------*/
+    var verticalhorizontal_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
+        (type = 'leftright'))
 
-    // timeline.push({timeline: verticalhorizontal_practice})
+    timeline.push({timeline: verticalhorizontal_practice})
 
-    // /* ================================================================ */
-    // /* ---------------------- END OF Practice ----------------------- */
-    // /* ================================================================ */
-    // var end_practice = {
-    //     type: jsPsychHtmlButtonResponse,
-    //     choices: ["Let's Play!"],
-    //     stimulus: "<p><b>TRAINING COMPLETED</b></p>" +
-    //         "<p><i>Are you ready for the real game?</i></p>" +
-    //         "<p>This time, there will be more trials, and some might be harder too. Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
-    //         "<p>Try to keep up a high score!</p><br>" +
-    //         "<p>Note that it can be <i>really</i> challenging at times, so you will need to rely on your <b>intuition</b> and gut feeling to answer as fast as you can without making errors.</p>" +
-    //         "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score!), but the order of the blocks is random.</p>" +
-    //         "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
-    //         "<p>Good luck!</p><br>",
-    //     data: {screen: "practice_debrief"},
-    // }
-    // timeline.push(end_practice)
+    /* ================================================================ */
+    /* ---------------------- END OF Practice ----------------------- */
+    /* ================================================================ */
+    var end_practice = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Let's Play!"],
+        stimulus: "<p><b>TRAINING COMPLETED</b></p>" +
+            "<p><i>Are you ready for the real game?</i></p>" +
+            "<p>This time, there will be more trials, and some might be harder too. Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
+            "<p>Try to keep up a high score!</p><br>" +
+            "<p>Note that it can be <i>really</i> challenging at times, so you will need to rely on your <b>intuition</b> and gut feeling to answer as fast as you can without making errors.</p>" +
+            "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score!), but the order of the blocks is random.</p>" +
+            "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
+            "<p>Good luck!</p><br>",
+        data: {screen: "practice_debrief"},
+    }
+    timeline.push(end_practice)
 
 
     /* ============================================================== */
@@ -283,7 +283,7 @@
 
     // Set up block loop for different stimuli set
     // for (var i of [1, 2]) {
-    for (var i = 3; i < 5; i++) {
+    for (var i = 1; i < 5; i++) {
         if (i === 1) {
             stimuli = stimuli_part1
         } else if (i === 2) {
@@ -542,32 +542,33 @@
         /* ================================================================ */
         /* ---------------------- END OF EXPERIMENT ----------------------- */
         /* ================================================================ */
-        // if (i < 3){
-        //     for (var t of jsPsych.randomization.shuffleNoRepeats([
-        //         timeline_mullerlyer,
-        //         timeline_ebbinghaus,
-        //         timeline_verticalhorizontal,
-        //     ])) {
-        //         timeline.push({timeline: t})
-        //     }
-        // } else {
-        if (i===3){
-            timeline.push(perceptual_instructions)
-        }
-        for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
+        if (i < 3){
+            for (var t of jsPsych.randomization.shuffleNoRepeats([
+                timeline_mullerlyer,
+                timeline_ebbinghaus,
+                timeline_verticalhorizontal,
+            ])) {
+                timeline.push({timeline: t})
+            }
+        } else {
+        //if (i===3){
+        //     timeline.push(perceptual_instructions)
+        // }
+            for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
                 timeline_mullerlyer_perceptual,
                 timeline_ebbinghaus_perceptual,
                 timeline_verticalhorizontal_perceptual,
         ])) {
             timeline.push({timeline: t_percep})
         }}
-    //     if (i === 2) {
-    //         timeline.push(make_break1)
-    //         timeline.push(IPIP6)
-    //         timeline.push(PID5)
-    //         timeline.push(make_break2)
-    //     }
-    // }
+        if (i === 2) {
+            timeline.push(make_break1)
+            timeline.push(IPIP6)
+            timeline.push(PID5)
+            timeline.push(make_break2)
+            timeline.push(perceptual_instructions)
+        }
+    }
 
     // Debriefing Information
     var end_experiment = {
