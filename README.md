@@ -18,3 +18,5 @@
 - [ ] Generic Conspiracist Beliefs Scale (GCBS) - 15 items assessing 5 dimensions (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using a 5-point likert scale (defintely not true - defintely true)
 
 - [ ]  Short UPPS-P Impulsive Behavior Scale (SUPPS-P): 20 item measuring 5 facets of impulsivity (negative urgency, positive urgency, sensation-seeking, lack of perseverance, lack of premeditation) using a 4 point likert scale (strongly disagree - strongly agree)
+
+- [ ] PI-18 (Primals Inventory - 18 items): measures 3 secondary primals (*Safe*, *Enticing*, *Alive*) on a 6-point likert scale (strongly disagree - strongly agree); items can also be pooled to measure the highest-order primal (*Good*)
