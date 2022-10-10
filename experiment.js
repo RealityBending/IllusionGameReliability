@@ -89,7 +89,7 @@ function fixation_cross() {
         },
         choices:
             "NO_KEYS" /* no responses will be accepted as a valid response */,
-        // trial_duration: 200, // (for testing)
+        // trial_duration: 0, // (for testing)
         trial_duration: function () {
             return randomInteger(500, 1000)
         },
@@ -419,7 +419,7 @@ const verticalhorizontal_instructions_perceptual =
 
 /* Psychometric scales---------------------------------------------------------------------*/
 
-// Mini IPIP scale
+// Mini IPIP scale (Big 5 traits)
 var IPIP = [
     "<b>I am the life of the party</b><br>",
     "<b>I sympathize with others' feelings</b><br>",
@@ -474,6 +474,7 @@ var IPIP_dim = [
     "HonestyHumility_24_R",
 ]
 
+// Personality Inventory for DSM-V - Brief (Maladaptive Traits)
 var PID = [
     "<b>People would describe me as reckless</b><br>",
     "<b>I feel like I act totally on impulse</b><br>",
@@ -528,4 +529,332 @@ var PID_dim = [
     "Psychoticism_23",
     "Psychoticism_24",
     "Antagonism_25",
+]
+
+// Schizotypal Personality Questionnaire - Brief
+// Note that some items are taken from a revised version of the schizotypal personality questionnaire  (https://hal.archives-ouvertes.fr/hal-03489508/document) that is adapted to be measured using a 5 point likert scale instead of the original dichotomous yes/no scale
+var SPQ = [
+    "<b>People sometimes find me aloof or distant</b><br>",
+    "<b>I happen to feel an unseen force or presence around me </b><br>",
+    "<b>People sometimes comment on my unusual mannerisms and habits</b><br>",
+    "<b>I am sometimes convinced that other people are able to guess what I think</b><br>",
+    "<b>Certain objects or ordinary situations that happen are special signs for me</b><br>",
+    "<b>Some people think that I am a very bizarre person</b><br>",
+    "<b>I feel that I have to be on guard even with friends</b><br>",
+    "<b>Some people find me a bit vague and elusive during a conversation</b><br>",
+    "<b>I often see hidden threats or derogatory remarks in what other people say or do</b><br>",
+    "<b>When I go shopping I have the feeling that people notice me</b><br>",
+    "<b>I feel very uncomfortable in social situations involving unfamiliar people</b><br>",
+    "<b>I have had special experiences with astrology, premonitions, unidentified flying objects, extrasensory perceptions, or the sixth sense</b><br>",
+    "<b>I sometimes use words in unusual ways</b><br>",
+    "<b>I think it's better that people don't know too much about me</b><br>",
+    "<b>I tend to keep in the background on social occasions.</b><br>",
+    "<b> Sometimes, I'm suddenly distracted by distant sounds to which usually I don't pay much attention</b><br>",
+    "<b>I often must be vigilant for other people not to take advantage of me</b><br>",
+    "<b>I have the feeling that I can't get close to people</b><br>",
+    "<b>I am an odd, unusual person</b><br>",
+    "<b>I find it hard to communicate clearly what I want to say to people</b><br>",
+    "<b>1 feel very uneasy talking to people I do not know well</b><br>",
+    "<b>I tend to keep my feelings to myself</b><br>"
+]
+// * changed items are 2, 4, 5, 9, 10, 12, 14, 16, 17, 18
+
+var SPQ_dim = [
+    "Interpersonal_1",
+    "Cognitive-Perceptual_2",
+    "Disorganized_3",
+    "Cognitive-Perceptual_4",
+    "Cognitive-Perceptual_5",
+    "Disorganized_6",
+    "Interpersonal_7",
+    "Disorganized_8",
+    "Cognitive-Perceptual_9",
+    "Cognitive-Perceptual_10",
+    "Interpersonal_11",
+    "Cognitive_Perceptual_12",
+    "Disorganized_13",
+    "Interpersonal_14",
+    "Interpersonal_15",
+    "Cognitive-Perceptual_16",
+    "Cognitive-Perceptual_17",
+    "Interpersonal_18",
+    "Disorganized_19",
+    "Disorganized_20",
+    "Interpersonal_21",
+    "Interpersonal_22"
+]
+
+
+// Autism-Spectrum Quotient Short (18 items)
+var AQ = [
+    "<b>I prefer to do things with others rather than on my own</b><br>",
+    "<b>I prefer to do things the same way over and over again</b><br>",
+    "<b>Trying to imagine something, I find it easy to create a picture in my mind</b><br>",
+    "<b>I frequently get strongly absorbed in one thing</b><br>",
+    "<b>I usually notice car number plates or similar strings of information </b><br>",
+    "<b>Reading a story, I can easily imagine what the characters might look like</b><br>",
+    "<b>I am fascinated by dates</b><br>",
+    "<b>I can easily keep track of several different people's conversations</b><br>",
+    "<b>I find social situations easy</b><br>",
+    "<b>I would rather go to a library than to a party</b><br>",
+    "<b>I find making up stories easy</b><br>",
+    "<b>I find myself drawn more strongly to people than to things</b><br>",
+    "<b>I am fascinated by numbers</b><br>",
+    "<b>Reading a story, I find it difficult to work out the character's intentions </b><br>",
+    "<b>I find it hard to make new friends</b><br>",
+    "<b>I notice patterns in things all the time</b><br>",
+    "<b>It does not upset my if my daily routine is disturbed</b><br>",
+    "<b>I find it easy to do more than one thing at once</b><br>",
+    "<b>I enjoy doing things spontaneously</b><br>",
+    "<b>I find it easy to work out what someone is thinking or feeling</b><br>",
+    "<b>If there is an interruption, I can switch back very quickly</b><br>",
+    "<b>I like to collect information about categories of things</b><br>",
+    "<b>I find it difficult to imagine what it would be like to be someone else</b><br>",
+    "<b>I enjoy social occasions </b><br>",
+    "<b>I find it difficult to work out people's intentions</b><br>",
+    "<b>New situations make me anxious</b><br>",
+    "<b>I enjoy meeting new people</b><br>",
+    "<b>I find it easy to play games with children that involve pretending</b><br>"
+]
+
+var AQ_dim =[
+    "SocialSkills_1",
+    "Routine_2",
+    "Imagination_3",
+    "Switching_4",
+    "Patterns_5",
+    "Imagination_6",
+    "Patterns_7",
+    "Switching_8",
+    "SocialSkills_9",
+    "SocialSkills_10",
+    "Imagination_11",
+    "SocialSkills_12",
+    "Patterns_13",
+    "Imagination_14",
+    "SocialSkills_15",
+    "Patterns_16",
+    "Routine_17",
+    "Switching_18",
+    "Routine_19",
+    "Imagination_20",
+    "Switching_21",
+    "Patterns_22",
+    "Imagination_23",
+    "SocialSkills_24",
+    "Imagination_25",
+    "Routine_26",
+    "SocialSkills_27",
+    "Imagination_28"
+]
+
+// Cognitive Flexibility Inventory
+var CFI = [
+    "<b>I am good at 'sizing up' situations</b><br>",
+    "<b>I have a hard time making decisions when faced with difficult situations </b><br>",
+    "<b>I consider multiple options before making a decision</b><br>",
+    "<b>When I encounter difficult situations, I feel like I am losing control </b><br>",
+    "<b>I like to look at difficult situations from many different angles</b><br>",
+    "<b>I seek additional information not immediately available before attributing causes to behaviour</b><br>",
+    "<b>When encountering difficult situations, I become so stressed that I can not think of a way to resolve the situation</b><br>",
+    "<b>I try to think about things from another person's point of view</b><br>",
+    "<b>I find it troublesome that there are so many different ways to deal with difficult situations</b><br>",
+    "<b>I am good at putting myself in others' shoes</b><br>",
+    "<b>When I encounter difficult situations, I just don't know what to do</b><br>",
+    "<b>It is important to look at difficult situations from many angles</b><br>",
+    "<b>When in difficult situations, I consider multiple options before deciding how to behave </b><br>",
+    "<b>I often look at a situation from different viewpoints</b><br>",
+    "<b>I am capable of overcoming the difficulties in life that I face</b><br>",
+    "<b>I consider all the available facts and information when attributing causes to behaviour</b><br>",
+    "<b>I feel I have no power to change things in difficult situations </b><br>",
+    "<b>When I encounter difficult situations, I stop and try to think of several ways to resolve it</b><br>",
+    "<b>I can think of more than one way to resolve a difficult situation I'm confronted with</b><br>",
+    "<b>I consider multiple options before responding to difficult situations</b><br>"
+]
+
+var CFI_dim =[
+     "Alternatives_1",
+     "Control_2_R",
+     "Alternatives_3",
+     "Control_4_R",
+     "Alternatives_5",
+     "Alternatives_6",
+     "Control_7_R",
+     "Alternatives_8",
+     "Control_9_R",
+     "Alternatives_10",
+     "Control_11_R",
+     "Alternatives_12",
+     "Alternatives_13",
+     "Alternatives_14",
+     "Control_15",
+     "Alternatives_16",
+     "Control_17_R",
+     "Alternative_18",
+     "Alternatives_19",
+     "Alternatives_20"
+]
+
+// Short form - Five Factor Mindfulness Questionnaire (15 items)
+var FFMQ = [
+    "<b>When I take a shower or a bath, I stay alert to the sensations of water on my body.</b><br>",
+    "<b>I'm good at finding words to describe my feelings</b><br>",
+    "<b>I don't pay attention to what I'm doing because I'm daydreaming, worrying, or otherwise distracted</b><br>",
+    "<b>I believe some of my thoughts are abnormal or bad and I shouldn't think that way</b><br>",
+    "<b>When I have distressing thoughts or images, I 'step back' and am aware of the thought or image without getting taken over by it</b><br>",
+    "<b>I notice how foods and drinks affect my thoughts, bodily sensations, and emotions</b><br>",
+    "<b>I have trouble thinking of the right words to express how I feel about things</b><br>",
+    "<b>I do jobs or tasks automatically without being aware of what I'm</b><br>",
+    "<b>I think some of my emotions are bad or inappropriate and I shouldn't feel </b><br>",
+    "<b>When I have distressing thoughts or images I am able just to notice them without reacting.</b><br>",
+    "<b>I pay attention to sensations, such as the wind in my hair or sun on my face</b><br>",
+    "<b>Even when I'm feeling terribly upset I can find a way to put it into words</b><br>",
+    "<b>I find myself doing things without paying attention</b><br>",
+    "<b>I tell myself I shouldn't be feeling the way I'm feeling</b><br>",
+    "<b>When I have distressing thoughts or images I just notice them and let them go</b><br>"
+]
+
+var FFMQ_dim =[
+    "Observation_1",
+    "Description_2",
+    "Awareness_3_R",
+    "NonJudgemental_4_R",
+    "NonReactivity_5",
+    "Observation_6",
+    "Description_7_R",
+    "Awareness_8_R",
+    "NonJudgemental_9_R",
+    "NonReactivity_10",
+    "Observation_11",
+    "Description_12",
+    "Awareness_13_R",
+    "NonJudgemental_14_R",
+    "NonReactivity_15"
+]
+
+// General Conspiracist Beliefs Scale
+var GCBS = [
+    "<b>The government is involved in the murder of innocent citizens and/or well-known public figures, and keeps this a secret</b><br>",
+    "<b>The power held by heads of state is second to that of small unknown groups who really control world politics</b><br>",
+    "<b>Secret organizations communicate with extraterrestrials, but keep this fact from the public</b><br>",
+    "<b>The spread of certain viruses and/or diseases is the result of the deliberate, concealed efforts of some organization</b><br>",
+    "<b>Groups of scientists manipulate, fabricate, or suppress evidence in order to deceive the public</b><br>",
+    "<b>The government permits or perpetrates acts of terrorism on its own soil, disguising its involvement</b><br>",
+    "<b>A small, secret group of people is responsible for making all major world decisions, such as going to war</b><br>",
+    "<b>Evidence of alien contact is being concealed from the public</b><br>",
+    "<b>Technology with mind-control capacities is used on people without their knowledge</b><br>",
+    "<b>New and advanced technology which would harm current industry is being suppressed</b><br>",
+    "<b>The government uses people as patsies to hide its involvement in criminal activity</b><br>",
+    "<b>Certain significant events have been the result of the activity of a small group who secretly manipulate world events</b><br>",
+    "<b>Some UFO sightings and rumors are planned or staged in order to distract the public from real alien contact</b><br>",
+    "<b>Experiments involving new drugs or technologies are routinely carried out on the public without their knowledge or consent</b><br>",
+    "<b>A lot of important information is deliberately concealed from the public out of self-interest</b><br>"
+]
+
+var GCBS_dim = [
+    "GM_1",
+    "MF_2",
+    "ET_3",
+    "PW_4",
+    "CI_5",
+    "GM_6",
+    "MF_7",
+    "ET_8",
+    "PW_9",
+    "CI_10",
+    "GM_11",
+    "MF_12",
+    "ET_13",
+    "PW_14",
+    "CI_15"
+]
+
+// Short UPPS-P Impulsive Behavior Scale
+var SUPPS = [
+    "<b>I generally like to see things through to the end</b><br>",
+    "<b>My thinking is usually careful and purposeful</b><br>",
+    "<b>When I am in great mood, I tend to get into situations that could cause me problems</b><br>",
+    "<b>Unfinished tasks really bother me</b><br>",
+    "<b>I like to stop and think things over before I do them</b><br>",
+    "<b>When I feel bad, I will often do things I later regret in order to make myself feel better now</b><br>",
+    "<b>Once I get going on something I hate to stop</b><br>",
+    "<b>Sometimes when I feel bad, I can't seem to stop what I am doing even though it is making me feel worse.</b><br>",
+    "<b>I quite enjoy taking risks</b><br>",
+    "<b>I tend to lose control when I am in a great mood</b><br>",
+    "<b>I finish what I start</b><br>",
+    "<b>I tend to value and follow a rational, 'sensible' approach to things</b><br>",
+    "<b>When I am upset I often act without thinking</b><br>",
+    "<b>I welcome new and exciting experiences and sensations, even if they are a little frightening and unconventional</b><br>",
+    "<b>When I feel rejected, I will often say things that I later regret</b><br>",
+    "<b>I would like to learn to fly an airplane</b><br>",
+    "<b>Others are shocked or worried about the things I do when I am feeling very excited</b><br>",
+    "<b>I would enjoy the sensation of skiing very fast down a high mountain slope</b><br>",
+    "<b>I usually think carefully before doing anything</b><br>",
+    "<b>I tend to act without thinking when I am really excited</b><br>"
+]
+
+var SUPPS_dim = [
+    "LackofPerseverance_1_R",
+    "LackofPremeditation_2",
+    "PositiveUrgency_3",
+    "LackofPerseverance_4_R",
+    "LackofPremeditation_5_R",
+    "NegativeUrgency_6",
+    "LackofPerseverance_7_R",
+    "NegativeUrgency_8",
+    "SensationSeeking_9",
+    "PositiveUrgency_10",
+    "LackofPerseverance_11",
+    "LackofPremeditation_12_R",
+    "NegativeUrgency_13",
+    "sensationSeeking_14",
+    "NegativeUrgency_15",
+    "SensationSeeking_16",
+    "PositiveUrgency_17",
+    "SensationSeeking_18",
+    "LackofPremeditation_19_R",
+    "PositiveUrgency_20"
+]
+
+// Primal Beliefs Inventory - Brief (18 items)
+var PI = [
+    "<b>In life, there's way more beauty than ugliness</b><br>",
+    "<b>It often feels like events are happening in order to help me in some way</b><br>",
+    "<b>I tend to see the world as pretty safe</b><br>",
+    "<b>What happens in the world is meant to happen</b><br>",
+    "<b>While some things are worth checking out or exploring further, most things probably aren't worth the effort.</b><br>",
+    "<b>Most things in life are kind of boring</b><br>",
+    "<b>The world is an abundant place with tons and tons to offer</b><br>",
+    "<b>No matter where we are or what the topic might be, the world is fascinating</b><br>",
+    "<b>The world is a somewhat dull place where plenty of things are not that interesting</b><br>",
+    "<b>On the whole, the world is a dangerous place</b><br>",
+    "<b>Instead of being cooperative, the world is a cut-throat and competitive place</b><br>",
+    "<b>Events seem to lack any cosmic or bigger purpose</b><br>",
+    "<b>Most things have a habit of getting worse</b><br>",
+    "<b>The universe needs me for something important</b><br>",
+    "<b>Most things in the world are good</b><br>",
+    "<b>Everything happens for a reason and on purpose</b><br>",
+    "<b>Most things and situations are harmless and totally safe</b><br>",
+    "<b>No matter where we are, incredible beauty is always around us</b><br>"
+]
+
+var PI_dim = [
+    "GE_1",
+    "GA_2",
+    "GS_3",
+    "A_4",
+    "GE_5_R",
+    "GE_6_R",
+    "GE_7",
+    "GE_8",
+    "GE_9_R",
+    "GS_10_R",
+    "GS_11_R",
+    "A_12_R",
+    "GS_13_R",
+    "GA_14",
+    "GS_15",
+    "A_16",
+    "GS_17",
+    "GE_18"
 ]

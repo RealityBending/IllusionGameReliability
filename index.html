@@ -402,9 +402,10 @@
         )
 
 
-         /* ================================================================ */
-        /* --------------------- Psychometric scales----------------------- */
-        /* ================================================================ */
+    /* ================================================================ */
+    /* --------------------- Psychometric scales----------------------- */
+    /* ================================================================ */
+        /* Big Five --------------------------------------*/
         var IPIP_items = []
         //for (const [index, element] of IPIP.entries()) {
         for (var n = 0; n < 8; n++) {
@@ -471,6 +472,7 @@
             }
         };
 
+        /* Maladaptive Traits ---------------------------------------*/
         var PID_items = []
         // for (const [index, element] of PID.entries()) {
         for (var n = 0; n <20; n++){
@@ -539,6 +541,295 @@
             }
         };
 
+        /* Schizotypal Personality -------------------------------------*/
+        var SPQ_items = []
+        for (const [index, element] of SPQ.entries()) {
+            SPQ_items.push({
+                prompt: element,
+                name: SPQ_dim[index],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var SPQ_brief = {
+            type: jsPsychMultipleSlider,
+            questions: SPQ_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'SPQ_brief',
+            }
+        };
+
+         /* Autistic Traits -------------------------------------*/
+        var AQ_items = []
+        for (const [index, element] of AQ.entries()) {
+            AQ_items.push({
+                prompt: element,
+                name: AQ_dim[index],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var AQ_short = {
+            type: jsPsychMultipleSlider,
+            questions: AQ_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'AQ_short',
+            }
+        };
+
+        /* Cognitive Flexibility-------------------*/
+        var CF_items = []
+        for (const [index, element] of CFI.entries()) {
+            CF_items.push({
+                prompt: element,
+                name: CFI_dim[index],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var CFI_scale = {
+            type: jsPsychMultipleSlider,
+            questions: CF_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'CFI',
+            }
+        };
+
+        /* Mindfulness ------------------------------------------*/
+        var FFMQ_items = []
+        for (const [index, element] of FFMQ.entries()) {
+            FFMQ_items.push({
+                prompt: element,
+                name: FFMQ_dim[index],
+                ticks: ["Never True", "Always True"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var FFMQ_SF = {
+            type: jsPsychMultipleSlider,
+            questions: FFMQ_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'FFMQ_SF',
+            }
+        };
+
+        /* Conspiracist Belief ----------------------------------*/
+        var GCBS_items = []
+        for (const [index, element] of GCBS.entries()) {
+            GCBS_items.push({
+                prompt: element,
+                name: GCBS_dim[index],
+                ticks: ["Definitely Not True", "Definitely True"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var GCBS_scale = {
+            type: jsPsychMultipleSlider,
+            questions: GCBS_items,
+            randomize_question_order: false,
+            preamble:
+            "<p>There is often debate about whether or not the public is told the whole truth about various important issues.</p>" +
+                "<p>For this part, we are interested in finding out your beliefs about some of these issues.</p>" +
+                "<p>Please indicate the degree to which you believe each statement is likely to be true.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'GBCS',
+            }
+        };
+
+        /* Impulsivity ----------------------------------*/
+        var SUPPS_items = []
+        for (const [index, element] of SUPPS.entries()) {
+            SUPPS_items.push({
+                prompt: element,
+                name: SUPPS_dim[index],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var SUPPS_P = {
+            type: jsPsychMultipleSlider,
+            questions: SUPPS_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'SUPPS_P',
+            }
+        };
+
+        /* Primals ------------------------------------*/
+        var PI_items = []
+        for (const [index, element] of PI.entries()) {
+            PI_items.push({
+                prompt: element,
+                name: PI_dim[index],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var PI_scale = {
+            type: jsPsychMultipleSlider,
+            questions: PI_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>Below are very general statements about the world - not the world we wish we lived in, but the actual world <b>as it is now</b>.</p>" +
+                "<p>Please indicate the extent to which you agree with each statement</p>" +
+                "<p>When in doubt, go with what initially feels true of the real world.</p>"+
+                "<p>There are no right or wrong answers so you can respond as honestly as possible.</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'PI',
+            }
+        };
+
         /* ================================================================ */
         /* ---------------------- END OF EXPERIMENT ----------------------- */
         /* ================================================================ */
@@ -565,6 +856,13 @@
             timeline.push(make_break1)
             timeline.push(IPIP6)
             timeline.push(PID5)
+            timeline.push(SPQ_brief)
+            timeline.push(AQ_short)
+            timeline.push(CFI_scale)
+            timeline.push(FFMQ_SF)
+            timeline.push(GCBS_scale)
+            timeline.push(SUPPS_P)
+            timeline.push(PI_scale)
             timeline.push(make_break2)
             timeline.push(perceptual_instructions)
         }
