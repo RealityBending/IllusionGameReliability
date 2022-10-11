@@ -26,7 +26,7 @@ Convergent validity based on the literature on illusion sensitivity and psychopa
 - [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346): 22 items assessing 3 dimensions of schizotypy (cognitive-perceptual/positive, interpersonal/negative, disorganized) using a dichotomous scale (yes-no)
 - [Autism Spectrum Quotient - Short (ASQ - Short)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/): 28 item measure of autistic traits with 5 dimensions (social skills, routine, switching, imagination, numbers/patterns; measured on 4-point Likert scale (definitely disagree - definitely agree)
 - [BPD (MSI-BPD)](https://psycnet.apa.org/record/2004-10325-009): 10 item measure of BPD using a dichotomous yes/no scale (note that the scale has also been adapted for non-diagnosis use with a likert scale; cf [Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674))
-- [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale (https://pubmed.ncbi.nlm.nih.gov/19996233/)
+- [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale 
 
 ## Interoception
 
