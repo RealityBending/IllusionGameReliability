@@ -193,9 +193,8 @@
     }
 
     timeline.push(participant_info, demographics);
-    // timeline.push(fixation)
 
-    // // Preload Instructions Stimuli
+    // Preload Instructions Stimuli
     timeline.push({
         type: jsPsychPreload,
         images: [
@@ -340,9 +339,9 @@
             (type = "leftright")
         )
 
-         /* ================================================================ */
-        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
-        /* ================================================================ */
+    /* ================================================================ */
+    /* ----------------- Perceptual Block -------------------------------*/
+    /* ================================================================ */
 
         var perceptual_instructions = {
             type: jsPsychHtmlButtonResponse,
@@ -352,8 +351,10 @@
                 "<p>In this new phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes</p>" +
                 "<p>Your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
             data: {screen: "perceptual_instructions"},
+            on_finish: function () {
+                block_number = 1   // reset block number for perceptual trials
+            }
         }
-
 
         /* ================================================================ */
         /* ---------------------- MULLERLYER Perceptual --------------------- */
@@ -424,7 +425,7 @@
 
         // Attention Check 1
         IPIP_items.push({
-            prompt: "<b>Please select Very Inaccurate to demonstrate your attention</b><br>",
+            prompt: "<b>I am paying attention right now</b><br>",
             name: "Attention_Check_1",
             ticks: ["Very Inaccurate", "Very Accurate"],
             // required: false,
@@ -491,9 +492,9 @@
 
         // Attention Check 2
         PID_items.push({
-            prompt: "<b>I am paying attention right now</b><br>",
+            prompt: "<b>Please select often true to demonstrate your attention</b><br>",
             name: "Attention_Check_2",
-            ticks: ["Strongly Disagree", "Strongly Agree"],
+            ticks: ["Often False", "Often True"],
             // required: false,
             required: true,
             min: 0,
@@ -543,10 +544,38 @@
 
         /* Schizotypal Personality -------------------------------------*/
         var SPQ_items = []
-        for (const [index, element] of SPQ.entries()) {
+        //for (const [index, element] of SPQ.entries()) {
+        for (var n = 0; n <15; n++){
             SPQ_items.push({
-                prompt: element,
-                name: SPQ_dim[index],
+                prompt: SPQ[n],
+                name: SPQ_dim[n],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        // Attention Check 3
+        SPQ_items.push({
+            prompt: "<b>I am awake right now</b><br>",
+            name: "Attention_Check_3",
+            ticks: ["Strongly Disagree", "Strongly Agree"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 15; n <22; n++){
+            SPQ_items.push({
+                prompt: SPQ[n],
+                name: SPQ_dim[n],
                 ticks: ["Strongly Disagree", "Strongly Agree"],
                 // required: false,
                 required: true,
@@ -584,10 +613,11 @@
 
          /* Autistic Traits -------------------------------------*/
         var AQ_items = []
-        for (const [index, element] of AQ.entries()) {
+        //for (const [index, element] of AQ.entries()) {
+        for (var n = 0; n <12; n++){
             AQ_items.push({
-                prompt: element,
-                name: AQ_dim[index],
+                prompt: AQ[n],
+                name: AQ_dim[n],
                 ticks: ["Strongly Disagree", "Strongly Agree"],
                 // required: false,
                 required: true,
@@ -597,6 +627,34 @@
                 slider_start: 0.5
                 })
         }
+
+        // Attention Check 4
+        AQ_items.push({
+            prompt: "<b>I have not been paying attention</b><br>",
+            name: "Attention_Check_4",
+            ticks: ["Strongly Disagree", "Strongly Agree"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 12; n <28; n++){
+            AQ_items.push({
+                prompt: AQ[n],
+                name: AQ_dim[n],
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
 
         var AQ_short = {
             type: jsPsychMultipleSlider,
@@ -623,13 +681,15 @@
             }
         };
 
-        /* Cognitive Flexibility-------------------*/
-        var CF_items = []
-        for (const [index, element] of CFI.entries()) {
-            CF_items.push({
-                prompt: element,
-                name: CFI_dim[index],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+
+        /* Interoception ------------------------------------------*/
+        var MAIA_items = []
+        //for (const [index, element] of MAIA.entries()) {
+        for (var n = 0; n <7; n++){
+            MAIA_items.push({
+                prompt: MAIA[n],
+                name: MAIA_dim[n],
+                ticks: ["Never", "Always"],
                 // required: false,
                 required: true,
                 min: 0,
@@ -639,14 +699,41 @@
                 })
         }
 
-        var CFI_scale = {
+         // Attention Check 5
+         MAIA_items.push({
+            prompt: "<b>When I have see this question, I will respond with never to demonstrate my attention</b><br>",
+            name: "Attention_Check_5",
+            ticks: ["Never", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 7; n <37; n++){
+            MAIA_items.push({
+                prompt: MAIA[n],
+                name: MAIA_dim[n],
+                ticks: ["Never", "Always"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var MAIA_2 = {
             type: jsPsychMultipleSlider,
-            questions: CF_items,
+            questions: MAIA_items,
             randomize_question_order: false,
             preamble:
                 "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
-                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+                "<p>Below you will find a list of statements.</p>" +
+                "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
             // require_movement: false,
             require_movement: true,
             slider_width: 600,
@@ -660,17 +747,18 @@
                     ).style.display = "inline")
             },
             data: {
-                screen: 'CFI',
+                screen: 'MAIA',
             }
         };
 
-        /* Mindfulness ------------------------------------------*/
-        var FFMQ_items = []
-        for (const [index, element] of FFMQ.entries()) {
-            FFMQ_items.push({
-                prompt: element,
-                name: FFMQ_dim[index],
-                ticks: ["Never True", "Always True"],
+        /* Bodily Awareness----------------------------*/
+        var BAQ_items = []
+        //for (const [index, element] of ISQ.entries()) {
+        for (var n = 0; n <14; n++){
+            BAQ_items.push({
+                prompt: BAQ[n],
+                name: BAQ_dim[n],
+                ticks: ["Not at All True of Me", "Very True of Me"],
                 // required: false,
                 required: true,
                 min: 0,
@@ -680,13 +768,40 @@
                 })
         }
 
-        var FFMQ_SF = {
+        // Attention Check 6
+        BAQ_items.push({
+            prompt: "<b>I am asleep right now</b><br>",
+            name: "Attention_Check_6",
+            ticks: ["Not at All True of Me", "Very True of Me"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 14; n <18; n++){
+            BAQ_items.push({
+                prompt: BAQ[n],
+                name: BAQ_dim[n],
+                ticks: ["Not at All True of Me", "Very True of Me"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var BAQ_18 = {
             type: jsPsychMultipleSlider,
-            questions: FFMQ_items,
+            questions: BAQ_items,
             randomize_question_order: false,
             preamble:
                 "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+                "<p>Below are a number of statements regarding your sensitivity to normal, non-emotive body processes</p>" +
                 "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
             // require_movement: false,
             require_movement: true,
@@ -701,16 +816,154 @@
                     ).style.display = "inline")
             },
             data: {
-                screen: 'FFMQ_SF',
+                screen: 'BAQ',
             }
         };
 
-        /* Conspiracist Belief ----------------------------------*/
-        var GCBS_items = []
-        for (const [index, element] of GCBS.entries()) {
-            GCBS_items.push({
+        /* Borderline Personality --------------------------------*/
+        var MSI_items = []
+        // for (const [index, element] of MSI.entries()) {
+        for (var n = 0; n <5; n++){
+            MSI_items.push({
+                prompt: MSI[n],
+                name: "MSI_" + n,
+                ticks: ["Not at All True of Me", "Extremely True of Me"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        // Attention Check 6
+        MSI_items.push({
+            prompt: "<b>Have you been paying attention?</b><br>",
+            name: "Attention_Check_6",
+            ticks: ["Not at All True of Me", "Extremely True of Me"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+
+        for (var n = 5; n <10; n++){
+            MSI_items.push({
+                prompt: MSI[n],
+                name: "MSI_" + n,
+                ticks: ["Not at All True of Me", "Extremely True of Me"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var MSI_BPD = {
+            type: jsPsychMultipleSlider,
+            questions: MSI_items,
+            randomize_question_order: false,
+            preamble:
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+                "<p>Below you will find a list of statements.</p>" +
+                "<p>Please answer the following questions based on how accurately each statement describes you.</p>" +
+                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'MSI_BPD',
+            }
+        };
+
+        /* Depression - Anxiety ----------------------------------*/
+        var PHQ_items = []
+        for (const [index, element] of PHQ.entries()) {
+            PHQ_items.push({
                 prompt: element,
-                name: GCBS_dim[index],
+                name: PHQ_dim[index],
+                ticks: ["Not at All", "Nearly Every Day"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var PHQ_4 = {
+            type: jsPsychMultipleSlider,
+            questions: PHQ_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>Over the last 2 weeks, how often have you been bothered by the following problems?</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'PHQ_4',
+            }
+        };
+
+        /* Conspiracist Beliefs ----------------------------------*/
+        var GCBS_items = []
+        //for (const [index, element] of GCBS.entries()) {
+        for (var n = 0; n <8; n++){
+            GCBS_items.push({
+                prompt: GCBS[n],
+                name: GCBS_dim[n],
+                ticks: ["Definitely Not True", "Definitely True"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        // Attention Check 7
+        GCBS_items.push({
+            prompt: "<b>The government thinks I am a fruit</b><br>",
+            name: "Attention_Check_7",
+            ticks: ["Definitely Not True", "Definitely True"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 8; n <15; n++){
+            GCBS_items.push({
+                prompt: GCBS[n],
+                name: GCBS_dim[n],
                 ticks: ["Definitely Not True", "Definitely True"],
                 // required: false,
                 required: true,
@@ -747,12 +1000,13 @@
             }
         };
 
-        /* Impulsivity ----------------------------------*/
-        var SUPPS_items = []
-        for (const [index, element] of SUPPS.entries()) {
-            SUPPS_items.push({
-                prompt: element,
-                name: SUPPS_dim[index],
+        /* Primals ------------------------------------*/
+        var PI_items = []
+        //for (const [index, element] of PI.entries()) {
+        for (var n = 0; n <20; n++){
+            PI_items.push({
+                prompt: PI[n],
+                name: PI_dim[n],
                 ticks: ["Strongly Disagree", "Strongly Agree"],
                 // required: false,
                 required: true,
@@ -763,37 +1017,24 @@
                 })
         }
 
-        var SUPPS_P = {
-            type: jsPsychMultipleSlider,
-            questions: SUPPS_items,
-            randomize_question_order: false,
-            preamble:
-                "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-                "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
-                "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
-            // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
-            // min: 0,
-            // max: 100,
-            // slider_start: 50,
-            on_start: function () {
-                ; (document.body.style.cursor = "auto"),
-                    (document.querySelector(
-                        "#jspsych-progressbar-container"
-                    ).style.display = "inline")
-            },
-            data: {
-                screen: 'SUPPS_P',
-            }
-        };
+        // Attention Check 8
+        PI_items.push({
+            prompt: "<b>I am not asleep right now</b><br>",
+            name: "Attention_Check_8",
+            ticks: ["Strongly Disagree", "Strongly Agree"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
 
-        /* Primals ------------------------------------*/
-        var PI_items = []
-        for (const [index, element] of PI.entries()) {
+
+        for (var n = 20; n <32; n++){
             PI_items.push({
-                prompt: element,
-                name: PI_dim[index],
+                prompt: PI[n],
+                name: PI_dim[n],
                 ticks: ["Strongly Disagree", "Strongly Agree"],
                 // required: false,
                 required: true,
@@ -830,6 +1071,7 @@
             }
         };
 
+
         /* ================================================================ */
         /* ---------------------- END OF EXPERIMENT ----------------------- */
         /* ================================================================ */
@@ -840,11 +1082,11 @@
                 timeline_verticalhorizontal,
             ])) {
                 timeline.push({timeline: t})
-            }
+                }
         } else {
-        //if (i===3){
-        //     timeline.push(perceptual_instructions)
-        // }
+            // if (i===3){
+            //     timeline.push(perceptual_instructions)
+            // }
             for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
                 timeline_mullerlyer_perceptual,
                 timeline_ebbinghaus_perceptual,
@@ -858,10 +1100,10 @@
             timeline.push(PID5)
             timeline.push(SPQ_brief)
             timeline.push(AQ_short)
-            timeline.push(CFI_scale)
-            timeline.push(FFMQ_SF)
-            timeline.push(GCBS_scale)
-            timeline.push(SUPPS_P)
+            timeline.push(MAIA_2)
+            timeline.push(BAQ_18)
+            timeline.push(PHQ_4)
+            timeline.push(MSI_BPD)
             timeline.push(PI_scale)
             timeline.push(make_break2)
             timeline.push(perceptual_instructions)

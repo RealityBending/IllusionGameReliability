@@ -351,8 +351,27 @@ function make_trial(stimuli, instructions, illusion_name, type) {
             stimulus: "<p><b>Great job!</b></p>",
             data: { screen: "practice_block" },
         })
+    } else {
+        timeline.push({
+            type: jsPsychHtmlButtonResponse,
+            choices: ["Continue"],
+            post_trial_gap: 500,
+            on_start: function () {
+                ;(document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            stimulus: "<p><b>Can you do better in the next round?</b></p>" +
+                    "<p>Remember, your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+            data: { screen: "perceptual_block_results" },
+        // Reset trial number and update block number
+            on_finish: function () {
+                block_number += 1
+                trial_number = 1
+            }
+        })
     }
-
     return timeline
 }
 
@@ -486,7 +505,7 @@ var PID = [
     "<b>I worry about almost everything</b><br>",
     "<b>I get emotional easily, often for very little reason</b><br>",
     "<b>I fear being alone in life more than anything else</b><br>",
-    "<b>I get stuck on one way of doing things,even when it's clear it won't work</b><br>",
+    "<b>I get stuck on one way of doing things, even when it's clear it won't work</b><br>",
     "<b>I have seen things that weren't really there</b><br>",
     "<b>I steer clear of romantic relationships</b><br>",
     "<b>I'm not interested in making friends</b><br>",
@@ -549,12 +568,12 @@ var SPQ = [
     "<b>I sometimes use words in unusual ways</b><br>",
     "<b>I think it's better that people don't know too much about me</b><br>",
     "<b>I tend to keep in the background on social occasions.</b><br>",
-    "<b> Sometimes, I'm suddenly distracted by distant sounds to which usually I don't pay much attention</b><br>",
+    "<b>Sometimes, I'm suddenly distracted by distant sounds to which usually I don't pay much attention</b><br>",
     "<b>I often must be vigilant for other people not to take advantage of me</b><br>",
     "<b>I have the feeling that I can't get close to people</b><br>",
     "<b>I am an odd, unusual person</b><br>",
     "<b>I find it hard to communicate clearly what I want to say to people</b><br>",
-    "<b>1 feel very uneasy talking to people I do not know well</b><br>",
+    "<b>I feel very uneasy talking to people I do not know well</b><br>",
     "<b>I tend to keep my feelings to myself</b><br>"
 ]
 // * changed items are 2, 4, 5, 9, 10, 12, 14, 16, 17, 18
@@ -704,7 +723,7 @@ var FFMQ = [
     "<b>When I have distressing thoughts or images, I 'step back' and am aware of the thought or image without getting taken over by it</b><br>",
     "<b>I notice how foods and drinks affect my thoughts, bodily sensations, and emotions</b><br>",
     "<b>I have trouble thinking of the right words to express how I feel about things</b><br>",
-    "<b>I do jobs or tasks automatically without being aware of what I'm</b><br>",
+    "<b>I do jobs or tasks automatically without being aware of what I'm doing</b><br>",
     "<b>I think some of my emotions are bad or inappropriate and I shouldn't feel </b><br>",
     "<b>When I have distressing thoughts or images I am able just to notice them without reacting.</b><br>",
     "<b>I pay attention to sensations, such as the wind in my hair or sun on my face</b><br>",
@@ -816,7 +835,7 @@ var SUPPS_dim = [
     "PositiveUrgency_20"
 ]
 
-// Primal Beliefs Inventory - Brief (18 items)
+// Primal Beliefs Inventory - Brief (18 items) + Hierarchical + Changing + Understandable subscales (note that the order of items from the latter 3 subscales are in a validated fixed order, retrieved from www.authentichappiness.org)
 var PI = [
     "<b>In life, there's way more beauty than ugliness</b><br>",
     "<b>It often feels like events are happening in order to help me in some way</b><br>",
@@ -835,7 +854,21 @@ var PI = [
     "<b>Most things in the world are good</b><br>",
     "<b>Everything happens for a reason and on purpose</b><br>",
     "<b>Most things and situations are harmless and totally safe</b><br>",
-    "<b>No matter where we are, incredible beauty is always around us</b><br>"
+    "<b>No matter where we are, incredible beauty is always around us</b><br>",
+    "<b>The world is a place where most things stay pretty much the same</b><br>",
+    "<b>Everything feels like it's constantly moving, changing, and up in the air</b><br>",
+    "<b>Everything feels like it's shifting and changing</b><br>",
+    "<b>Everything feels like a whirl of constant change</b><br>",
+    "<b>I feel like everything changes all the time</b><br>",
+    "<b>Most things in the world could be ranked in order of importance</b><br>",
+    "<b>Things are rarely equal. Most plants and animals, and even people, are better or worse than one another</b><br>",
+    "<b>Most things can be organized into hierarchies, rankings, or pecking orders that reflect true differences among things</b><br>",
+    "<b>Humans, animals, plants, and pretty much everything else can be organized by how important or good they are.</b><br>",
+    "<b>Most things aren't better or worse. It's hard to organize the world into hierarchies, rankings, or pecking orders that reflect true differences</b><br>",
+    "<b>The world is easy enough to understand</b><br>",
+    "<b>Most everything is easy enough to understand</b><br>",
+    "<b>The world is a confusing place where many skills and subjects are too hard to figure out.</b><br>",
+    "<b>Lots of things in the world are too confusing and difficult to understand</b><br>",
 ]
 
 var PI_dim = [
@@ -856,5 +889,197 @@ var PI_dim = [
     "GS_15",
     "A_16",
     "GS_17",
-    "GE_18"
+    "GE_18",
+    "Changing_19_R",
+    "Changing_20",
+    "Changing_21",
+    "Changing_22",
+    "Changing_23",
+    "Hierarchical_24",
+    "Hierarchical_25",
+    "Hierarchical_26",
+    "Hierarchical_27",
+    "Hierarchical_28_R",
+    "Understandable_29",
+    "Understandable_30",
+    "Understandable_31_R",
+    "Understandable_32_R"
+]
+
+// MSI- BPD (adapted from yes-no dichotomous scale to visual analog scale - definitely no/definitely yes; cf Huczewska et al., 2019 - https://doi.org/10.5114/cipp.2019.89674) - modify to Not at all True of me - Extremely true of me?
+var MSI = [
+    "<b>Have any of your closest relationships been troubled by a lot of arguments or repeated breakups?</b><br>",
+    "<b>Have you deliberately hurt yourself physically (punched yourself, cut yourself, burned yourself) or made a suicide attempt?</b><br>",
+    "<b>Have your had at least two other problems with impulsivity (e.g., eating binges and spending sprees, drinking too much and verbal outbursts)?</b><br>",
+    "<b>Have you been extremely moody?</b><br>",
+    "<b>Have you felt very angry a lot of the time or often acted in an angry or sarcastic manner?</b><br>",
+    "<b>Have you often been distrustful of other people?</b><br>",
+    "<b>Have you frequently felt unreal or as if things around you were unreal? </b><br>",
+    "<b>Have you chronically felt empty? </b><br>",
+    "<b>Have you often felt that you had no idea of who you are or that you have no identity</b><br>",
+    "<b>Have you made desperate efforts to avoid feeling abandoned (e.g., repeatedly called someone to reassure yourself that he or she still cared, begged them not to leave you, clung to them physically)?</b><br>"
+]
+
+
+// Depression-Anxiety
+var PHQ = [
+    "<b>Feeling nervous, anxious or on edge</b><br>",
+    "<b>Not being able to stop or control worrying</b><br>",
+    "<b>Feeling down, depressed, or hopeless</b><br>",
+    "<b>Little interest or pleasure in doing things</b><br>"
+]
+
+var PHQ_dim = [
+    "Anxiety_1",
+    "Anxiety_2",
+    "Depression_3",
+    "Depression_4"
+]
+
+// MAIA-2
+var MAIA = [
+    "<b>When I am tense I notice where the tension is located in my body</b><br>",
+    "<b>I notice when I am uncomfortable in my body</b><br>",
+    "<b>I notice where in my body I am comfortable</b><br>",
+    "<b>I notice changes in my breathing, such as whether it slows down or speeds up</b><br>",
+    "<b>I ignore physical tension or discomfort until they become more severe</b><br>",
+    "<b>I distract myself from sensations of discomfort</b><br>",
+    "<b>When I feel pain or discomfort, I try to power through it</b><br>",
+    "<b>I try to ignore pain</b><br>",
+    "<b>I push feelings of discomfort away by focusing on something</b><br>",
+    "<b>When I feel unpleasant body sensations, I occupy myself with something else so I don't have to feel them</b><br>",
+    "<b>When I feel physical pain, I become upset.</b><br>",
+    "<b>I start to worry that something is wrong if I feel any discomfort</b><br>",
+    "<b>I can notice an unpleasant body sensation without worrying about it</b><br>",
+    "<b>I can stay calm and not worry when I have feelings of discomfort or pain</b><br>",
+    "<b>When I am in discomfort or pain I can't get it out of my mind</b><br>",
+    "<b>I can pay attention to my breath without being distracted by things happening around me</b><br>",
+    "<b>I can maintain awareness of my inner bodily sensations even when there is a lot going on around me</b><br>",
+    "<b>When I am in conversation with someone, I can pay attention to my posture</b><br>",
+    "<b>I can return awareness to my body if I am distracted</b><br>",
+    "<b>I can refocus my attention from thinking to sensing my body</b><br>",
+    "<b>I can maintain awareness of my whole body even when a part of me is in pain or discomfort</b><br>",
+    "<b>I am able to consciously focus on my body as a whole</b><br>",
+    "<b>I notice how my body changes when I am angry</b><br>",
+    "<b>When something is wrong in my life I can feel it in my body</b><br>",
+    "<b>I notice that my body feels different after a peaceful experience</b><br>",
+    "<b>I notice that my breathing becomes free and easy when I feel comfortable</b><br>",
+    "<b>I notice how my body changes when I feel happy / joyful</b><br>",
+    "<b>When I feel overwhelmed I can find a calm place inside</b><br>",
+    "<b>When I bring awareness to my body I feel a sense of calm</b><br>",
+    "<b>I can use my breath to reduce tension</b><br>",
+    "<b>When I am caught up in thoughts, I can calm my mind by focusing on my body/breathing</b><br>",
+    "<b>I listen for information from my body about my emotional state</b><br>",
+    "<b>When I am upset, I take time to explore how my body feels</b><br>",
+    "<b>I listen to my body to inform me about what to do</b><br>",
+    "<b>I am at home in my body</b><br>",
+    "<b>I feel my body is a safe place</b><br>",
+    "<b>I trust my body sensations</b><br>"
+]
+
+var MAIA_dim = [
+    "Noticing_1",
+    "Noticing_2",
+    "Noticing_3",
+    "Noticing_4",
+    "NotDistancing_5_R",
+    "NotDistancing_6_R",
+    "NotDistancing_7_R",
+    "NotDistancing_8_R",
+    "NotDistancing_9_R",
+    "NotDistancing_10_R",
+    "NotWorrying_11_R",
+    "NotWorrying_12_R",
+    "NotWOrrying_13",
+    "NotWorrying_14",
+    "NotWorrying_15_R",
+    "Attention_16",
+    "Attention_17",
+    "Attention_18",
+    "Attention_19",
+    "Attention_20",
+    "Attention_21",
+    "Attention_22",
+    "EmotionalAwareness_23",
+    "EmotionalAwareness_24",
+    "EmotionalAwareness_25",
+    "EmotionalAwareness_26",
+    "EmotionalAwareness_27",
+    "SelfRegulation_28",
+    "SelfRegulation_29",
+    "SelfRegulation_30",
+    "SelfRegulation_31",
+    "BodyListening_32",
+    "BodyListening_33",
+    "BodyListening_34",
+    "Trusting_35",
+    "Trusting_36",
+    "Trusting_37"
+]
+
+// Interoception Sensory Questionnaire (unidimensional scale) - Note that this scale has mostly been administered among people with ASD
+var ISQ = [
+    "<b>I have difficulty making sense of my body's signals unless they are very strong</b><br>",
+    "<b>I tend to rely on visual reminders (e.g. times on the clock) to help me know when to eat and drink</b><br>",
+    "<b>Even when I know that I am physically uncomfortable, I do not act to change my situation</b><br>",
+    "<b>I'm not sure how my body feels when it's a hot day</b><br>",
+    "<b>I find it difficult to describe feelings like hunger, thirst, hot or cold</b><br>",
+    "<b>Sometimes I don't know how to interpret sensations I feel within my body</b><br>",
+    "<b>Even when I know that I am hungry, thirsty, in pain, hot or cold, I don't feel the need to do anything about it</b><br>",
+    "<b>If I injure myself badly, even though I can feel it, I don't feel the need to do much about it</b><br>",
+    "<b>I only notice I need to eat when I'm in pain or feeling nauseous or weak</b><br>",
+    "<b>There are times when I am only aware of changes in my body because of the reactions of other people</b><br>",
+    "<b>I find it difficult to read the signs and signals within my own body (e.g. when I have hurt myself or I need to rest)</b><br>",
+    "<b>I have difficulty understanding when I am hungry or thirsty</b><br>",
+    "<b>I find it difficult to identify some of the signals that my body is telling me (e.g. If I'm about to faint or I've over exerted myself)</b><br>",
+    "<b>It is difficult for me to describe what it feels like to be hungry, thirsty, hot, cold or in pain</b><br>",
+    "<b>I am confused about my bodily sensations</b><br>",
+    "<b>I have difficulty locating injury in my body</b><br>",
+    "<b>Sometimes, when my body signals a problem, I have difficulty working out what the problem might be</b><br>",
+    "<b>I don't tend to notice feelings in my body until they're very intense</b><br>",
+    "<b>I find it difficult to put my internal bodily sensations into words</b><br>"
+]
+
+//Body Awareness Questionnaire
+var BAQ = [
+    "<b>I notice differences in the way my body reacts to various foods</b><br>",
+    "<b>I can always tell when I bump myself whether or not it will become a bruise</b><br>",
+    "<b>I always know when I've exerted myself to the point where I'll be sore the next day</b><br>",
+    "<b>I am always aware of changes in my energy level when I eat certain foods</b><br>",
+    "<b>I know in advance when I'm getting the flu</b><br>",
+    "<b>I know I'm running a fever without taking my temperature</b><br>",
+    "<b>I can distinguish between tiredness because of hunger and tiredness because of lack of sleep</b><br>",
+    "<b>I can accurately predict what time of day lack of sleep will catch up with me</b><br>",
+    "<b>I am aware of a cycle in my activity level throughout the day</b><br>",
+    "<b>I don't notice seasonal rhythms and cycles in the way my body functions</b><br>",
+    "<b>As soon as I wake up in the morning, I know how much energy I'll have during the day</b><br>",
+    "<b>I can tell when I go to bed how well I will sleep that night</b><br>",
+    "<b>I notice distinct body reactions when I am fatigued</b><br>",
+    "<b>I notice specific body responses to changes in the weather</b><br>",
+    "<b>I can predict how much sleep I will need at night in order to wake up refreshed</b><br>",
+    "<b>When my exercise habits change, I can predict very accurately how that will affect my energy level</b><br>",
+    "<b>There seems to be a 'best' time for me to go to sleep at night</b><br>",
+    "<b>I notice specific bodily reactions to being overhungry</b><br>"
+]
+
+var BAQ_dim =[
+    "BAQ_1",
+    "BAQ_2",
+    "BAQ_3",
+    "BAQ_4",
+    "BAQ_5",
+    "BAQ_6",
+    "BAQ_7",
+    "BAQ_8",
+    "BAQ_9",
+    "BAQ_10_R",
+    "BAQ_11",
+    "BAQ_12",
+    "BAQ_13",
+    "BAQ_14",
+    "BAQ_15",
+    "BAQ_16",
+    "BAQ_17",
+    "BAQ_18"
+
 ]
