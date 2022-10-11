@@ -25,3 +25,8 @@
 - [ ] [Generic Conspiracist Beliefs Scale (GCBS)](https://doi.org/10.3389/fpsyg.2013.00279) - 15 items assessing 5 dimensions (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using a 5-point likert scale (defintely not true - defintely true)
 
 - [ ] [PI-18 (Primals Inventory - 18 items)](http://dx.doi.org/10.1037/pas0001055): measures 3 secondary primals (*Safe*, *Enticing*, *Alive*) on a 6-point likert scale (strongly disagree - strongly agree); items can also be pooled to measure the highest-order primal (*Good*)
+
+## Interoception
+
+- **MAIA-2**: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034
+- **ISQ-20**: https://link.springer.com/article/10.1007/s10803-018-3600-3
