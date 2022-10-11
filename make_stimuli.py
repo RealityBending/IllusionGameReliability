@@ -164,7 +164,7 @@ ill.VerticalHorizontal(illusion_strength=0, difference=0.9).to_image(width=800, 
     "materials/instructions/VerticalHorizontal_DemoPerceptual.png"
 )
 
-_, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.225, size=n * 2, transformation="square")
+_, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.225, size=n * 4, transformation="square")
 
 data_perceptual1 = generate_images(
     data_perceptual1,
@@ -201,7 +201,7 @@ data_training = generate_images(
 # Illusion task
 # ----------------
 
-_, strengths2, strengths1 = doublelinspace(mini=3.3, maxi=33, size=n, transformation="square")
+_, strengths2, strengths1 = doublelinspace(mini=3.3, maxi=33, size=n, transformation="lin")
 _, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.225, size=n, transformation="square")
 
 
@@ -231,7 +231,7 @@ ill.MullerLyer(illusion_strength=-10, difference=0.7).to_image(
     width=800, height=800, target_only=True
 ).save("materials/instructions/MullerLyer_DemoPerceptual.png")
 
-_, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.35, size=n * 2, transformation="square")
+_, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.35, size=n * 4, transformation="square")
 
 data_perceptual1 = generate_images(
     data_perceptual1,
@@ -270,7 +270,7 @@ data_training = generate_images(
 # Illusion task
 # ----------------
 # np.linspace(-23, 23, n - 1)
-_, strengths2, strengths1 = doublelinspace(mini=2.3, maxi=23, size=n, transformation="square")
+_, strengths2, strengths1 = doublelinspace(mini=2.3, maxi=23, size=n, transformation="lin")
 _, diffs1, diffs2 = doublelinspace(mini=0.05, maxi=0.35, size=n, transformation="square")
 
 
@@ -299,7 +299,7 @@ ill.Ebbinghaus(illusion_strength=-1.4, difference=1.4).to_image(
     width=800, height=800, target_only=True
 ).save("materials/instructions/Ebbinghaus_DemoPerceptual.png")
 
-_, diffs1, diffs2 = doublelinspace(mini=0.09, maxi=0.28, size=n * 2, transformation="square")
+_, diffs1, diffs2 = doublelinspace(mini=0.09, maxi=0.28, size=n * 4, transformation="square")
 
 data_perceptual1 = generate_images(
     data_perceptual1,
