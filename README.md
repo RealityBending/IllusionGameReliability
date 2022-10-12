@@ -18,12 +18,14 @@ The perceptual trial blocks will be administered at the end, after a series of q
 
 ### Questionnaires
 
+A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2").
+
 #### Personality
 
-With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, the following questionnaires are given to the participants during the break between illusion and perceptual task trials:
+With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, we included:
 
-- [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf): measures 'normal' personality  across 6 dimensions (Honesty-Humility, Extraversion, Neuroticism, Agreeableness, Openness, Conscientiousness) using 24 items via a 7 point likert scale (strongly disagree - strongly agree)
-- [PID5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/): measures maladaptive personality traits using 25 items across 5 dimensions (disinhibition, antagonism, detachment, negative affect and psychoticism)
+- [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf), measuring 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point likert scale (strongly disagree - strongly agree) items.
+- [PID5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/), measuring 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with **WHAT TYPE** 25 items. 
 
 #### Psychopathology
 
