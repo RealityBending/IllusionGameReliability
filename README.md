@@ -34,7 +34,7 @@ Based on the literature of illusion sensitivity and psychopathology, convergent 
 - [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346), measuring 3 schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized) using 22 dichotomous (yes-no) items.
 - [Autism Spectrum Quotient - Short (ASQ - Short)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/), measuring 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
 - [MSI-BPD](https://psycnet.apa.org/record/2004-10325-009), measuring borderline personality with 10 5-point Likert scale items ([Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674)).
-- [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/), assessing anxiety (2 items) and depression (2 items) on a 4-point Likert scale.
+- [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/), assessing anxiety and depression (2 items each) with 4-point Likert scales.
 
 #### Interoception
 
@@ -49,7 +49,7 @@ Consistent with [Murphy et al (2019)'s](https://doi.org/10.3758/s13423-019-01632
 
 #### Beliefs
 
-Exploratory.
+These .
 
 - [Generic Conspiracist Beliefs Scale (GCBS)](https://doi.org/10.3389/fpsyg.2013.00279) - 15 items assessing 5 dimensions (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using a 5-point likert scale (defintely not true - defintely true)
 - [PI-18 (Primals Inventory - 18 items) + *Changing* (5 items), *Understandable* (4 items) and *Hierarchical* (5 items) subscales](http://dx.doi.org/10.1037/pas0001055): measures 3 secondary primals (*Safe*, *Enticing*, *Alive*) on a 6-point likert scale (strongly disagree - strongly agree); items can also be pooled to measure the highest-order primal (*Good*)
