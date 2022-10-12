@@ -24,8 +24,8 @@ A series of questionnaires was administered in between the illusion task and the
 
 With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, we included:
 
-- [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf), measuring 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point likert scale (strongly disagree - strongly agree) items.
-- [PID-5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/), measuring 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with **WHAT TYPE** 25 items. 
+- [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf), measuring 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
+- [PID-5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/), measuring 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items. 
 
 #### Psychopathology
 
