@@ -29,9 +29,9 @@ With the goal of replicating the previous study and confirming the links between
 
 #### Psychopathology
 
-In order to ascertain convergent validity of Factor *i*, we administer the schizotypal, autism and borderline personality scales based on the literature of illusion sensitivity and psychopathology. Divergent validity is also assessed using the PHQ-4 as we do not hypothesize links with depression or anxiety.The specific details of the scales measuring personality and psychopathological traits are as follows:
+Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal and autistic traits. Divergent validity was assessed by measuring depression and anxiety, as we do not hypothesize links with illusion sensitivity.
 
-- [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346): 22 items assessing 3 dimensions of schizotypy (cognitive-perceptual/positive, interpersonal/negative, disorganized) using a dichotomous scale (yes-no)
+- [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346), measuring 3 dimensions of schizotypy (cognitive-perceptual/positive, interpersonal/negative, disorganized) using 22 dichotomous (yes-no) items.
 - [Autism Spectrum Quotient - Short (ASQ - Short)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/): 28 item measure of autistic traits with 5 dimensions (social skills, routine, switching, imagination, numbers/patterns; measured on 4-point Likert scale (definitely disagree - definitely agree)
 - [BPD (MSI-BPD)](https://psycnet.apa.org/record/2004-10325-009): 10 item measure of BPD using a dichotomous yes/no scale (note that the scale has also been adapted for non-diagnosis use with a likert scale; cf [Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674))
 - [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale
