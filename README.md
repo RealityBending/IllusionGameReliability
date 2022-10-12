@@ -1,40 +1,48 @@
 # IllusionGameReliability
 
 ## Procedure
+The main aim of this study is to assess the reliability of the general factor of illusion sensitivity (Factor *i*), and its correlations with inter-individual traits, that we found in a previous study.
 
 ### Illusion Task
+As per the previous study, the main experimental variables we manipulated are the *illusion strength*(i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). We picked the 3 illusions - namely, Ebbinghaus, Muller-Lyer, and Vertical-Horizontal, that was previously found to most strongly correlate with the extracted Factor *i*.
 
-6 training trials + (64 + 64) items
+Prior to the actual experimental task, participants undergo 6 training trials per illusion type (6 x 3). These are then followed by 3 blocks of illusion trials that are defined by a distinct type of illusion, of which the order of presentation is randomized. Each illusion trial block comprises 64 trials that are randomly displayed. After this first series of illusion trials has been presented, this set of illusion trial blocks will be presented a second time, in a new random order, so that each stimulus (i.e., illusion type) is seen twice by each participant. In total, each participant completes 384 illusion task trials (2 x 64 x 3).
 
 ### Perceptual Task
+To ensure that inter-individual characteristics previously found to be associated with Factor *i* are valid predictors of illusion sensitivity, rather than purely a result of different perceptual abilities, we also generated stimuli in which targets are presented without the surrounding context. As such, each of the perceptual stimuli will only be manipulated in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
 
-(16 + 16) items
+The perceptual trial blocks will be administered after a brief break that is given following the 2 sets of illusion trials, during which participants respond to a series of questionnaires that are listed below. Each perceptual trial block is comprised of 32 trials that are presented in a randomized order. After completing the first set of perceptual trials blocks, a second series will be presented in a new random order such that each perceptual stimulus is seen twice by each participant. In total, each participant completes 192 perceptual task trials (32 x 3 x 2).
+
+(32 + 32) items
 
 ### Questionnaires
 
 #### Personality
 
-With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality:
+With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, the following questionnaires are given to the participants during the break between illusion and perceptual task trials:
 
 - [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf): measures 'normal' personality  across 6 dimensions (Honesty-Humility, Extraversion, Neuroticism, Agreeableness, Openness, Conscientiousness) using 24 items via a 7 point likert scale (strongly disagree - strongly agree)
 - [PID5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/): measures maladaptive personality traits using 25 items across 5 dimensions (disinhibition, antagonism, detachment, negative affect and psychoticism)
 
 #### Psychopathology
 
-Convergent validity based on the literature on illusion sensitivity and psychopathology. Also, divergent validity as we do not hypothesize links with depression or anxiety.
+In order to ascertain convergent validity of Factor *i*, we administer the schizotypal, autism and borderline personality scales based on the literature of illusion sensitivity and psychopathology. Divergent validity is also assessed using the PHQ-4 as we do not hypothesize links with depression or anxiety.The specific details of the scales measuring personality and psychopathological traits are as follows:
 
 - [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346): 22 items assessing 3 dimensions of schizotypy (cognitive-perceptual/positive, interpersonal/negative, disorganized) using a dichotomous scale (yes-no)
 - [Autism Spectrum Quotient - Short (ASQ - Short)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/): 28 item measure of autistic traits with 5 dimensions (social skills, routine, switching, imagination, numbers/patterns; measured on 4-point Likert scale (definitely disagree - definitely agree)
 - [BPD (MSI-BPD)](https://psycnet.apa.org/record/2004-10325-009): 10 item measure of BPD using a dichotomous yes/no scale (note that the scale has also been adapted for non-diagnosis use with a likert scale; cf [Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674))
-- [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale 
+- [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale
 
 #### Interoception
 
-Exploratory: conceptual literature suggesting a link between interoception and predictive coding (?)
+In the context of interoception, predictive coding implies that subjective feeling states are determined by predictions about the interoceptive state of the body. Given that imprecise predictions of internal bodily signals have been shown to prompt people to rely more strongly on external cues in the environment, this suggests that individuals with poor interoceptive abilities may be less sensitive to illusions. This is in line with studies that have found schizophrenic patients, of which poor interoception is a key feature of the disorder phenomenology, to be less susceptible to the effects of visual illusions.
+
+Consistent with [Murphy et al (2019)'s](https://doi.org/10.3758/s13423-019-01632-7) framework of interoception, we conceptualize interoception as being composed of 3 distinct independent dimensions: interoceptive accuracy, interoceptive sensibility and interoceptive awareness. The following scales are given to assess inter-individual trait differences in the aforementioned dimensions of interoception:
 
 - [MAIA-2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034): 37 item measure assessing 5 dimensions of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting)
-- [ISQ-20](https://link.springer.com/article/10.1007/s10803-018-3600-3): 20 item measure of interoception mostly used to assess individuals with ASD
+- [ISQ-20](https://link.springer.com/article/10.1007/s10803-018-3600-3): 20 item measure of interoception mostly used to assess individuals with ASD (TBC)
 - [Body Awareness Questionnaire (BAQ)](https://www.tandfonline.com/doi/abs/10.1207/s15327752jpa5304_16): 18 item measure assessing how aware of and connected one is to how their body communicates.
+- [Interoceptive Accuracy Scale (IAS)](http://dx.doi.org/10.31234/osf.io/fqgu4): 21 item measure assessing trait differences in self-perceived interoceptive accuracy.
 
 #### Beliefs
 
