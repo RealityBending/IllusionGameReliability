@@ -1,12 +1,14 @@
 # IllusionGameReliability
 
-## Procedure
 The main aim of this study is to assess the reliability of the general factor of illusion sensitivity (Factor *i*), and its correlations with inter-individual traits, that we found in a previous study.
 
-### Illusion Task
-As per the previous study, the main experimental variables we manipulated are the *illusion strength*(i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). We picked the 3 illusions - namely, Ebbinghaus, Muller-Lyer, and Vertical-Horizontal, that was previously found to most strongly correlate with the extracted Factor *i*.
+## Procedure
 
-Prior to the actual experimental task, participants undergo 6 training trials per illusion type (6 x 3). These are then followed by 3 blocks of illusion trials that are defined by a distinct type of illusion, of which the order of presentation is randomized. Each illusion trial block comprises 64 trials that are randomly displayed. After this first series of illusion trials has been presented, this set of illusion trial blocks will be presented a second time, in a new random order, so that each stimulus (i.e., illusion type) is seen twice by each participant. In total, each participant completes 384 illusion task trials (2 x 64 x 3).
+### Illusion Task
+
+Similarly to the previous study, the manipulated experimental variables are the *illusion strength* (i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). 3 illusions were included - namely, Ebbinghaus, Müller-Lyer, and Vertical-Horizontal, that was previously found to most strongly correlate with the extracted Factor *i*.
+
+The task starts with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a second series is presented (with different items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3).
 
 ### Perceptual Task
 To ensure that inter-individual characteristics previously found to be associated with Factor *i* are valid predictors of illusion sensitivity, rather than purely a result of different perceptual abilities, we also generated stimuli in which targets are presented without the surrounding context. As such, each of the perceptual stimuli will only be manipulated in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
