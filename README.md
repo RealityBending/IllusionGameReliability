@@ -11,11 +11,10 @@ Similarly to the previous study, the manipulated experimental variables are the 
 The task starts with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a second series is presented (with different items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3).
 
 ### Perceptual Task
-To ensure that inter-individual characteristics previously found to be associated with Factor *i* are valid predictors of illusion sensitivity, rather than purely a result of different perceptual abilities, we also generated stimuli in which targets are presented without the surrounding context. As such, each of the perceptual stimuli will only be manipulated in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
 
-The perceptual trial blocks will be administered after a brief break that is given following the 2 sets of illusion trials, during which participants respond to a series of questionnaires that are listed below. Each perceptual trial block is comprised of 32 trials that are presented in a randomized order. After completing the first set of perceptual trials blocks, a second series will be presented in a new random order such that each perceptual stimulus is seen twice by each participant. In total, each participant completes 192 perceptual task trials (32 x 3 x 2).
+To confirm that the illusion sensitivity measured by the illusion task is not just a pure reflection of perceptual abilities, participants were presented with a similar task, but in which targets were presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
 
-(32 + 32) items
+The perceptual trial blocks will be administered at the end, after a series of questionnaires (see below). Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similarly to the illusion task. In total, each participant completes 192 perceptual task trials (2 x 32 x 3).
 
 ### Questionnaires
 
