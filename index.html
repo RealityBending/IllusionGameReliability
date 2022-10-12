@@ -820,6 +820,77 @@
             }
         };
 
+        // Interoceptive Accuracy
+        var IAS_items = []
+        //for (const [index, element] of ISQ.entries()) {
+        for (var n = 0; n <7; n++){
+            IAS_items.push({
+                prompt: IAS[n],
+                name: "IAS_" + n,
+                ticks: ["Strongly Agree", "Strongly Disagree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        // Attention Check 7
+        IAS_items.push({
+            prompt: "<b>I can always accurately perceive that I have not been breathing throughout </b><br>",
+            name: "Attention_Check_7",
+            ticks: ["Strongly Disagree", "Strongly Agree"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+
+        for (var n = 7; n <21; n++){
+            IAS_items.push({
+                prompt: IAS[n],
+                name: "IAS_" + n,
+                ticks: ["Strongly Disagree", "Strongly Agree"],
+                // required: false,
+                required: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                slider_start: 0.5
+                })
+        }
+
+        var IAS_21 = {
+            type: jsPsychMultipleSlider,
+            questions: IAS_items,
+            randomize_question_order: false,
+            preamble:
+                "<p>Below are several statements regarding how accurately you can perceive specific bodily sensations.</p>" +
+                "<p>Please answer the following questions based on how well you believe you can perceive each specific signal.</p>" +
+                "<p>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet you would rate your accuracy perceiving this bodily signal as low.</p>" +
+                "<p>Please only rate how well you can perceive these signals without using external cues.</p>" +
+                "<p>For example, if you can only perceive how fast your heart is beating when you measure it by taking your pulse this would not count as accurate internal perception</p>",
+            // require_movement: false,
+            require_movement: true,
+            slider_width: 600,
+            // min: 0,
+            // max: 100,
+            // slider_start: 50,
+            on_start: function () {
+                ; (document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            data: {
+                screen: 'IAS',
+            }
+        };
+
         /* Borderline Personality --------------------------------*/
         var MSI_items = []
         // for (const [index, element] of MSI.entries()) {
@@ -837,10 +908,10 @@
                 })
         }
 
-        // Attention Check 6
+        // Attention Check 8
         MSI_items.push({
             prompt: "<b>Have you been paying attention?</b><br>",
-            name: "Attention_Check_6",
+            name: "Attention_Check_8",
             ticks: ["Not at All True of Me", "Extremely True of Me"],
             // required: false,
             required: true,
@@ -947,10 +1018,10 @@
                 })
         }
 
-        // Attention Check 7
+        // Attention Check 9
         GCBS_items.push({
             prompt: "<b>The government thinks I am a fruit</b><br>",
-            name: "Attention_Check_7",
+            name: "Attention_Check_9",
             ticks: ["Definitely Not True", "Definitely True"],
             // required: false,
             required: true,
@@ -1017,10 +1088,10 @@
                 })
         }
 
-        // Attention Check 8
+        // Attention Check 10
         PI_items.push({
             prompt: "<b>I am not asleep right now</b><br>",
-            name: "Attention_Check_8",
+            name: "Attention_Check_10",
             ticks: ["Strongly Disagree", "Strongly Agree"],
             // required: false,
             required: true,

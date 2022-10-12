@@ -1081,5 +1081,30 @@ var BAQ_dim =[
     "BAQ_16",
     "BAQ_17",
     "BAQ_18"
+]
+
+// Interoceptive Accuracy Scale
+var IAS = [
+    "<b>I can always accurately perceive when my heart is beating fast</b><br>",
+    "<b>I can always accurately perceive when I am hungry</b><br>",
+    "<b>I can always accurately perceive when I am breathing fast</b><br>",
+    "<b>I can always accurately perceive when I am thirsty</b><br>",
+    "<b>I can always accurately perceive when I need to urinate</b><br>",
+    "<b>I can always accurately perceive when I need to defecate</b><br>",
+    "<b>I can always accurately perceive when I encounter different tastes</b><br>",
+    "<b>I can always accurately perceive when I am going to vomit</b><br>",
+    "<b>I can always accurately perceive when I am going to sneeze</b><br>",
+    "<b>I can always accurately perceive when I am going to cough</b><br>",
+    "<b>I can always accurately perceive when I am hot/cold</b><br>",
+    "<b>I can always accurately perceive when I am sexually aroused</b><br>",
+    "<b>I can always accurately perceive when I am going to pass wind</b><br>",
+    "<b>I can always accurately perceive when I am going to burp</b><br>",
+    "<b>I can always accurately perceive when my muscles are tired/sore</b><br>",
+    "<b>I can always accurately perceive when I am going to get a bruise</b><br>",
+    "<b>I can always accurately perceive when I am in pain</b><br>",
+    "<b>I can always accurately perceive when my blood sugar is low</b><br>",
+    "<b>I can always accurately perceive when someone is touching me affectionately rather than non-affectionately</b><br>",
+    "<b>I can always accurately perceive when something is going to be ticklish</b><br>",
+    "<b>I can always accurately perceive when something is going to be itchy</b><br>",
 
 ]
