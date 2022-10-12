@@ -28,7 +28,7 @@ Convergent validity based on the literature on illusion sensitivity and psychopa
 - [BPD (MSI-BPD)](https://psycnet.apa.org/record/2004-10325-009): 10 item measure of BPD using a dichotomous yes/no scale (note that the scale has also been adapted for non-diagnosis use with a likert scale; cf [Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674))
 - [Depression anxiety (PHQ- 4)](https://pubmed.ncbi.nlm.nih.gov/19996233/): 4 items assessing anxiety (2 items) and depression (2 items) on a 4-point likert scale 
 
-## Interoception
+#### Interoception
 
 Exploratory: conceptual literature suggesting a link between interoception and predictive coding (?)
 
@@ -36,7 +36,7 @@ Exploratory: conceptual literature suggesting a link between interoception and p
 - [ISQ-20](https://link.springer.com/article/10.1007/s10803-018-3600-3): 20 item measure of interoception mostly used to assess individuals with ASD
 - [Body Awareness Questionnaire (BAQ)](https://www.tandfonline.com/doi/abs/10.1207/s15327752jpa5304_16): 18 item measure assessing how aware of and connected one is to how their body communicates.
 
-## Beliefs
+#### Beliefs
 
 Exploratory.
 
