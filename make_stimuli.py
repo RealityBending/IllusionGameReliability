@@ -15,6 +15,17 @@ width = 800
 height = 800
 n = 16
 
+ill.Ebbinghaus(illusion_strength=1, difference=1.4).to_image(width=800, height=800)
+ill.Ebbinghaus(illusion_strength=1, difference=-1.4).to_image(width=800, height=800)
+
+i = ill.Ebbinghaus(illusion_strength=1, difference=1.4)
+i.get_parameters()["Position_Outer_x_Left"]
+i = ill.Ebbinghaus(illusion_strength=1, difference=-1.4)
+i.get_parameters()["Position_Outer_x_Right"]
+
+ill.image_circle(size=1, x=0.5, y=0, color="red", width=800, height=800)
+ill.image_circle(size=1, x=-0.5, y=0, color="red", width=800, height=800)
+
 # Delete all existing stimuli
 for f in glob.glob("stimuli/*"):
     os.remove(f)
