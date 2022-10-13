@@ -575,7 +575,7 @@ var SPQ = [
     "<b>I feel very uncomfortable in social situations involving unfamiliar people</b><br>",
     "<b>I sometimes avoid going to places where there will be many people because I will get anxious</b><br>",
     "<b>I believe in telepathy (mind-reading)</b><br>",
-    "<b>II believe in clairvoyance (psychic forces, fortune telling)</b><br>",
+    "<b>I believe in clairvoyance (psychic forces, fortune telling)</b><br>",
     "<b>I have had experiences with astrology, seeing the future, UFO's, ESP, or a sixth sense</b><br>",
     "<b>I have felt that I was communicating with another person telepathically (by mind-reading).</b><br>",
     "<b>I sometimes jump quickly from one topic to another when speaking</b><br>",
