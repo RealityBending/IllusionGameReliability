@@ -25,16 +25,16 @@ A series of questionnaires was administered in between the illusion task and the
 With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, we included:
 
 - [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf), measuring 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
-- [PID-5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/), measuring 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items. 
+- [PID-5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/), measuring 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items (0-Very False or Often False to 3-Very True or Often True).
 
 #### Psychopathology
 
 Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal and autistic traits. Divergent validity was assessed by measuring depression and anxiety, as we do not hypothesize links with illusion sensitivity.
 
-- [Schizotypal Personality Questionnaire - Brief (SPQ-B)](https://psycnet.apa.org/doi/10.1521/pedi.1995.9.4.346), measuring 3 schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized) using 22 dichotomous (yes-no) items.
+- [Schizotypal Personality Questionnaire - Brief Revised Updated (SPQ-BRU)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/#SD1), measuring 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point likert scale items (Strongly Disagree - Strongly Agree).
 - [Autism Spectrum Quotient - Short (ASQ - Short)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/), measuring 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
 - [MSI-BPD](https://psycnet.apa.org/record/2004-10325-009), measuring borderline personality with 10 5-point Likert scale items ([Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674)).
-- [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/), assessing anxiety and depression (2 items each) with 4-point Likert scales.
+- [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/), assessing anxiety and depression (2 items each) with 4-point Likert scales (0 - not at all to 3 - nearly every day).
 
 #### Interoception
 
@@ -45,11 +45,11 @@ Consistent with [Murphy et al (2019)'s](https://doi.org/10.3758/s13423-019-01632
 - [MAIA-2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034): 37 item measure assessing 5 dimensions of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting)
 - [ISQ-20](https://link.springer.com/article/10.1007/s10803-018-3600-3): 20 item measure of interoception mostly used to assess individuals with ASD (TBC)
 - [Body Awareness Questionnaire (BAQ)](https://www.tandfonline.com/doi/abs/10.1207/s15327752jpa5304_16): 18 item measure assessing how aware of and connected one is to how their body communicates.
-- [Interoceptive Accuracy Scale (IAS)](http://dx.doi.org/10.31234/osf.io/fqgu4): 21 item measure assessing trait differences in self-perceived interoceptive accuracy.
+- [Interoceptive Accuracy Scale Re-analysed (IAS)](https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale#final-scale): 18 item measure adapted from [Murphy et al (2019)](http://dx.doi.org/10.31234/osf.io/fqgu4) that assesses trait differences in self-perceived interoceptive accuracy.
 
 #### Beliefs
 
-These .
+While little research has been done on the relationship between conspiracist beliefs and susceptibility to illusions, [some studies](10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with greater conspiracist theories may have a greater need to make sense of or impose order of the world and hence may be more aware of external visual cues, thus influencing their sensitivity towards optical illusory effects. Investigations on the associations between conspiracy beliefs and perceptual as well as attentional biases have also found greater beliefs to be correlated with a stronger local-to-global interference effect; believers were found to face more difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features ([van Elk, 2015](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002)).
 
 - [Generic Conspiracist Beliefs Scale (GCBS)](https://doi.org/10.3389/fpsyg.2013.00279) - 15 items assessing 5 dimensions (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using a 5-point likert scale (defintely not true - defintely true)
 - [PI-18 (Primals Inventory - 18 items) + *Changing* (5 items), *Understandable* (4 items) and *Hierarchical* (5 items) subscales](http://dx.doi.org/10.1037/pas0001055): measures 3 secondary primals (*Safe*, *Enticing*, *Alive*) on a 6-point likert scale (strongly disagree - strongly agree); items can also be pooled to measure the highest-order primal (*Good*)
