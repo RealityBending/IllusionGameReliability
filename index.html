@@ -11,6 +11,8 @@
     <script src="utils/jspsych/plugin-image-keyboard-response.js"></script>
     <script src="utils/jspsych/plugin-survey-multi-choice.js"></script>
     <script src="utils/jspsych/plugin-browser-check.js"></script>
+    <script src="utils/jspsych/plugin-survey-likert.js"></script>
+
     <!-- Other modules -->
     <script src="https://realitybending.github.io/JSmisc/misc/utils.js"></script>
     <!--<script src = "utils/jspsych/plugin-jsPsychPavlovia.js"></script>-->
@@ -228,7 +230,6 @@
     // var trial_number = 0
 
     /* ----------------------Ebbinghaus Practice----------------------------*/
-    // Ebbinghaus Practice
     var ebbinghaus_practice = make_trial(
         (stimuli = stimuli_training),
         (instructions = "<p><b>Practice</b></p>" + ebbinghaus_instructions),
@@ -413,13 +414,13 @@
             IPIP_items.push({
                 prompt: IPIP[n],
                 name: IPIP_dim[n],
-                ticks:  ["Very Inaccurate", "Very Accurate"],
+                labels:  ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -427,38 +428,41 @@
         IPIP_items.push({
             prompt: "<b>I am paying attention right now</b><br>",
             name: "Attention_Check_1",
-            ticks: ["Very Inaccurate", "Very Accurate"],
+            labels:  ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
+            // required: false,
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
+                })
+     //   }
 
         for (var n = 8; n < 24; n++){
             IPIP_items.push({
                 prompt: IPIP[n],
                 name: IPIP_dim[n],
-                ticks: ["Very Inaccurate", "Very Accurate"],
+                labels:  ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
                 // required:false,
+                // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
-            })
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
+                })
         }
 
         var IPIP6 = {
-            type: jsPsychMultipleSlider,  // custom plugin in utils
+            type: jsPsychSurveyLikert,
             questions: IPIP_items,
             randomize_question_order: false,
-            preamble: "<p>For this part, we are interested in finding out more about your traits.</p>" +
+            preamble: "<p>This part of the questionnaire measures your personality.</p>" +
                 "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -473,6 +477,7 @@
             }
         };
 
+
         /* Maladaptive Traits ---------------------------------------*/
         var PID_items = []
         // for (const [index, element] of PID.entries()) {
@@ -480,13 +485,13 @@
             PID_items.push({
                 prompt: PID[n],
                 name: PID_dim[n],
-                ticks: ["Often False", "Often True"],
+                labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -494,31 +499,31 @@
         PID_items.push({
             prompt: "<b>Please select often true to demonstrate your attention</b><br>",
             name: "Attention_Check_2",
-            ticks: ["Often False", "Often True"],
+            labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
         for (var n = 20; n < 25; n++){
             PID_items.push({
                 prompt: PID[n],
                 name: PID_dim[n],
-                ticks: ["Often False", "Often True"],
+                labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var PID5 = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: PID_items,
             randomize_question_order: false,
             preamble: "<p>Below is a list of things different people might say about themselves.</p>" +
@@ -526,8 +531,8 @@
                 "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
                 "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -542,6 +547,7 @@
             }
         };
 
+
         /* Schizotypal Personality -------------------------------------*/
         var SPQ_items = []
         //for (const [index, element] of SPQ.entries()) {
@@ -549,13 +555,13 @@
             SPQ_items.push({
                 prompt: SPQ[n],
                 name: SPQ_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -563,31 +569,31 @@
         SPQ_items.push({
             prompt: "<b>I am awake right now</b><br>",
             name: "Attention_Check_3",
-            ticks: ["Strongly Disagree", "Strongly Agree"],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
-        for (var n = 15; n <22; n++){
+        for (var n = 15; n <32; n++){
             SPQ_items.push({
                 prompt: SPQ[n],
                 name: SPQ_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
-        var SPQ_brief = {
-            type: jsPsychMultipleSlider,
+        var SPQ_BRU = {
+            type: jsPsychSurveyLikert,
             questions: SPQ_items,
             randomize_question_order: false,
             preamble:
@@ -595,8 +601,8 @@
                 "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
                 "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -607,7 +613,7 @@
                     ).style.display = "inline")
             },
             data: {
-                screen: 'SPQ_brief',
+                screen: 'SPQ_BRU',
             }
         };
 
@@ -618,13 +624,13 @@
             AQ_items.push({
                 prompt: AQ[n],
                 name: AQ_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -632,32 +638,32 @@
         AQ_items.push({
             prompt: "<b>I have not been paying attention</b><br>",
             name: "Attention_Check_4",
-            ticks: ["Strongly Disagree", "Strongly Agree"],
+            labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
         for (var n = 12; n <28; n++){
             AQ_items.push({
                 prompt: AQ[n],
                 name: AQ_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
 
         var AQ_short = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: AQ_items,
             randomize_question_order: false,
             preamble:
@@ -665,8 +671,8 @@
                 "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
                 "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -689,13 +695,13 @@
             MAIA_items.push({
                 prompt: MAIA[n],
                 name: MAIA_dim[n],
-                ticks: ["Never", "Always"],
+                labels:  ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -703,31 +709,31 @@
          MAIA_items.push({
             prompt: "<b>When I have see this question, I will respond with never to demonstrate my attention</b><br>",
             name: "Attention_Check_5",
-            ticks: ["Never", "Always"],
+            labels: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
         })
 
         for (var n = 7; n <37; n++){
             MAIA_items.push({
                 prompt: MAIA[n],
                 name: MAIA_dim[n],
-                ticks: ["Never", "Always"],
+                labels: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var MAIA_2 = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: MAIA_items,
             randomize_question_order: false,
             preamble:
@@ -735,8 +741,8 @@
                 "<p>Below you will find a list of statements.</p>" +
                 "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -758,13 +764,13 @@
             BAQ_items.push({
                 prompt: BAQ[n],
                 name: BAQ_dim[n],
-                ticks: ["Not at All True of Me", "Very True of Me"],
+                labels:  ["<p>1 <br><br><b>Not at All True of Me</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very True of Me</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -772,40 +778,40 @@
         BAQ_items.push({
             prompt: "<b>I am asleep right now</b><br>",
             name: "Attention_Check_6",
-            ticks: ["Not at All True of Me", "Very True of Me"],
+            labels:  ["<p>1 <br><br><b>Not at All True of Me</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very True of Me</b></p>"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
         for (var n = 14; n <18; n++){
             BAQ_items.push({
                 prompt: BAQ[n],
                 name: BAQ_dim[n],
-                ticks: ["Not at All True of Me", "Very True of Me"],
+                labels:  ["<p>1 <br><br><b>Not at All True of Me</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very True of Me</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var BAQ_18 = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: BAQ_items,
             randomize_question_order: false,
             preamble:
                 "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
                 "<p>Below are a number of statements regarding your sensitivity to normal, non-emotive body processes</p>" +
-                "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
+                "<p>For each statement, please rate on the scale according to how well you think  the statement describes you</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -823,11 +829,11 @@
         // Interoceptive Accuracy
         var IAS_items = []
         //for (const [index, element] of ISQ.entries()) {
-        for (var n = 0; n <7; n++){
+        for (var n = 0; n <18; n++){
             IAS_items.push({
                 prompt: IAS[n],
-                name: "IAS_" + n,
-                ticks: ["Strongly Agree", "Strongly Disagree"],
+                name: IAS_dim[n],
+                ticks: ["<br>Disagree", "<br>Agree"],
                 // required: false,
                 required: true,
                 min: 0,
@@ -837,40 +843,27 @@
                 })
         }
 
-        // Attention Check 7
-        IAS_items.push({
-            prompt: "<b>I can always accurately perceive that I have not been breathing throughout </b><br>",
-            name: "Attention_Check_7",
-            ticks: ["Strongly Disagree", "Strongly Agree"],
-            // required: false,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
+        // // Attention Check 7
+        // IAS_items.push({
+        //     prompt: "<b>I can always accurately perceive that I have not been breathing throughout </b><br>",
+        //     name: "Attention_Check_7",
+        //     ticks: ["Strongly Disagree", "Strongly Agree"],
+        //     // required: false,
+        //     required: true,
+        //     min: 0,
+        //     max: 1,
+        //     step: 0.01,
+        //     slider_start: 0.5
+        // })
 
-        for (var n = 7; n <21; n++){
-            IAS_items.push({
-                prompt: IAS[n],
-                name: "IAS_" + n,
-                ticks: ["Strongly Disagree", "Strongly Agree"],
-                // required: false,
-                required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
-                })
-        }
 
-        var IAS_21 = {
+        var IAS_R = {
             type: jsPsychMultipleSlider,
             questions: IAS_items,
-            randomize_question_order: false,
+            randomize_question_order: true,
             preamble:
                 "<p>Below are several statements regarding how accurately you can perceive specific bodily sensations.</p>" +
-                "<p>Please answer the following questions based on how well you believe you can perceive each specific signal.</p>" +
+                "<p>Please rate on the scale on how well you believe you can perceive each specific signal.</p>" +
                 "<p>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet you would rate your accuracy perceiving this bodily signal as low.</p>" +
                 "<p>Please only rate how well you can perceive these signals without using external cues.</p>" +
                 "<p>For example, if you can only perceive how fast your heart is beating when you measure it by taking your pulse this would not count as accurate internal perception</p>",
@@ -887,9 +880,10 @@
                     ).style.display = "inline")
             },
             data: {
-                screen: 'IAS',
+                screen: 'IAS_R',
             }
         };
+
 
         /* Borderline Personality --------------------------------*/
         var MSI_items = []
@@ -898,13 +892,13 @@
             MSI_items.push({
                 prompt: MSI[n],
                 name: "MSI_" + n,
-                ticks: ["Not at All True of Me", "Extremely True of Me"],
+                labels:  ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -912,13 +906,13 @@
         MSI_items.push({
             prompt: "<b>Have you been paying attention?</b><br>",
             name: "Attention_Check_8",
-            ticks: ["Not at All True of Me", "Extremely True of Me"],
+            labels:  ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
 
@@ -926,18 +920,18 @@
             MSI_items.push({
                 prompt: MSI[n],
                 name: "MSI_" + n,
-                ticks: ["Not at All True of Me", "Extremely True of Me"],
+                labels:  ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var MSI_BPD = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: MSI_items,
             randomize_question_order: false,
             preamble:
@@ -946,8 +940,8 @@
                 "<p>Please answer the following questions based on how accurately each statement describes you.</p>" +
                 "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -968,25 +962,25 @@
             PHQ_items.push({
                 prompt: element,
                 name: PHQ_dim[index],
-                ticks: ["Not at All", "Nearly Every Day"],
+                labels: ["<br>Not at All", "<br>Several Days", "<br>More than Half the Days", "<br>Nearly Every Day"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var PHQ_4 = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: PHQ_items,
             randomize_question_order: false,
             preamble:
                 "<p>Over the last 2 weeks, how often have you been bothered by the following problems?</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -1008,13 +1002,13 @@
             GCBS_items.push({
                 prompt: GCBS[n],
                 name: GCBS_dim[n],
-                ticks: ["Definitely Not True", "Definitely True"],
+                labels: ["<p>1 <br><br><b>Definitely Not True</b></p>", "<p>2 <br><br><b>Probably Not True</b></p>", "<p>3 <br><br><b>Not Sure / Cannot Decide</b></p>", "<p>4 <br><br><b>Probably True</b></p>", "<p>5 <br><br><b>Definitely True</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
@@ -1022,31 +1016,31 @@
         GCBS_items.push({
             prompt: "<b>The government thinks I am a fruit</b><br>",
             name: "Attention_Check_9",
-            ticks: ["Definitely Not True", "Definitely True"],
+            labels: ["<p>1 <br><br><b>Definitely Not True</b></p>", "<p>2 <br><br><b>Probably Not True</b></p>", "<p>3 <br><br><b>Not Sure / Cannot Decide</b></p>", "<p>4 <br><br><b>Probably True</b></p>", "<p>5 <br><br><b>Definitely True</b></p>"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
         })
 
         for (var n = 8; n <15; n++){
             GCBS_items.push({
                 prompt: GCBS[n],
                 name: GCBS_dim[n],
-                ticks: ["Definitely Not True", "Definitely True"],
+                labels: ["<p>1 <br><br><b>Definitely Not True</b></p>", "<p>2 <br><br><b>Probably Not True</b></p>", "<p>3 <br><br><b>Not Sure / Cannot Decide</b></p>", "<p>4 <br><br><b>Probably True</b></p>", "<p>5 <br><br><b>Definitely True</b></p>"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var GCBS_scale = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: GCBS_items,
             randomize_question_order: false,
             preamble:
@@ -1055,8 +1049,8 @@
                 "<p>Please indicate the degree to which you believe each statement is likely to be true.</p>" +
                 "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -1078,27 +1072,27 @@
             PI_items.push({
                 prompt: PI[n],
                 name: PI_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Disagree", "<br>Strongly Agree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
-        // Attention Check 10
+        // Attention Check 10 (note that this attention check item is one of the 3 used to validate the PI-99 in the original paper)
         PI_items.push({
-            prompt: "<b>I am not asleep right now</b><br>",
+            prompt: "<b>f you are doing your best to complete this survey honestly, please strongly agree with this statement.</b><br>",
             name: "Attention_Check_10",
-            ticks: ["Strongly Disagree", "Strongly Agree"],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Disagree", "<br>Strongly Agree"],
             // required: false,
             required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
         })
 
 
@@ -1106,28 +1100,28 @@
             PI_items.push({
                 prompt: PI[n],
                 name: PI_dim[n],
-                ticks: ["Strongly Disagree", "Strongly Agree"],
+                labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Disagree", "<br>Strongly Agree"],
                 // required: false,
                 required: true,
-                min: 0,
-                max: 1,
-                step: 0.01,
-                slider_start: 0.5
+                // min: 0,
+                // max: 1,
+                // step: 0.01,
+                // slider_start: 0.5
                 })
         }
 
         var PI_scale = {
-            type: jsPsychMultipleSlider,
+            type: jsPsychSurveyLikert,
             questions: PI_items,
-            randomize_question_order: false,
+            randomize_question_order: true,
             preamble:
                 "<p>Below are very general statements about the world - not the world we wish we lived in, but the actual world <b>as it is now</b>.</p>" +
                 "<p>Please indicate the extent to which you agree with each statement</p>" +
                 "<p>When in doubt, go with what initially feels true of the real world.</p>"+
                 "<p>There are no right or wrong answers so you can respond as honestly as possible.</p>",
             // require_movement: false,
-            require_movement: true,
-            slider_width: 600,
+            // require_movement: true,
+            // slider_width: 600,
             // min: 0,
             // max: 100,
             // slider_start: 50,
@@ -1141,7 +1135,6 @@
                 screen: 'PI',
             }
         };
-
 
         /* ================================================================ */
         /* ---------------------- END OF EXPERIMENT ----------------------- */
@@ -1167,16 +1160,21 @@
         }}
         if (i === 2) {
             timeline.push(make_break1)
-            timeline.push(IPIP6)
-            timeline.push(PID5)
-            timeline.push(SPQ_brief)
-            timeline.push(AQ_short)
-            timeline.push(MAIA_2)
-            timeline.push(BAQ_18)
-            timeline.push(IAS_21)
-            timeline.push(PHQ_4)
-            timeline.push(MSI_BPD)
-            timeline.push(PI_scale)
+            for (var t_scale of jsPsych.randomization.shuffleNoRepeats([
+                IPIP6,
+                PID5,
+                SPQ_BRU,
+                AQ_short,
+                MAIA_2,
+                BAQ_18,
+                IAS_R,
+                PHQ_4,
+                MSI_BPD,
+                GCBS_scale,
+                PI_scale
+        ])) {
+            timeline.push(t_scale)
+            }
             timeline.push(make_break2)
             timeline.push(perceptual_instructions)
         }
@@ -1225,8 +1223,6 @@
 
 
     jsPsych.run(timeline)
-
-
 
 
 

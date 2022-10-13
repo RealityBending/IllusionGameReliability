@@ -550,57 +550,78 @@ var PID_dim = [
     "Antagonism_25",
 ]
 
-// Schizotypal Personality Questionnaire - Brief
-// Note that some items are taken from a revised version of the schizotypal personality questionnaire  (https://hal.archives-ouvertes.fr/hal-03489508/document) that is adapted to be measured using a 5 point likert scale instead of the original dichotomous yes/no scale
-var SPQ = [
-    "<b>People sometimes find me aloof or distant</b><br>",
-    "<b>I happen to feel an unseen force or presence around me </b><br>",
-    "<b>People sometimes comment on my unusual mannerisms and habits</b><br>",
-    "<b>I am sometimes convinced that other people are able to guess what I think</b><br>",
-    "<b>Certain objects or ordinary situations that happen are special signs for me</b><br>",
-    "<b>Some people think that I am a very bizarre person</b><br>",
-    "<b>I feel that I have to be on guard even with friends</b><br>",
-    "<b>Some people find me a bit vague and elusive during a conversation</b><br>",
-    "<b>I often see hidden threats or derogatory remarks in what other people say or do</b><br>",
-    "<b>When I go shopping I have the feeling that people notice me</b><br>",
-    "<b>I feel very uncomfortable in social situations involving unfamiliar people</b><br>",
-    "<b>I have had special experiences with astrology, premonitions, unidentified flying objects, extrasensory perceptions, or the sixth sense</b><br>",
-    "<b>I sometimes use words in unusual ways</b><br>",
-    "<b>I think it's better that people don't know too much about me</b><br>",
-    "<b>I tend to keep in the background on social occasions.</b><br>",
-    "<b>Sometimes, I'm suddenly distracted by distant sounds to which usually I don't pay much attention</b><br>",
-    "<b>I often must be vigilant for other people not to take advantage of me</b><br>",
-    "<b>I have the feeling that I can't get close to people</b><br>",
-    "<b>I am an odd, unusual person</b><br>",
-    "<b>I find it hard to communicate clearly what I want to say to people</b><br>",
-    "<b>I feel very uneasy talking to people I do not know well</b><br>",
-    "<b>I tend to keep my feelings to myself</b><br>"
-]
-// * changed items are 2, 4, 5, 9, 10, 12, 14, 16, 17, 18
+// Schizotypal Personality Questionnaire - Brief Revised Updated (SPQ-BRU)
+// Note that this is a revised version of the schizotypal personality questionnaire (brief) (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/#SD1) that was re-analysed using CFA and is measured using a 5 point likert scale (strongly disagree - strongly agree; similar to the SPQ-BR cf Cohen et al., 2010 (https://doi.org/10.1521/pedi.2010.24.4.516)) instead of the original dichotomous yes/no scale. This scale is comprised of 32 items instead of 22 items as per the original SPQ-B and has been re-worded so that it only contains first person pronouns
 
+var SPQ = [
+    "<b>I sometimes feel that people are talking about me</b><br>",
+    "<b>I sometimes feel that other people are watching me</b><br>",
+    "<b>I happen to feel an unseen force or presence around me</b><br>",
+    "<b>When shopping, I get the feeling that other people are taking notice of me</b><br>",
+    "<b>I often feel that others have it in for me</b><br>",
+    "<b>I sometimes get concerned that friends or co-workers are not really loyal or trustworthy</b><br>",
+    "<b>I feel that I cannot get close to people</b><br>",
+    "<b>I find it hard to be emotionally close to other people</b><br>",
+    "<b>I feel that there is no one I am really close to outside of my immediate family, or people I can confide in or talk to about personal problems</b><br>",
+    "<b>I tend to keep my feelings to myself</b><br>",
+    "<b>I rarely laugh and smile.</b><br>",
+    "<b>I am not good at expressing my true feelings by the way I talk and look</b><br>",
+    "<b>Other people see me as slightly eccentric (odd)</b><br>",
+    "<b>I am an odd, unusual person</b><br>",
+    "<b>I have some eccentric (odd) habits</b><br>",
+    "<b>People sometimes comment on my unusual mannerisms and habits</b><br>",
+    "<b>I often feel nervous when I am in a group of unfamiliar people</b><br>",
+    "<b>I get anxious when meeting people for the first time</b><br>",
+    "<b>I feel very uncomfortable in social situations involving unfamiliar people</b><br>",
+    "<b>I sometimes avoid going to places where there will be many people because I will get anxious</b><br>",
+    "<b>I believe in telepathy (mind-reading)</b><br>",
+    "<b>II believe in clairvoyance (psychic forces, fortune telling)</b><br>",
+    "<b>I have had experiences with astrology, seeing the future, UFO's, ESP, or a sixth sense</b><br>",
+    "<b>I have felt that I was communicating with another person telepathically (by mind-reading).</b><br>",
+    "<b>I sometimes jump quickly from one topic to another when speaking</b><br>",
+    "<b>I tend to wander off the topic when having a conversation</b><br>",
+    "<b>I often ramble on too much when speaking</b><br>",
+    "<b>I sometimes forget what I am trying to say</b><br>",
+    "<b>I often hear a voice speaking my thoughts aloud</b><br>",
+    "<b>When I look at a person or at myself in a mirror, I have seen the face change right before my eyes</b><br>",
+    "<b>My thoughts are sometimes so strong that I can almost hear them</b><br>",
+    "<b>Everyday things seem unusually large or small.</b><br>",
+
+]
+// * SPQ-BRU has 4 higher-order factors (cognitive-perceptual [suspiciousness, magical thinking, ideas of reference and unusual perceptions], interpersonal [no close friends, constricted affect], disorganized (eccentric behavior and odd speech] and social anxiety)
 var SPQ_dim = [
-    "Interpersonal_1",
-    "Cognitive-Perceptual_2",
-    "Disorganized_3",
-    "Cognitive-Perceptual_4",
-    "Cognitive-Perceptual_5",
-    "Disorganized_6",
-    "Interpersonal_7",
-    "Disorganized_8",
-    "Cognitive-Perceptual_9",
-    "Cognitive-Perceptual_10",
-    "Interpersonal_11",
-    "Cognitive_Perceptual_12",
-    "Disorganized_13",
-    "Interpersonal_14",
-    "Interpersonal_15",
-    "Cognitive-Perceptual_16",
-    "Cognitive-Perceptual_17",
-    "Interpersonal_18",
-    "Disorganized_19",
-    "Disorganized_20",
-    "Interpersonal_21",
-    "Interpersonal_22"
+    "Reference_1",
+    "Reference_2",
+    "Reference_3",
+    "Suspiciousness_4",
+    "Suspiciousness_5",
+    "Suspiciousness_6",
+    "NoCloseFriends_7",
+    "NoCloseFriends_8",
+    "NoCloseFriends_9",
+    "ConstrictedAffect_10",
+    "ConstrictedAffect_11",
+    "ConstrictedAffect_12",
+    "Eccentric_13",
+    "Eccentric_14",
+    "Eccentric_15",
+    "Eccentric_16",
+    "SocialAnxiety_17",
+    "SocialAnxiety_18",
+    "SocialAnxiety_19",
+    "SocialAnxiety_20",
+    "MagicalThinking_21",
+    "MAgicalThinking_22",
+    "MagicalThinking_23",
+    "MagicalThinking_24",
+    "OddSpeech_25",
+    "OddSpeech_26",
+    "OddSpeech_27",
+    "OddSpeech_28",
+    "UnusualPerceptions_29",
+    "UnusualPerceptions_30",
+    "UnusualPerceptions_31",
+    "UnusualPerceptions_32"
 ]
 
 
@@ -836,6 +857,7 @@ var SUPPS_dim = [
 ]
 
 // Primal Beliefs Inventory - Brief (18 items) + Hierarchical + Changing + Understandable subscales (note that the order of items from the latter 3 subscales are in a validated fixed order, retrieved from www.authentichappiness.org)
+// Note that response options are on a six point 0-5 scale: (5) Strongly agree; (0) Strongly disagree.
 var PI = [
     "<b>In life, there's way more beauty than ugliness</b><br>",
     "<b>It often feels like events are happening in order to help me in some way</b><br>",
@@ -910,18 +932,22 @@ var PI_dim = [
 var MSI = [
     "<b>Have any of your closest relationships been troubled by a lot of arguments or repeated breakups?</b><br>",
     "<b>Have you deliberately hurt yourself physically (punched yourself, cut yourself, burned yourself) or made a suicide attempt?</b><br>",
-    "<b>Have your had at least two other problems with impulsivity (e.g., eating binges and spending sprees, drinking too much and verbal outbursts)?</b><br>",
+    "<b>Have your had at least two other problems with impulsivity<br> (e.g., eating binges and spending sprees, drinking too much and verbal outbursts)?</b><br>",
     "<b>Have you been extremely moody?</b><br>",
     "<b>Have you felt very angry a lot of the time or often acted in an angry or sarcastic manner?</b><br>",
     "<b>Have you often been distrustful of other people?</b><br>",
     "<b>Have you frequently felt unreal or as if things around you were unreal? </b><br>",
     "<b>Have you chronically felt empty? </b><br>",
     "<b>Have you often felt that you had no idea of who you are or that you have no identity</b><br>",
-    "<b>Have you made desperate efforts to avoid feeling abandoned (e.g., repeatedly called someone to reassure yourself that he or she still cared, begged them not to leave you, clung to them physically)?</b><br>"
+    "<b>Have you made desperate efforts to avoid feeling abandoned<br> (e.g., repeatedly called someone to reassure yourself that he or she still cared, begged them not to leave you, clung to them physically)?</b><br>"
 ]
 
 
-// Depression-Anxiety
+// Depression-Anxiety (Patient Health Questionnaire-4, PHQ-4) - uses a 4 point likert scale (0 - not at all to 3 - nearly every day)
+// Total score is determined by adding together the scores of each of the 4 items.
+// Scores are rated as normal (0-2), mild (3-5), moderate (6-8), and severe (9-12).
+// Total score ≥3 for first 2 questions suggests anxiety.
+// Total score ≥3 for last 2 questions suggests depression
 var PHQ = [
     "<b>Feeling nervous, anxious or on edge</b><br>",
     "<b>Not being able to stop or control worrying</b><br>",
@@ -1083,28 +1109,50 @@ var BAQ_dim =[
     "BAQ_18"
 ]
 
-// Interoceptive Accuracy Scale
+// Interoceptive Accuracy Scale - Re-analysed (refer to https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale)
+// note 3 items (cough, blood sugar and taste) have been excluded from the original scale following an oblimin rotation factor analysis using the original data from Murphy et al, 2019 (https://doi.org/10.31234/osf.io/fqgu4)
+
 var IAS = [
     "<b>I can always accurately perceive when my heart is beating fast</b><br>",
     "<b>I can always accurately perceive when I am hungry</b><br>",
     "<b>I can always accurately perceive when I am breathing fast</b><br>",
     "<b>I can always accurately perceive when I am thirsty</b><br>",
-    "<b>I can always accurately perceive when I need to urinate</b><br>",
-    "<b>I can always accurately perceive when I need to defecate</b><br>",
-    "<b>I can always accurately perceive when I encounter different tastes</b><br>",
-    "<b>I can always accurately perceive when I am going to vomit</b><br>",
-    "<b>I can always accurately perceive when I am going to sneeze</b><br>",
-    "<b>I can always accurately perceive when I am going to cough</b><br>",
     "<b>I can always accurately perceive when I am hot/cold</b><br>",
     "<b>I can always accurately perceive when I am sexually aroused</b><br>",
+    "<b>I can always accurately perceive when I need to urinate</b><br>",
+    "<b>I can always accurately perceive when I need to defecate</b><br>",
+    //"<b>I can always accurately perceive when I encounter different tastes</b><br>",
+    "<b>I can always accurately perceive when I am going to vomit</b><br>",
     "<b>I can always accurately perceive when I am going to pass wind</b><br>",
     "<b>I can always accurately perceive when I am going to burp</b><br>",
+    "<b>I can always accurately perceive when I am going to sneeze</b><br>",
+    //"<b>I can always accurately perceive when I am going to cough</b><br>",
     "<b>I can always accurately perceive when my muscles are tired/sore</b><br>",
     "<b>I can always accurately perceive when I am going to get a bruise</b><br>",
     "<b>I can always accurately perceive when I am in pain</b><br>",
-    "<b>I can always accurately perceive when my blood sugar is low</b><br>",
+  //"<b>I can always accurately perceive when my blood sugar is low</b><br>",
     "<b>I can always accurately perceive when someone is touching me affectionately rather than non-affectionately</b><br>",
     "<b>I can always accurately perceive when something is going to be ticklish</b><br>",
     "<b>I can always accurately perceive when something is going to be itchy</b><br>",
+]
 
+var IAS_dim =[
+    "Interoception_1",
+    "Interoception_2",
+    "Interoception_3",
+    "Interoception_4",
+    "Interoception_5",
+    "Interoception_6",
+    "Elimination_1",
+    "Elimination_2",
+    "Elimination_3",
+    "Expulsion_1",
+    "Expulsion_2",
+    "Expulsion_3",
+    "Nociception_1",
+    "Nociception_2",
+    "Nociception_3",
+    "Skin_1",
+    "Skin_2",
+    "Skin_3"
 ]
