@@ -24,17 +24,17 @@ A series of questionnaires was administered in between the illusion task and the
 
 With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, we included:
 
-- The [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf) measures 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
-- The [PID-5](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/) measures 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items (0-Very False or Often False to 3-Very True or Often True).
+- The [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf) (Mini International Personality Item Pool; Sibley, 2012) measures 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
+- The [PID-5-SF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/) (Personality Inventory for DSM-5 Short Form; Thimm et al., 2016) measures 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items (0-Very False or Often False to 3-Very True or Often True).
 
 #### Psychopathology
 
 Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal and autistic traits. Divergent validity was assessed by measuring depression and anxiety, as we do not hypothesize links with illusion sensitivity.
 
-- The [SPQ-BRU](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/#SD1) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point likert scale items (Strongly Disagree - Strongly Agree).
-- The [ASQ - Short](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
-- The [MSI-BPD](https://psycnet.apa.org/record/2004-10325-009) measures borderline personality with 10 5-point Likert scale items ([Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674)).
-- The [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/) assesses anxiety and depression (2 items each) with 4-point Likert scales (0 - not at all to 3 - nearly every day).
+- The [SPQ-BRU](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/) (Schizotypal Personality Questionnaire – brief revised updated; Davidson et al., 2016) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point likert scale items (Strongly Disagree - Strongly Agree).
+- The [ASQ - Short](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/) (Autism-Spectrum Quotient; Hoekstra et al., 2011) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
+- The [MSI-BPD](https://psycnet.apa.org/record/2004-10325-009) (Mclean Screening Instrument for Borderline Personality Disorder; Zanarini et al., 2003) measures borderline personality with 10 5-point Likert scale items ([Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674)).
+- The [PHQ-4](https://pubmed.ncbi.nlm.nih.gov/19996233/) (Patient Health Questionnaire; Kroenke et al., 2009) assesses anxiety and depression (2 items each) with 4-point Likert scales (0 - not at all to 3 - nearly every day).
 
 #### Interoception
 
