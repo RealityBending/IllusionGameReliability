@@ -414,13 +414,13 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            labels: ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
-            // required: false,
-            required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
         })
     }
 
@@ -428,13 +428,13 @@
     IPIP_items.push({
         prompt: "<b>I am paying attention right now</b><br>",
         name: "Attention_Check_1",
-        labels: ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
+        ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
         // required: false,
         required: true,
-        // min: 0,
-        // max: 1,
-        // step: 0.01,
-        // slider_start: 0.5
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
     })
     //   }
 
@@ -442,25 +442,25 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            labels: ["<p>1 <br><br><b>Very Inaccurate</b></p>", "<br>2", "<br>3", "<br>4", "<br>5", "<br>6", "<p>7 <br><br><b>Very Accurate</b></p>"],
-            // required: false,
-            required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
         })
     }
 
     var IPIP6 = {
-        type: jsPsychSurveyLikert,
+        type: jsPsychMultipleSlider,
         questions: IPIP_items,
         randomize_question_order: false,
         preamble: "<p>This part of the questionnaire measures your personality.</p>" +
             "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
         // require_movement: false,
-        // require_movement: true,
-        // slider_width: 600,
+        require_movement: true,
+        slider_width: 600,
         // min: 0,
         // max: 100,
         // slider_start: 50,
@@ -483,7 +483,7 @@
         PID_items.push({
             prompt: PID[n],
             name: PID_dim[n],
-            labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
+            ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
             // required: false,
             required: true,
             // min: 0,
@@ -497,7 +497,7 @@
     PID_items.push({
         prompt: "<b>Select the maximum value to the right to show your attention</b><br>",
         name: "Attention_Check_2",
-        labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
+        ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
         // required: false,
         required: true,
         // min: 0,
@@ -510,7 +510,7 @@
         PID_items.push({
             prompt: PID[n],
             name: PID_dim[n],
-            labels: ["<p>0 <br><br> <b>Very False or Often False</b></p>", "<br>1", "<br>2", "<p>3 <br><br> <b>Very True or Often True</b></p>"],
+            ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
             // required: false,
             required: true,
             // min: 0,
@@ -593,7 +593,7 @@
     var SPQ_BRU = {
         type: jsPsychSurveyLikert,
         questions: SPQ_items,
-        randomize_question_order: false,
+        randomize_question_order: true,
         preamble:
             "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
             "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
@@ -693,13 +693,13 @@
         MAIA_items.push({
             prompt: MAIA[n],
             name: MAIA_dim[n],
-            labels: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+            ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
             // required: false,
             required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
         })
     }
 
@@ -707,31 +707,31 @@
     MAIA_items.push({
         prompt: "<b>When I see this question, I will respond with the lowest value to the left</b><br>",
         name: "Attention_Check_5",
-        labels: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+        ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
         // required: false,
         required: true,
-        // min: 0,
-        // max: 1,
-        // step: 0.01,
-        // slider_start: 0.5
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
     })
 
     for (var n = 7; n < 37; n++) {
         MAIA_items.push({
             prompt: MAIA[n],
             name: MAIA_dim[n],
-            labels: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+            ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
             // required: false,
             required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
         })
     }
 
     var MAIA_2 = {
-        type: jsPsychSurveyLikert,
+        type: jsPsychMultipleSlider,
         questions: MAIA_items,
         randomize_question_order: false,
         preamble:
@@ -739,8 +739,8 @@
             "<p>Below you will find a list of statements.</p>" +
             "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
         // require_movement: false,
-        // require_movement: true,
-        // slider_width: 600,
+        require_movement: true,
+        slider_width: 600,
         // min: 0,
         // max: 100,
         // slider_start: 50,
@@ -821,13 +821,13 @@
         MSI_items.push({
             prompt: MSI[n],
             name: "MSI_" + n,
-            labels: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+            ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
             // required: false,
             required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
         })
     }
 
@@ -835,13 +835,13 @@
     MSI_items.push({
         prompt: "<b>Have you been paying attention?</b><br>",
         name: "Attention_Check_6",
-        labels: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+        ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
         // required: false,
         required: true,
-        // min: 0,
-        // max: 1,
-        // step: 0.01,
-        // slider_start: 0.5
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
     })
 
 
@@ -849,18 +849,18 @@
         MSI_items.push({
             prompt: MSI[n],
             name: "MSI_" + n,
-            labels: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+            ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
             // required: false,
             required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
         })
     }
 
     var MSI_BPD = {
-        type: jsPsychSurveyLikert,
+        type: jsPsychMultipleSlider,
         questions: MSI_items,
         randomize_question_order: false,
         preamble:
@@ -869,8 +869,8 @@
             "<p>Please answer the following questions based on how accurately each statement describes you.</p>" +
             "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
         // require_movement: false,
-        // require_movement: true,
-        // slider_width: 600,
+        require_movement: true,
+        slider_width: 600,
         // min: 0,
         // max: 100,
         // slider_start: 50,
@@ -1085,7 +1085,7 @@
     var lie_profile = {
         type: jsPsychMultipleSlider,
         questions: LIE_items,
-        randomize_question_order: false,
+        randomize_question_order: true,
         preamble:
             "<p>About lying...</p><p>Most people think a lie occurs any time you intentionally try to mislead someone. Some lies are big while others are small. Some are completely false statements and others are truths with details made up or left out. Some lies are obvious, and some are very subtle. Some lies are told for a good reason, some lies are not. Some lies are selfish, and some lies help others.</p>" +
             "<p>We are interested in all these different types of lies and we seek your collaboration to help us to respond to the following questions as accurately and truthfully as possible. Please note that your answers are <b>completely anonymous</b>. They are safely stored and protected, and the data will be used only for the purpose of this scientific investigation.</p>",
