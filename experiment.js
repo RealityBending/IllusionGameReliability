@@ -1156,3 +1156,41 @@ var IAS_dim =[
     "Skin_2",
     "Skin_3"
 ]
+
+var lie_scale = [
+    "<b>I can lie well</b><br>",
+    "<b>I am a good liar</b><br>",
+    "<b>It is hard for others to detect my lies</b><br>",
+    "<b>It is easy for me to make up clever lies</b><br>",
+    "<b>I have a tendency to lie</b><br>",
+    "<b>I lie more often than most people do</b><br>",
+    "<b>I find it difficult to refrain myself from lying</b><br>",
+    "<b>I lie frequently</b><br>",
+    "<b>Lying is against my principles</b><br>",
+    "<b>I feel guilty after lying</b><br>",
+    "<b>It is bad to lie</b><br>",
+    "<b>I always avoid lying if I can</b><br>",
+    "<b>It is okay to lie sometimes</b><br>",
+    "<b>I lie when necessary</b><br>",
+    "<b>It is acceptable to lie depending on the context</b><br>",
+    "<b>I would lie if something important was at stake</b><br>"
+]
+
+var lie_dim = [
+    "Ability_1",
+    "Ability_2",
+    "Ability_3",
+    "Ability_4",
+    "Frequency_5",
+    "Frequency_6",
+    "Frequency_7",
+    "Frequency_8",
+    "Negativty_9",
+    "Negativty_10",
+    "Negativty_11",
+    "Negativty_12",
+    "Contextuality_13",
+    "Contextuality_14",
+    "Contextuality_15",
+    "Contextuality_16"
+]
