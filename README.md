@@ -26,6 +26,7 @@ With the goal of replicating the previous study and confirming the links between
 
 - The [Mini IPIP6](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf) (Mini International Personality Item Pool; Sibley, 2012) measures 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
 - The [PID-5-SF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5142430/) (Personality Inventory for DSM-5 Short Form; Thimm et al., 2016) measures 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scale items (0-Very False or Often False to 3-Very True or Often True).
+- The [Lying Profile Questionnaire](https://psyarxiv.com/t7s32/) (Makowski et al., 2020) measures 4 dispositional lying dimensions (Ability, Negativity, Contextuality and Frequency) with 16 items on a visual analog scale (Disagree - Agree)
 
 #### Psychopathology
 
