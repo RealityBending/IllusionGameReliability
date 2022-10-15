@@ -414,7 +414,7 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
+            ticks: ["Very Inaccurate", "Very Accurate"],
         // required: false,
         required: true,
         min: 0,
@@ -428,7 +428,7 @@
     IPIP_items.push({
         prompt: "<b>I am paying attention right now</b><br>",
         name: "Attention_Check_1",
-        ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
+        ticks: ["Very Inaccurate", "Very Accurate"],
         // required: false,
         required: true,
         min: 0,
@@ -442,8 +442,8 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            ticks: ["<br>Very Inaccurate", "<br>Very Accurate"],
-        // required: false,
+            ticks: ["Very Inaccurate", "Very Accurate"],
+            // required: false,
         required: true,
         min: 0,
         max: 1,
@@ -483,7 +483,7 @@
         PID_items.push({
             prompt: PID[n],
             name: PID_dim[n],
-            ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+            labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
             // required: false,
             required: true,
             // min: 0,
@@ -497,7 +497,7 @@
     PID_items.push({
         prompt: "<b>Select the maximum value to the right to show your attention</b><br>",
         name: "Attention_Check_2",
-        ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+        labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
         // required: false,
         required: true,
         // min: 0,
@@ -510,7 +510,7 @@
         PID_items.push({
             prompt: PID[n],
             name: PID_dim[n],
-            ticks: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+            labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
             // required: false,
             required: true,
             // min: 0,
@@ -693,7 +693,7 @@
         MAIA_items.push({
             prompt: MAIA[n],
             name: MAIA_dim[n],
-            ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+            ticks: ["Never", "Always"],
             // required: false,
             required: true,
             min: 0,
@@ -707,7 +707,7 @@
     MAIA_items.push({
         prompt: "<b>When I see this question, I will respond with the lowest value to the left</b><br>",
         name: "Attention_Check_5",
-        ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+        ticks: ["Never", "Always"],
         // required: false,
         required: true,
         min: 0,
@@ -720,7 +720,7 @@
         MAIA_items.push({
             prompt: MAIA[n],
             name: MAIA_dim[n],
-            ticks: ["<p>0 <br><br><b>Never</b></p>", "<br>1", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Always</b></p>"],
+            ticks: ["Never", "Always"],
             // required: false,
             required: true,
             min: 0,
@@ -762,7 +762,7 @@
         IAS_items.push({
             prompt: IAS[n],
             name: IAS_dim[n],
-            ticks: ["<br>Disagree", "<br>Agree"],
+            ticks: ["Disagree", "Agree"],
             // required: false,
             required: true,
             min: 0,
@@ -821,7 +821,7 @@
         MSI_items.push({
             prompt: MSI[n],
             name: "MSI_" + n,
-            ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+            ticks: ["Definitely No", "Definitely Yes"],
             // required: false,
             required: true,
             min: 0,
@@ -835,7 +835,7 @@
     MSI_items.push({
         prompt: "<b>Have you been paying attention?</b><br>",
         name: "Attention_Check_6",
-        ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+        ticks: ["Definitely No", "Definitely Yes"],
         // required: false,
         required: true,
         min: 0,
@@ -849,7 +849,7 @@
         MSI_items.push({
             prompt: MSI[n],
             name: "MSI_" + n,
-            ticks: ["<p>1 <br><br><b>Definitely No</b></p>", "<br>2", "<br>3", "<br>4", "<p>5 <br><br><b>Definitely Yes</b></p>"],
+            ticks: ["Definitely No", "Definitely Yes"],
             // required: false,
             required: true,
             min: 0,
@@ -1072,7 +1072,7 @@
         LIE_items.push({
             prompt: lie_scale[n],
             name: lie_dim[n],
-            ticks: ["<br>Disagree", "<br>Always"],
+            ticks: ["Disagree", "Always"],
             // required: false,
             required: true,
             min: 0,
@@ -1092,9 +1092,9 @@
         // require_movement: false,
         require_movement: true,
         slider_width: 600,
-        min: 0,
-        max: 10,
-        slider_start: 5,
+        // min: 0,
+        // max: 10,
+        // slider_start: 5,
         on_start: function () {
             ; (document.body.style.cursor = "auto"),
                 (document.querySelector(
@@ -1142,7 +1142,7 @@
                 MSI_BPD,
                 GCBS_scale,
                 PI_scale,
-                lie_scale
+                lie_profile
         ])) {
             timeline.push(t_scale)
             }
