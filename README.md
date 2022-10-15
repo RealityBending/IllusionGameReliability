@@ -43,7 +43,7 @@ Imprecise predictions of internal bodily signals has been associated with an inc
 - The [**MAIA-2**](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034) (Multidimensional Assessment of Interoceptive Awareness Version 2; Mehling et al., 2018) measures 5 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting) with 37 items.
 - The [**IAS-R**](https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale) (Interoceptive Accuracy Scale Revised; adapted from [Murphy et al., 2019](http://dx.doi.org/10.31234/osf.io/fqgu4)), measures 5 aspects of bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) using 18 analagog scales.
 
-#### Beliefs
+#### Beliefs and Misbeliefs
 
 [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
