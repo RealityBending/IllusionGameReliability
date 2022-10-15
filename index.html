@@ -772,18 +772,18 @@
         })
     }
 
-    // // Attention Check 7
-    // IAS_items.push({
-    //     prompt: "<b>I can always accurately perceive that I have not been breathing throughout </b><br>",
-    //     name: "Attention_Check_7",
-    //     ticks: ["Strongly Disagree", "Strongly Agree"],
-    //     // required: false,
-    //     required: true,
-    //     min: 0,
-    //     max: 1,
-    //     step: 0.01,
-    //     slider_start: 0.5
-    // })
+    // Attention Check 6
+    IAS_items.push({
+        prompt: "<b>I can always accurately perceive that my attention is being tested by responding with strongly agree</b><br>",
+        name: "Attention_Check_6",
+        ticks: ["Strongly Disagree", "Strongly Agree"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
 
 
     var IAS_R = {
@@ -831,10 +831,10 @@
         })
     }
 
-    // Attention Check 8
+    // Attention Check 7
     MSI_items.push({
         prompt: "<b>Have you been paying attention?</b><br>",
-        name: "Attention_Check_6",
+        name: "Attention_Check_7",
         ticks: ["Definitely No", "Definitely Yes"],
         // required: false,
         required: true,
@@ -941,10 +941,10 @@
         })
     }
 
-    // Attention Check 9
+    // Attention Check 8
     GCBS_items.push({
         prompt: "<b>The government knows I am asleep right now</b><br>",
-        name: "Attention_Check_7",
+        name: "Attention_Check_8",
         labels: ["<p>1 = <br><br>Definitely Not True</p>", "<p>2 = <br><br>Probably Not True</p>", "<p>3 = <br><br>Not Sure / Cannot Decide</p>", "<p>4 = <br><br>Probably True</p>", "<p>5 = <br><br>Definitely True</p>"],
         // required: false,
         required: true,
@@ -1011,10 +1011,10 @@
         })
     }
 
-    // Attention Check 10 (note that this attention check item is one of the 3 used to validate the PI-99 in the original paper)
+    // Attention Check 9 (note that this attention check item is one of the 3 used to validate the PI-99 in the original paper)
     PI_items.push({
         prompt: "<b>If you are doing your best to complete this survey honestly, please strongly agree with this statement</b><br>",
-        name: "Attention_Check_8",
+        name: "Attention_Check_9",
         labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
         // required: false,
         required: true,
@@ -1068,7 +1068,34 @@
     /* LIE Profile --------------------------------------*/
     var LIE_items = []
     //for (const [index, element] of MAIA.entries()) {
-    for (var n = 0; n < 16; n++) {
+    for (var n = 0; n < 12; n++) {
+        LIE_items.push({
+            prompt: lie_scale[n],
+            name: lie_dim[n],
+            ticks: ["Disagree", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    // Attention Check 10
+    LIE_items.push({
+        prompt: "<b>I can demonstrate my attention by responding with the option on the extreme right</b><br>",
+        name: "Attention_Check_10",
+        ticks: ["Disagree", "Agree"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+
+    for (var n = 12; n < 16; n++) {
         LIE_items.push({
             prompt: lie_scale[n],
             name: lie_dim[n],
