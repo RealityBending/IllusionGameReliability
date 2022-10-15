@@ -18,7 +18,7 @@ The perceptual trial blocks will be administered at the end, after a series of q
 
 ### Questionnaires
 
-A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2").
+A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4, which only consists of 4 items displayed on a single page.
 
 #### Personality
 
@@ -38,7 +38,7 @@ Based on the literature of illusion sensitivity and psychopathology, convergent 
 
 #### Interoception
 
-Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues **[REF]**, which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported **[REFS]**, are also associated with a lower illusion sensitivity.
+Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
 
 - The [**MAIA-2**](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034) (Multidimensional Assessment of Interoceptive Awareness Version 2; Mehling et al., 2018) measures 5 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting) with 37 items.
 - The [**IAS-R**](https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale) (Interoceptive Accuracy Scale Revised; adapted from [Murphy et al., 2019](http://dx.doi.org/10.31234/osf.io/fqgu4)), measures 5 aspects of bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) using 18 analagog scales.
