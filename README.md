@@ -9,7 +9,9 @@ The main aim of this study is to assess the reliability of the general factor of
 
 ### Ethics information
 
-### Ethics information
+### Pilot data
+
+10 participants were recruited ...
 
 ### Procedure
 
