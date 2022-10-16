@@ -15,7 +15,7 @@ The main aim of this study is to assess the reliability of the general factor of
 
 #### Illusion Task
 
-Similarly to the previous study, the manipulated experimental variables are the *illusion strength* (i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). 3 illusions were included - namely, Ebbinghaus, Müller-Lyer, and Vertical-Horizontal, that was previously found to most strongly correlate with the extracted Factor *i*.
+Similarly to the previous study, the manipulated experimental variables are the *illusion strength* (i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). 3 illusions were included - namely, Ebbinghaus, Müller-Lyer, and Vertical-Horizontal, that was previously found to most strongly contribute to the general Factor *i*.
 
 The task starts with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a second series is presented (with different items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3).
 
