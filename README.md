@@ -5,6 +5,16 @@ The main aim of this study is to assess the reliability of the general factor of
 
 ## Hypotheses
 
+1. **Effect of Illusion Strength and Difficulty**
+1.1 *On error rate*
+1.1.1 Positive effect of illusion strength on error rate (H0: no effect)
+1.1.2 Positive effect of task difficulty on error rate (H0: no effect)
+1.2 *On RT*
+2. **General Factor**
+3. **Reliability**
+4. **Stability**
+5. **Dispositional Correlates**
+
 ## Methods
 
 ### Ethics information
