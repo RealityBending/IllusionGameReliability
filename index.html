@@ -142,6 +142,24 @@
     var study_id = jsPsych.data.getURLVariable("STUDY_ID")
     var session_id = jsPsych.data.getURLVariable("SESSION_ID")
 
+    // Informed Consent
+    var consent ={
+        type: jsPsychHtmlButtonResponse,
+        stimulus:
+            "<div style='font-size:10px';><h1></br></br>Study on Visual Illusions</h1></div>" +
+            "<div class='margin-left-10'>"+
+            "<p>In this study, you will be shown different types of visual illusions and asked to make responses as <b>quickly</b> and <b>accurately</b> as possible.</p>" +
+            "<p>Please note that different attention checking methods will be used in this study to ensure valid participation (answers are not random, responses reflect instructions were read etc.,)</p>" +
+            "<p>Your participation in this study is completely voluntary. We reserve the right to withhold or prorate reimbursement should we detect non-valid responses.</p>"+
+            "<p>If you do not wish to complete this survey, simply close your browser.</p>" +
+            "<p>Your participation in this research will be kept completely confidential. Your responses are anonymous and IP addresses will not be collected to guarantee complete anonymity.</p>" +
+            "<p>If you have any questions about the project, you may contact the team via the chat option in Prolific.</p>" +
+            "<p>This project has been reviewed and approved by the University Institutional Review Board (NTU IRB-2022-187).<br>Questions concerning your rights as a participant in this research may be directed to the NTU-IRB at IRB@ntu.edu.sg or call +65 6592 2495.</p></div>",
+        choices: ["I consent"],
+        data: { screen: "consent" }
+    }
+    timeline.push(consent)
+
     var participant_info = {
         type: jsPsychSurveyText,
         questions: [
