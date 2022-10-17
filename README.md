@@ -39,7 +39,7 @@ The perceptual trial blocks will be administered at the end, after a series of q
 
 #### Questionnaires
 
-A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4, which only consists of 4 items displayed on a single page.
+A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items).
 
 ##### Personality
 
