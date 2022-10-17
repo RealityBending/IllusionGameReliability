@@ -229,7 +229,7 @@
         type: jsPsychHtmlButtonResponse,
         choices: ["Start the practice!"],
         stimulus:
-            "<p><b>The Illusion Game</b></p>" +
+            "<p><b>Part 1: Illusion Game</b></p>" +
             "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
             "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
         data: {screen: "general_instructions"},
@@ -277,13 +277,11 @@
         type: jsPsychHtmlButtonResponse,
         choices: ["Let's Play!"],
         stimulus: "<p><b>TRAINING COMPLETED</b></p>" +
-            "<p><i>Are you ready for the real game?</i></p>" +
-            "<p>This time, there will be more trials, and some might be harder too. Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
+            "<p>In the next phase, there will be more trials, and some might be harder too.<br> Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
             "<p>Try to keep up a high score!</p><br>" +
             "<p>Note that it can be <i>really</i> challenging at times, so you will need to rely on your <b>intuition</b> and gut feeling to answer as fast as you can without making errors.</p>" +
-            "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score!), but the order of the blocks is random.</p>" +
-            "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
-            "<p>Good luck!</p><br>",
+            "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score), but the order of the blocks is random.</p>" +
+            "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible. Good luck!</p><br>",
         data: {screen: "practice_debrief"},
     }
     timeline.push(end_practice)
@@ -540,7 +538,7 @@
         questions: PID_items,
         randomize_question_order: false,
         preamble: "<p>Below is a list of things different people might say about themselves.</p>" +
-            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>We are interested in finding out how you would describe yourself.</p>" +
             "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
             "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
         // require_movement: false,
@@ -610,7 +608,7 @@
         questions: SPQ_items,
         randomize_question_order: true,
         preamble:
-            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p><b>How you would describe yourself?</b></p>" +
             "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
             "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
         // require_movement: false,
@@ -680,9 +678,7 @@
         questions: AQ_items,
         randomize_question_order: false,
         preamble:
-            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
-            "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+            "<p>Selecting the response that best describes you.</p>",
         // require_movement: false,
         // require_movement: true,
         // slider_width: 600,
@@ -750,8 +746,6 @@
         questions: MAIA_items,
         randomize_question_order: false,
         preamble:
-            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-            "<p>Below you will find a list of statements.</p>" +
             "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
         // require_movement: false,
         require_movement: true,
@@ -879,10 +873,7 @@
         questions: MSI_items,
         randomize_question_order: false,
         preamble:
-            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
-            "<p>Below you will find a list of statements.</p>" +
-            "<p>Please answer the following questions based on how accurately each statement describes you.</p>" +
-            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+            "<p>Please answer the following questions based on how accurately each statement describes you.</p>"
         // require_movement: false,
         require_movement: true,
         slider_width: 600,
@@ -989,9 +980,8 @@
         randomize_question_order: false,
         preamble:
             "<p>There is often debate about whether or not the public is told the whole truth about various important issues.</p>" +
-            "<p>For this part, we are interested in finding out your beliefs about some of these subjects.</p>" +
-            "<p>Please indicate the degree to which you believe each statement is likely to be true.</p>" +
-            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+            "<p>We are interested in finding out your beliefs about some of these subjects.<br>" +
+            "Please indicate the degree to which you believe each statement is likely to be true.</p>",
         // require_movement: false,
         // require_movement: true,
         // slider_width: 600,

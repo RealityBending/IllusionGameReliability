@@ -104,11 +104,11 @@ function fixation_cross() {
 // Break
 var make_break1 = {
     type: jsPsychHtmlButtonResponse,
-    choices: ["I am ready to continue!"],
+    choices: ["Continue"],
     stimulus:
         "<p><b>CONGRATULATIONS!</b></p>" +
-        "<p>You have finished half of the game. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
-        "<p>Before you see all the illusions once again, let's take a break by answering a few questions about yourself.</p>",
+        "<p>You have finished half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
+        "<p>Let's continue with a few questionnaires about yourself.</p>",
     save_trial_parameters: {
         trial_duration: true,
     },
@@ -362,14 +362,15 @@ function make_trial(stimuli, instructions, illusion_name, type) {
                         "#jspsych-progressbar-container"
                     ).style.display = "inline")
             },
-            stimulus: "<p><b>Can you do better in the next round?</b></p>" +
-                    "<p>Remember, your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+            stimulus:
+                "<p><b>Can you do better in the next round?</b></p>" +
+                "<p>Remember, your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
             data: { screen: "perceptual_block_results" },
-        // Reset trial number and update block number
+            // Reset trial number and update block number
             on_finish: function () {
                 block_number += 1
                 trial_number = 1
-            }
+            },
         })
     }
     return timeline
@@ -399,7 +400,7 @@ const ebbinghaus_instructions =
 
 const verticalhorizontal_instructions =
     "<p>In this part, two red lines will appear side by side.</p>" +
-    "<p>Your task is to tell <b>which line is longer</b> in length as fast as you can, and without making errors.</p>" +
+    "<p>Your task is to tell <b>which line is longer</b> in length, regardless of their orientation, as fast as you can, and without making errors.</p>" +
     "<p>Don't get distracted by the orientation of the lines!</p>" +
     "<p>Press <b>the LEFT or the RIGHT arrow</b> to indicate which <b>line is the longer one.</b></p>" +
     "<div style='float: center'><img src='materials/instructions/VerticalHorizontal_Demo.png' height='300'></img>" +
@@ -586,7 +587,6 @@ var SPQ = [
     "<b>When I look at a person or at myself in a mirror, I have seen the face change right before my eyes</b><br>",
     "<b>My thoughts are sometimes so strong that I can almost hear them</b><br>",
     "<b>Everyday things seem unusually large or small.</b><br>",
-
 ]
 // * SPQ-BRU has 4 higher-order factors (cognitive-perceptual [suspiciousness, magical thinking, ideas of reference and unusual perceptions], interpersonal [no close friends, constricted affect], disorganized (eccentric behavior and odd speech] and social anxiety)
 var SPQ_dim = [
@@ -621,9 +621,8 @@ var SPQ_dim = [
     "UnusualPerceptions_29",
     "UnusualPerceptions_30",
     "UnusualPerceptions_31",
-    "UnusualPerceptions_32"
+    "UnusualPerceptions_32",
 ]
-
 
 // Autism-Spectrum Quotient Short (18 items)
 var AQ = [
@@ -654,10 +653,10 @@ var AQ = [
     "<b>I find it difficult to work out people's intentions</b><br>",
     "<b>New situations make me anxious</b><br>",
     "<b>I enjoy meeting new people</b><br>",
-    "<b>I find it easy to play games with children that involve pretending</b><br>"
+    "<b>I find it easy to play games with children that involve pretending</b><br>",
 ]
 
-var AQ_dim =[
+var AQ_dim = [
     "SocialSkills_1",
     "Routine_2",
     "Imagination_3",
@@ -685,7 +684,7 @@ var AQ_dim =[
     "Imagination_25",
     "Routine_26",
     "SocialSkills_27",
-    "Imagination_28"
+    "Imagination_28",
 ]
 
 // Cognitive Flexibility Inventory
@@ -709,30 +708,30 @@ var CFI = [
     "<b>I feel I have no power to change things in difficult situations </b><br>",
     "<b>When I encounter difficult situations, I stop and try to think of several ways to resolve it</b><br>",
     "<b>I can think of more than one way to resolve a difficult situation I'm confronted with</b><br>",
-    "<b>I consider multiple options before responding to difficult situations</b><br>"
+    "<b>I consider multiple options before responding to difficult situations</b><br>",
 ]
 
-var CFI_dim =[
-     "Alternatives_1",
-     "Control_2_R",
-     "Alternatives_3",
-     "Control_4_R",
-     "Alternatives_5",
-     "Alternatives_6",
-     "Control_7_R",
-     "Alternatives_8",
-     "Control_9_R",
-     "Alternatives_10",
-     "Control_11_R",
-     "Alternatives_12",
-     "Alternatives_13",
-     "Alternatives_14",
-     "Control_15",
-     "Alternatives_16",
-     "Control_17_R",
-     "Alternative_18",
-     "Alternatives_19",
-     "Alternatives_20"
+var CFI_dim = [
+    "Alternatives_1",
+    "Control_2_R",
+    "Alternatives_3",
+    "Control_4_R",
+    "Alternatives_5",
+    "Alternatives_6",
+    "Control_7_R",
+    "Alternatives_8",
+    "Control_9_R",
+    "Alternatives_10",
+    "Control_11_R",
+    "Alternatives_12",
+    "Alternatives_13",
+    "Alternatives_14",
+    "Control_15",
+    "Alternatives_16",
+    "Control_17_R",
+    "Alternative_18",
+    "Alternatives_19",
+    "Alternatives_20",
 ]
 
 // Short form - Five Factor Mindfulness Questionnaire (15 items)
@@ -751,10 +750,10 @@ var FFMQ = [
     "<b>Even when I'm feeling terribly upset I can find a way to put it into words</b><br>",
     "<b>I find myself doing things without paying attention</b><br>",
     "<b>I tell myself I shouldn't be feeling the way I'm feeling</b><br>",
-    "<b>When I have distressing thoughts or images I just notice them and let them go</b><br>"
+    "<b>When I have distressing thoughts or images I just notice them and let them go</b><br>",
 ]
 
-var FFMQ_dim =[
+var FFMQ_dim = [
     "Observation_1",
     "Description_2",
     "Awareness_3_R",
@@ -769,7 +768,7 @@ var FFMQ_dim =[
     "Description_12",
     "Awareness_13_R",
     "NonJudgemental_14_R",
-    "NonReactivity_15"
+    "NonReactivity_15",
 ]
 
 // General Conspiracist Beliefs Scale
@@ -788,7 +787,7 @@ var GCBS = [
     "<b>Certain significant events have been the result of the activity of a small group who secretly manipulate world events</b><br>",
     "<b>Some UFO sightings and rumors are planned or staged in order to distract the public from real alien contact</b><br>",
     "<b>Experiments involving new drugs or technologies are routinely carried out on the public without their knowledge or consent</b><br>",
-    "<b>A lot of important information is deliberately concealed from the public out of self-interest</b><br>"
+    "<b>A lot of important information is deliberately concealed from the public out of self-interest</b><br>",
 ]
 
 var GCBS_dim = [
@@ -806,7 +805,7 @@ var GCBS_dim = [
     "MF_12",
     "ET_13",
     "PW_14",
-    "CI_15"
+    "CI_15",
 ]
 
 // Short UPPS-P Impulsive Behavior Scale
@@ -830,7 +829,7 @@ var SUPPS = [
     "<b>Others are shocked or worried about the things I do when I am feeling very excited</b><br>",
     "<b>I would enjoy the sensation of skiing very fast down a high mountain slope</b><br>",
     "<b>I usually think carefully before doing anything</b><br>",
-    "<b>I tend to act without thinking when I am really excited</b><br>"
+    "<b>I tend to act without thinking when I am really excited</b><br>",
 ]
 
 var SUPPS_dim = [
@@ -853,7 +852,7 @@ var SUPPS_dim = [
     "PositiveUrgency_17",
     "SensationSeeking_18",
     "LackofPremeditation_19_R",
-    "PositiveUrgency_20"
+    "PositiveUrgency_20",
 ]
 
 // Primal Beliefs Inventory - Brief (18 items) + Hierarchical + Changing + Understandable subscales (note that the order of items from the latter 3 subscales are in a validated fixed order, retrieved from www.authentichappiness.org)
@@ -925,7 +924,7 @@ var PI_dim = [
     "Understandable_29",
     "Understandable_30",
     "Understandable_31_R",
-    "Understandable_32_R"
+    "Understandable_32_R",
 ]
 
 // MSI- BPD (adapted from yes-no dichotomous scale to visual analog scale - definitely no/definitely yes; cf Huczewska et al., 2019 - https://doi.org/10.5114/cipp.2019.89674) - modify to Not at all True of me - Extremely true of me?
@@ -939,9 +938,8 @@ var MSI = [
     "<b>Have you frequently felt unreal or as if things around you were unreal? </b><br>",
     "<b>Have you chronically felt empty? </b><br>",
     "<b>Have you often felt that you had no idea of who you are or that you have no identity</b><br>",
-    "<b>Have you made desperate efforts to avoid feeling abandoned<br> (e.g., repeatedly called someone to reassure yourself that he or she still cared, begged them not to leave you, clung to them physically)?</b><br>"
+    "<b>Have you made desperate efforts to avoid feeling abandoned<br> (e.g., repeatedly called someone to reassure yourself that he or she still cared, begged them not to leave you, clung to them physically)?</b><br>",
 ]
-
 
 // Depression-Anxiety (Patient Health Questionnaire-4, PHQ-4) - uses a 4 point likert scale (0 - not at all to 3 - nearly every day)
 // Total score is determined by adding together the scores of each of the 4 items.
@@ -952,15 +950,10 @@ var PHQ = [
     "<b>Feeling nervous, anxious or on edge</b><br>",
     "<b>Not being able to stop or control worrying</b><br>",
     "<b>Feeling down, depressed, or hopeless</b><br>",
-    "<b>Little interest or pleasure in doing things</b><br>"
+    "<b>Little interest or pleasure in doing things</b><br>",
 ]
 
-var PHQ_dim = [
-    "Anxiety_1",
-    "Anxiety_2",
-    "Depression_3",
-    "Depression_4"
-]
+var PHQ_dim = ["Anxiety_1", "Anxiety_2", "Depression_3", "Depression_4"]
 
 // MAIA-2
 var MAIA = [
@@ -1000,7 +993,7 @@ var MAIA = [
     "<b>I listen to my body to inform me about what to do</b><br>",
     "<b>I am at home in my body</b><br>",
     "<b>I feel my body is a safe place</b><br>",
-    "<b>I trust my body sensations</b><br>"
+    "<b>I trust my body sensations</b><br>",
 ]
 
 var MAIA_dim = [
@@ -1040,7 +1033,7 @@ var MAIA_dim = [
     "BodyListening_34",
     "Trusting_35",
     "Trusting_36",
-    "Trusting_37"
+    "Trusting_37",
 ]
 
 // Interoception Sensory Questionnaire (unidimensional scale) - Note that this scale has mostly been administered among people with ASD
@@ -1063,7 +1056,7 @@ var ISQ = [
     "<b>I have difficulty locating injury in my body</b><br>",
     "<b>Sometimes, when my body signals a problem, I have difficulty working out what the problem might be</b><br>",
     "<b>I don't tend to notice feelings in my body until they're very intense</b><br>",
-    "<b>I find it difficult to put my internal bodily sensations into words</b><br>"
+    "<b>I find it difficult to put my internal bodily sensations into words</b><br>",
 ]
 
 //Body Awareness Questionnaire
@@ -1085,10 +1078,10 @@ var BAQ = [
     "<b>I can predict how much sleep I will need at night in order to wake up refreshed</b><br>",
     "<b>When my exercise habits change, I can predict very accurately how that will affect my energy level</b><br>",
     "<b>There seems to be a 'best' time for me to go to sleep at night</b><br>",
-    "<b>I notice specific bodily reactions to being overhungry</b><br>"
+    "<b>I notice specific bodily reactions to being overhungry</b><br>",
 ]
 
-var BAQ_dim =[
+var BAQ_dim = [
     "BAQ_1",
     "BAQ_2",
     "BAQ_3",
@@ -1106,7 +1099,7 @@ var BAQ_dim =[
     "BAQ_15",
     "BAQ_16",
     "BAQ_17",
-    "BAQ_18"
+    "BAQ_18",
 ]
 
 // Interoceptive Accuracy Scale - Re-analysed (refer to https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale)
@@ -1130,13 +1123,13 @@ var IAS = [
     "<b>I can always accurately perceive when my muscles are tired/sore</b><br>",
     "<b>I can always accurately perceive when I am going to get a bruise</b><br>",
     "<b>I can always accurately perceive when I am in pain</b><br>",
-  //"<b>I can always accurately perceive when my blood sugar is low</b><br>",
+    //"<b>I can always accurately perceive when my blood sugar is low</b><br>",
     "<b>I can always accurately perceive when someone is touching me affectionately rather than non-affectionately</b><br>",
     "<b>I can always accurately perceive when something is going to be ticklish</b><br>",
     "<b>I can always accurately perceive when something is going to be itchy</b><br>",
 ]
 
-var IAS_dim =[
+var IAS_dim = [
     "Interoception_1",
     "Interoception_2",
     "Interoception_3",
@@ -1154,7 +1147,7 @@ var IAS_dim =[
     "Nociception_3",
     "Skin_1",
     "Skin_2",
-    "Skin_3"
+    "Skin_3",
 ]
 
 var lie_scale = [
@@ -1173,7 +1166,7 @@ var lie_scale = [
     "<b>It is okay to lie sometimes</b><br>",
     "<b>I lie when necessary</b><br>",
     "<b>It is acceptable to lie depending on the context</b><br>",
-    "<b>I would lie if something important was at stake</b><br>"
+    "<b>I would lie if something important was at stake</b><br>",
 ]
 
 var lie_dim = [
@@ -1192,5 +1185,5 @@ var lie_dim = [
     "Contextuality_13",
     "Contextuality_14",
     "Contextuality_15",
-    "Contextuality_16"
+    "Contextuality_16",
 ]
