@@ -693,71 +693,6 @@
 
 
     /* Interoception ------------------------------------------*/
-    var MAIA_items = []
-    //for (const [index, element] of MAIA.entries()) {
-    for (var n = 0; n < 7; n++) {
-        MAIA_items.push({
-            prompt: MAIA[n],
-            name: MAIA_dim[n],
-            ticks: ["Never", "Always"],
-            // required: false,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
-    }
-
-    // Attention Check 5
-    MAIA_items.push({
-        prompt: "<b>When I see this question, I will respond with the lowest value to the left</b><br>",
-        name: "Attention_Check_5",
-        ticks: ["Never", "Always"],
-        // required: false,
-        required: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        slider_start: 0.5
-    })
-
-    for (var n = 7; n < 37; n++) {
-        MAIA_items.push({
-            prompt: MAIA[n],
-            name: MAIA_dim[n],
-            ticks: ["Never", "Always"],
-            // required: false,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
-    }
-
-    var MAIA_2 = {
-        type: jsPsychMultipleSlider,
-        questions: MAIA_items,
-        randomize_question_order: false,
-        preamble:
-            "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
-        // require_movement: false,
-        require_movement: true,
-        slider_width: 600,
-        // min: 0,
-        // max: 100,
-        // slider_start: 50,
-        on_start: function () {
-            ; (document.body.style.cursor = "auto"),
-                (document.querySelector(
-                    "#jspsych-progressbar-container"
-                ).style.display = "inline")
-        },
-        data: {
-            screen: 'MAIA',
-        }
-    };
 
     // Interoceptive Accuracy
     var IAS_items = []
@@ -776,10 +711,10 @@
         })
     }
 
-    // Attention Check 6
+    // Attention Check 5
     IAS_items.push({
         prompt: "<b>I can always accurately perceive that my attention is being tested by responding with strongly agree</b><br>",
-        name: "Attention_Check_6",
+        name: "Attention_Check_5",
         ticks: ["Strongly Disagree", "Strongly Agree"],
         // required: false,
         required: true,
@@ -817,74 +752,6 @@
         }
     };
 
-
-    /* Borderline Personality --------------------------------*/
-    var MSI_items = []
-    // for (const [index, element] of MSI.entries()) {
-    for (var n = 0; n < 5; n++) {
-        MSI_items.push({
-            prompt: MSI[n],
-            name: "MSI_" + n,
-            ticks: ["Definitely No", "Definitely Yes"],
-            // required: false,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
-    }
-
-    // Attention Check 7
-    MSI_items.push({
-        prompt: "<b>Have you been paying attention?</b><br>",
-        name: "Attention_Check_7",
-        ticks: ["Definitely No", "Definitely Yes"],
-        // required: false,
-        required: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        slider_start: 0.5
-    })
-
-
-    for (var n = 5; n < 10; n++) {
-        MSI_items.push({
-            prompt: MSI[n],
-            name: "MSI_" + n,
-            ticks: ["Definitely No", "Definitely Yes"],
-            // required: false,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5
-        })
-    }
-
-    var MSI_BPD = {
-        type: jsPsychMultipleSlider,
-        questions: MSI_items,
-        randomize_question_order: false,
-        preamble:
-            "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
-        // require_movement: false,
-        require_movement: true,
-        slider_width: 600,
-        // min: 0,
-        // max: 100,
-        // slider_start: 50,
-        on_start: function () {
-            ; (document.body.style.cursor = "auto"),
-                (document.querySelector(
-                    "#jspsych-progressbar-container"
-                ).style.display = "inline")
-        },
-        data: {
-            screen: 'MSI_BPD',
-        }
-    };
 
     /* Depression - Anxiety ----------------------------------*/
     var PHQ_items = []
@@ -942,10 +809,10 @@
         })
     }
 
-    // Attention Check 8
+    // Attention Check 6
     GCBS_items.push({
         prompt: "<b>The government knows I am asleep right now</b><br>",
-        name: "Attention_Check_8",
+        name: "Attention_Check_6",
         labels: ["<br>Definitely Not True", "<br>Probably Not True", "<br>Not Sure / Cannot Decide", "<br>Probably True", "<br>Definitely True"],
         // required: false,
         required: true,
@@ -994,76 +861,6 @@
         }
     };
 
-    /* Primals ------------------------------------*/
-    var PI_items = []
-    //for (const [index, element] of PI.entries()) {
-    for (var n = 0; n < 20; n++) {
-        PI_items.push({
-            prompt: PI[n],
-            name: PI_dim[n],
-            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
-            // required: false,
-            required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
-        })
-    }
-
-    // Attention Check 9 (note that this attention check item is one of the 3 used to validate the PI-99 in the original paper)
-    PI_items.push({
-        prompt: "<b>If you are doing your best to complete this survey honestly, please strongly agree with this statement</b><br>",
-        name: "Attention_Check_9",
-        labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
-        // required: false,
-        required: true,
-        // min: 0,
-        // max: 1,
-        // step: 0.01,
-        // slider_start: 0.5
-    })
-
-
-    for (var n = 20; n < 32; n++) {
-        PI_items.push({
-            prompt: PI[n],
-            name: PI_dim[n],
-            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
-            // required: false,
-            required: true,
-            // min: 0,
-            // max: 1,
-            // step: 0.01,
-            // slider_start: 0.5
-        })
-    }
-
-    var PI_scale = {
-        type: jsPsychSurveyLikert,
-        questions: PI_items,
-        randomize_question_order: true,
-        preamble:
-            "<p>Below are very general statements about the world - not the world we wish we lived in, but the actual world <b>as it is now</b>.</p>" +
-            "<p>Please indicate the extent to which you agree with each statement</p>" +
-            "<p>When in doubt, go with what initially feels true of the real world.</p>" +
-            "<p>There are no right or wrong answers so you can respond as honestly as possible.</p>",
-        // require_movement: false,
-        // require_movement: true,
-        // slider_width: 600,
-        // min: 0,
-        // max: 100,
-        // slider_start: 50,
-        on_start: function () {
-            ; (document.body.style.cursor = "auto"),
-                (document.querySelector(
-                    "#jspsych-progressbar-container"
-                ).style.display = "inline")
-        },
-        data: {
-            screen: 'PI_18',
-        }
-    };
 
     /* LIE Profile --------------------------------------*/
     var LIE_items = []
@@ -1082,10 +879,10 @@
         })
     }
 
-    // Attention Check 10
+    // Attention Check 7
     LIE_items.push({
         prompt: "<b>I can demonstrate my attention by responding with the option on the extreme right</b><br>",
-        name: "Attention_Check_10",
+        name: "Attention_Check_7",
         ticks: ["Disagree", "Agree"],
         // required: false,
         required: true,
@@ -1163,12 +960,9 @@
                 PID5,
                 SPQ_BRU,
                 AQ28,
-                MAIA_2,
                 IAS_R,
                 PHQ_4,
-                MSI_BPD,
                 GCBS_scale,
-                PI_scale,
                 lie_profile
         ])) {
             timeline.push(t_scale)
