@@ -1,0 +1,1244 @@
+<head>
+    <!-- Customize the title! -->
+    <title>Illusion Game</title>
+    <!-- jsPsych Scripts -->
+    <script src="utils/jspsych/jspsych.js"></script>
+    <script src="utils/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="utils/jspsych/plugin-html-button-response.js"></script>
+    <script src="utils/jspsych/plugin-fullscreen.js"></script>
+    <script src="utils/jspsych/plugin-survey-text.js"></script>
+    <script src="utils/jspsych/plugin-preload.js"></script>
+    <script src="utils/jspsych/plugin-image-keyboard-response.js"></script>
+    <script src="utils/jspsych/plugin-survey-multi-choice.js"></script>
+    <script src="utils/jspsych/plugin-browser-check.js"></script>
+    <script src="utils/jspsych/plugin-survey-likert.js"></script>
+
+    <!-- Other modules -->
+    <script src="https://realitybending.github.io/JSmisc/misc/utils.js"></script>
+    <!--<script src = "utils/jspsych/plugin-jsPsychPavlovia.js"></script>-->
+    <!--<script src = "utils/jspsych/plugin-jspsych-pavlovia-2021.js"></script>-->
+    <!-- Load stimuli -->
+    <script src="stimuli/stimuli_training.js"></script>
+    <script src="stimuli/stimuli_part1.js"></script>
+    <script src="stimuli/stimuli_part2.js"></script>
+    <script src="stimuli/stimuli_perceptual1.js"></script>
+    <script src="stimuli/stimuli_perceptual2.js"></script>
+
+    <script src="experiment.js"></script>
+    <script src="utils/plugin-survey-multiple-slider.js"></script>
+    <!-- CSS -->
+    <link href="utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <!--<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>-->
+    <!--<script type="text/javascript" src="lib/jspsych-7-pavlovia-2022.1.1.js"></script>-->
+
+    <style>
+        /* set canvas to be full screen */
+        .jspsych-content {
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+            overflow-x: flow;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
+</head>
+
+<body></body>
+
+
+
+<script>
+
+
+    /* ----------------- Initialize experiment ----------------- */
+    var timeline = []
+
+
+    // /* Initialize connection to Pavlovia ----*/
+    // var pavlovia_init = {
+    //     type: jsPsychPavlovia,
+    //     command: "init",
+    //     setPavloviaInfo: function (info) {
+    //         console.log(info);
+    //         pavloviaInfo = info;
+    //     }
+    // }
+
+
+    // timeline.push(pavlovia_init);
+
+    var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        message_progress_bar: "Completion",
+        // exclusions: { min_width: 800, min_height: 600 }, /* exclude browsers that are not at least 800x600 pix */
+        //  on_interaction_data_update: function (data) {console.log(JSON.stringify(data))}, /* record browser interactions */
+        on_finish: function () {
+            jsPsych.data.displayData("json")
+            jsPsych.data
+                .get()
+                .localSave(
+                    "json",
+                    `${jsPsych.data.get().values()[0]["participant_id"]
+                    }_IllusionGame.json`
+                )
+            // window.location = "https://app.prolific.co/submissions/complete?cc=XXX" /* redirect to prolific when experiment is finished */
+        },
+    })
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        delay_after: 0,
+    })
+
+    // Retrieve and save browser info
+    var browser_check = {
+        type: jsPsychBrowserCheck,
+        data: {
+            screen: "browser_info",
+            version: "1.0",
+            date: new Date().toLocaleDateString("fr-FR"),
+            time: new Date().toLocaleTimeString("fr-FR"),
+        },
+        on_finish: function () {
+            data = jsPsych.data.get().filter({screen: "browser_info"}).values()[0]
+            jsPsych.data.addProperties({
+                ["screen_height"]: data["height"],
+                ["screen_width"]: data["width"],
+            })
+            for (var key in data) {
+                if (
+                    [
+                        "vsync_rate",
+                        "os",
+                        "mobile",
+                        "browser",
+                        "browser_version",
+                    ].includes(key)
+                ) {
+                    jsPsych.data.addProperties({
+                        [key]: data[key],
+                    })
+                }
+            }
+            jsPsych.data.addProperties()
+        },
+    }
+    timeline.push(browser_check)
+
+    /* ----------------- Experiment  ----------------- */
+
+    // Subject Information (Get from Prolific)
+    var prolific_id = jsPsych.data.getURLVariable("PROLIFIC_PID")
+    var jspsych_id = jsPsych.randomization.randomID(5)
+    var participant_id = `${prolific_id}_${jspsych_id}`
+    var study_id = jsPsych.data.getURLVariable("STUDY_ID")
+    var session_id = jsPsych.data.getURLVariable("SESSION_ID")
+
+    // Informed Consent
+    var consent ={
+        type: jsPsychHtmlButtonResponse,
+        stimulus:
+            "<div style='font-size:10px';><h1></br></br>Informed Consent</h1></div>" +
+            "<div class='margin-left-10'>"+
+            "<p>This study contains decision tests in which you must be fast and accurate, as well as various personality questionnaires.</p>" +
+            "<p><b>By participating, you agree to follow the instructions and provide honest answers.</b><br>Your participation in this research will be kept completely confidential.<br>Your responses are entirely anonymous, and no IP address is collected.</p>" +
+            "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).<br><b>If you do not wish - or do not have time - to participate this survey, simply close your browser.</b></p>" +
+            "<p><sub><sup>If you have any questions about the project, you may contact the team via the chat option in Prolific.<br>This project has been reviewed and approved by the University Institutional Review Board (NTU IRB-2022-187).<br>Questions concerning your rights as a participant in this research may be directed to the NTU-IRB at IRB@ntu.edu.sg or call +65 6592 2495.</sup></sub></p></div>",
+        choices: ["I consent"],
+        data: { screen: "consent" }
+    }
+    timeline.push(consent)
+
+    var participant_info = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "Please enter your age (in years, e.g., '31')",
+                name: "age",
+                required: true,
+            },
+            {
+                prompt: "Please enter your country of birth (e.g., 'France')",
+                name: "nationality",
+                required: true,
+            },
+            {
+                prompt: "Please enter your ethnicity (e.g., 'Caucasian')",
+                name: "ethnicity",
+                required: true,
+            }
+        ],
+        on_finish: function () {
+            jsPsych.data.addProperties({
+                participant_id: participant_id,
+                study_id: study_id,
+                session_id: session_id,
+            })
+        },
+        data: {
+            screen: "demographics",
+        },
+    }
+
+    var demographics = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: 'What is your gender?',
+                options: ["Male", "Female", "Other", "Prefer not to say"],
+                name: "sex",
+                required: true,
+            },
+            {
+                prompt: "What is your highest completed education level?",
+                options: ["University (doctorate)", "University (master)", "University (bachelor)", "High school", "Other", "Prefer not to say"],
+                name: "education",
+                required: true,
+            }
+        ],
+        data: {
+            screen: "demographics",
+        },
+    }
+
+    timeline.push(participant_info, demographics);
+
+    // Preload Instructions Stimuli
+    timeline.push({
+        type: jsPsychPreload,
+        images: [
+            "materials/instructions/Ebbinghaus_Demo.png",
+            "materials/instructions/Ebbinghaus_DemoPerceptual.png",
+            "materials/instructions/MullerLyer_Demo.png",
+            "materials/instructions/MullerLyer_DemoPerceptual.png",
+            "materials/instructions/VerticalHorizontal_Demo.png",
+            "materials/instructions/VerticalHorizontal_DemoPerceptual.png",
+        ],
+    })
+
+    // General Instructions
+    var general_instructions = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Start the practice!"],
+        stimulus:
+            "<p><b>The Illusion Game</b></p>" +
+            "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
+            "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
+        data: {screen: "general_instructions"},
+    }
+    timeline.push(general_instructions)
+
+
+    /* ============================================================== */
+    /*  -----------------------Practice Block-------------------------*/
+    /* ============================================================== */
+
+    // var block_number = 0   //For debugging only
+    // var trial_number = 0
+
+    /* ----------------------Ebbinghaus Practice----------------------------*/
+    var ebbinghaus_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + ebbinghaus_instructions),
+        (illusion_name = "Ebbinghaus"),
+        (type = 'leftright'))
+
+    timeline.push({timeline: ebbinghaus_practice})
+
+    /* ----------------------Muller-Lyer Practice----------------------------*/
+    var mullerlyer_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + mullerlyer_instructions),
+        (illusion_name = "MullerLyer"),
+        (type = 'updown'))
+
+    timeline.push({timeline: mullerlyer_practice})
+
+    /* ----------------------Vertical Horizaontal Practice----------------------------*/
+    var verticalhorizontal_practice = make_trial(
+        (stimuli = stimuli_training),
+        (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
+        (type = 'leftright'))
+
+    timeline.push({timeline: verticalhorizontal_practice})
+
+    /* ================================================================ */
+    /* ---------------------- END OF Practice ----------------------- */
+    /* ================================================================ */
+    var end_practice = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Let's Play!"],
+        stimulus: "<p><b>TRAINING COMPLETED</b></p>" +
+            "<p><i>Are you ready for the real game?</i></p>" +
+            "<p>This time, there will be more trials, and some might be harder too. Moreover, after each illusion block, a <b>score</b> will be calculated based on speed (time you took to answer) and accuracy (number of errors).</p>" +
+            "<p>Try to keep up a high score!</p><br>" +
+            "<p>Note that it can be <i>really</i> challenging at times, so you will need to rely on your <b>intuition</b> and gut feeling to answer as fast as you can without making errors.</p>" +
+            "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score!), but the order of the blocks is random.</p>" +
+            "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible.</p>" +
+            "<p>Good luck!</p><br>",
+        data: {screen: "practice_debrief"},
+    }
+    timeline.push(end_practice)
+
+
+    /* ============================================================== */
+    /*  -----------------------Experiment Block-------------------------*/
+    /* ============================================================== */
+    // Set experiment variables
+    var trial_number = 1 // trial indexing variable starts at 1 for convenience
+    var block_number = 1 // block indexing variable
+
+    // Set up block loop for different stimuli set
+    // for (var i of [1, 2]) {
+    for (var i = 1; i < 5; i++) {
+        if (i === 1) {
+            stimuli = stimuli_part1
+        } else if (i === 2) {
+            stimuli = stimuli_part2
+        } else if (i === 3 ){
+            stimuli = stimuli_perceptual1
+        } else {
+            stimuli = stimuli_perceptual2
+        }
+
+        /* ================================================================ */
+        /* ---------------------- MULLERLYER ILLUSION --------------------- */
+        /* ================================================================ */
+        var timeline_mullerlyer = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    mullerlyer_instructions
+            }),
+            (illusion_name = "MullerLyer"),
+            (type = "updown")
+        )
+
+        /* ================================================================ */
+        /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
+        /* ================================================================ */
+        var timeline_ebbinghaus = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    ebbinghaus_instructions
+            }),
+            (illusion_name = "Ebbinghaus"),
+            (type = "leftright")
+        )
+
+
+        /* ================================================================ */
+        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
+        /* ================================================================ */
+        var timeline_verticalhorizontal = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    verticalhorizontal_instructions
+            }),
+            (illusion_name = "VerticalHorizontal"),
+            (type = "leftright")
+        )
+
+    /* ================================================================ */
+    /* ----------------- Perceptual Block -------------------------------*/
+    /* ================================================================ */
+
+        var perceptual_instructions = {
+            type: jsPsychHtmlButtonResponse,
+            choices: ["I'm ready!"],
+            stimulus:
+                "<p><b>Vision Test</b></p>" +
+                "<p>In this new phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes</p>" +
+                "<p>Your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+            data: {screen: "perceptual_instructions"},
+            on_finish: function () {
+                block_number = 1   // reset block number for perceptual trials
+            }
+        }
+
+        /* ================================================================ */
+        /* ---------------------- MULLERLYER Perceptual --------------------- */
+        /* ================================================================ */
+        var timeline_mullerlyer_perceptual = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    mullerlyer_instructions_perceptual
+            }),
+            (illusion_name = "MullerLyer"),
+            (type = "updown")
+        )
+
+        /* ================================================================ */
+        /* --------------------- EBBINGHAUS Perceptual ---------------------- */
+        /* ================================================================ */
+        var timeline_ebbinghaus_perceptual = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    ebbinghaus_instructions_perceptual
+            }),
+            (illusion_name = "Ebbinghaus"),
+            (type = "leftright")
+        )
+
+
+        /* ================================================================ */
+        /* ----------------- VERTICAL-HORIZONTAL Perceptual ----------------- */
+        /* ================================================================ */
+        var timeline_verticalhorizontal_perceptual = make_trial(stimuli,
+            (instructions = function () {
+                return "<p><b>Part " +
+                    block_number +
+                    "/6" +
+                    "</b></p>" +
+                    verticalhorizontal_instructions_perceptual
+            }),
+            (illusion_name = "VerticalHorizontal"),
+            (type = "leftright")
+        )
+
+
+    /* ================================================================ */
+    /* --------------------- Psychometric scales----------------------- */
+    /* ================================================================ */
+    /* Big Five --------------------------------------*/
+    var IPIP_items = []
+    //for (const [index, element] of IPIP.entries()) {
+    for (var n = 0; n < 8; n++) {
+        IPIP_items.push({
+            prompt: IPIP[n],
+            name: IPIP_dim[n],
+            ticks: ["Very Inaccurate", "Very Accurate"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+        })
+    }
+
+    // Attention Check 1
+    IPIP_items.push({
+        prompt: "<b>I am paying attention right now</b><br>",
+        name: "Attention_Check_1",
+        ticks: ["Very Inaccurate", "Very Accurate"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+    //   }
+
+    for (var n = 8; n < 24; n++) {
+        IPIP_items.push({
+            prompt: IPIP[n],
+            name: IPIP_dim[n],
+            ticks: ["Very Inaccurate", "Very Accurate"],
+            // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+        })
+    }
+
+    var IPIP6 = {
+        type: jsPsychMultipleSlider,
+        questions: IPIP_items,
+        randomize_question_order: false,
+        preamble: "<p>This part of the questionnaire measures your personality.</p>" +
+            "<p>Please answer the following questions based on how accurately each statement describes you.</p>",
+        // require_movement: false,
+        require_movement: true,
+        slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'IPIP6',
+        }
+    };
+
+
+    /* Maladaptive Traits ---------------------------------------*/
+    var PID_items = []
+    // for (const [index, element] of PID.entries()) {
+    for (var n = 0; n < 20; n++) {
+        PID_items.push({
+            prompt: PID[n],
+            name: PID_dim[n],
+            labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    // Attention Check 2
+    PID_items.push({
+        prompt: "<b>Select the maximum value to the right to show your attention</b><br>",
+        name: "Attention_Check_2",
+        labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+        // required: false,
+        required: true,
+        // min: 0,
+        // max: 1,
+        // step: 0.01,
+        // slider_start: 0.5
+    })
+
+    for (var n = 20; n < 25; n++) {
+        PID_items.push({
+            prompt: PID[n],
+            name: PID_dim[n],
+            labels: ["<br>Very False or Often False", "<br>Sometimes or Somewhat False", "<br>Sometimes or Somewhat True", "<br>Very True or Often True"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    var PID5 = {
+        type: jsPsychSurveyLikert,
+        questions: PID_items,
+        randomize_question_order: false,
+        preamble: "<p>Below is a list of things different people might say about themselves.</p>" +
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+            "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'PID5_SF',
+        }
+    };
+
+
+    /* Schizotypal Personality -------------------------------------*/
+    var SPQ_items = []
+    //for (const [index, element] of SPQ.entries()) {
+    for (var n = 0; n < 15; n++) {
+        SPQ_items.push({
+            prompt: SPQ[n],
+            name: SPQ_dim[n],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    // Attention Check 3
+    SPQ_items.push({
+        prompt: "<b>I am awake right now</b><br>",
+        name: "Attention_Check_3",
+        labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
+        // required: false,
+        required: true,
+        // min: 0,
+        // max: 1,
+        // step: 0.01,
+        // slider_start: 0.5
+    })
+
+    for (var n = 15; n < 32; n++) {
+        SPQ_items.push({
+            prompt: SPQ[n],
+            name: SPQ_dim[n],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Neutral", "<br>Agree", "<br>Strongly Agree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    var SPQ_BRU = {
+        type: jsPsychSurveyLikert,
+        questions: SPQ_items,
+        randomize_question_order: true,
+        preamble:
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+            "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'SPQ_BRU',
+        }
+    };
+
+    /* Autistic Traits -------------------------------------*/
+    var AQ_items = []
+    //for (const [index, element] of AQ.entries()) {
+    for (var n = 0; n < 12; n++) {
+        AQ_items.push({
+            prompt: AQ[n],
+            name: AQ_dim[n],
+            labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    // Attention Check 4
+    AQ_items.push({
+        prompt: "<b>I have not been paying attention</b><br>",
+        name: "Attention_Check_4",
+        labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
+        // required: false,
+        required: true,
+        // min: 0,
+        // max: 1,
+        // step: 0.01,
+        // slider_start: 0.5
+    })
+
+    for (var n = 12; n < 28; n++) {
+        AQ_items.push({
+            prompt: AQ[n],
+            name: AQ_dim[n],
+            labels: ["<br>Definitely Agree", "<br>Slightly Agree", "<br>Slightly Disagree", "<br>Definitely Disagree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+
+    var AQ28 = {
+        type: jsPsychSurveyLikert,
+        questions: AQ_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>" +
+            "<p>We would like you to take your time and read each statement carefully, selecting the response that best describes you.</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'AQ28',
+        }
+    };
+
+
+    /* Interoception ------------------------------------------*/
+    var MAIA_items = []
+    //for (const [index, element] of MAIA.entries()) {
+    for (var n = 0; n < 7; n++) {
+        MAIA_items.push({
+            prompt: MAIA[n],
+            name: MAIA_dim[n],
+            ticks: ["Never", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    // Attention Check 5
+    MAIA_items.push({
+        prompt: "<b>When I see this question, I will respond with the lowest value to the left</b><br>",
+        name: "Attention_Check_5",
+        ticks: ["Never", "Always"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+
+    for (var n = 7; n < 37; n++) {
+        MAIA_items.push({
+            prompt: MAIA[n],
+            name: MAIA_dim[n],
+            ticks: ["Never", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    var MAIA_2 = {
+        type: jsPsychMultipleSlider,
+        questions: MAIA_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>Below you will find a list of statements.</p>" +
+            "<p>Please answer the following questions based on how often each statement applies to you generally in daily life.</p>",
+        // require_movement: false,
+        require_movement: true,
+        slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'MAIA',
+        }
+    };
+
+    // Interoceptive Accuracy
+    var IAS_items = []
+    //for (const [index, element] of ISQ.entries()) {
+    for (var n = 0; n < 18; n++) {
+        IAS_items.push({
+            prompt: IAS[n],
+            name: IAS_dim[n],
+            ticks: ["Disagree", "Agree"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    // Attention Check 6
+    IAS_items.push({
+        prompt: "<b>I can always accurately perceive that my attention is being tested by responding with strongly agree</b><br>",
+        name: "Attention_Check_6",
+        ticks: ["Strongly Disagree", "Strongly Agree"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+
+
+    var IAS_R = {
+        type: jsPsychMultipleSlider,
+        questions: IAS_items,
+        randomize_question_order: true,
+        preamble:
+            "<p>Below are several statements regarding how accurately you can perceive specific bodily sensations.</p>" +
+            "<p>Please rate on the scale on how well you believe you can perceive each specific signal.</p>" +
+            "<p>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet you would rate your accuracy perceiving this bodily signal as low.</p>" +
+            "<p>Please only rate how well you can perceive these signals without using external cues.</p>" +
+            "<p>For example, if you can only perceive how fast your heart is beating when you measure it by taking your pulse this would not count as accurate internal perception</p>",
+        // require_movement: false,
+        require_movement: true,
+        slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'IAS_R',
+        }
+    };
+
+
+    /* Borderline Personality --------------------------------*/
+    var MSI_items = []
+    // for (const [index, element] of MSI.entries()) {
+    for (var n = 0; n < 5; n++) {
+        MSI_items.push({
+            prompt: MSI[n],
+            name: "MSI_" + n,
+            ticks: ["Definitely No", "Definitely Yes"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    // Attention Check 7
+    MSI_items.push({
+        prompt: "<b>Have you been paying attention?</b><br>",
+        name: "Attention_Check_7",
+        ticks: ["Definitely No", "Definitely Yes"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+
+
+    for (var n = 5; n < 10; n++) {
+        MSI_items.push({
+            prompt: MSI[n],
+            name: "MSI_" + n,
+            ticks: ["Definitely No", "Definitely Yes"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    var MSI_BPD = {
+        type: jsPsychMultipleSlider,
+        questions: MSI_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>For this part, we are interested in finding out how you would describe yourself.</p>" +
+            "<p>Below you will find a list of statements.</p>" +
+            "<p>Please answer the following questions based on how accurately each statement describes you.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+        // require_movement: false,
+        require_movement: true,
+        slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'MSI_BPD',
+        }
+    };
+
+    /* Depression - Anxiety ----------------------------------*/
+    var PHQ_items = []
+    for (const [index, element] of PHQ.entries()) {
+        PHQ_items.push({
+            prompt: element,
+            name: PHQ_dim[index],
+            labels: ["<br>Not at All", "<br>Several Days", "<br>More than Half the Days", "<br>Nearly Every Day"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    var PHQ_4 = {
+        type: jsPsychSurveyLikert,
+        questions: PHQ_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>Over the last 2 weeks, how often have you been bothered by the following problems?</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'PHQ_4',
+        }
+    };
+
+    /* Conspiracist Beliefs ----------------------------------*/
+    var GCBS_items = []
+    //for (const [index, element] of GCBS.entries()) {
+    for (var n = 0; n < 8; n++) {
+        GCBS_items.push({
+            prompt: GCBS[n],
+            name: GCBS_dim[n],
+            labels: ["<br>Definitely Not True", "<br>Probably Not True", "<br>Not Sure / Cannot Decide", "<br>Probably True", "<br>Definitely True"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    // Attention Check 8
+    GCBS_items.push({
+        prompt: "<b>The government knows I am asleep right now</b><br>",
+        name: "Attention_Check_8",
+        labels: ["<br>Definitely Not True", "<br>Probably Not True", "<br>Not Sure / Cannot Decide", "<br>Probably True", "<br>Definitely True"],
+        // required: false,
+        required: true,
+        // min: 0,
+        // max: 1,
+        // step: 0.01,
+        // slider_start: 0.5
+    })
+
+    for (var n = 8; n < 15; n++) {
+        GCBS_items.push({
+            prompt: GCBS[n],
+            name: GCBS_dim[n],
+            labels: ["<br>Definitely Not True", "<br>Probably Not True", "<br>Not Sure / Cannot Decide", "<br>Probably True", "<br>Definitely True"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    var GCBS_scale = {
+        type: jsPsychSurveyLikert,
+        questions: GCBS_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>There is often debate about whether or not the public is told the whole truth about various important issues.</p>" +
+            "<p>For this part, we are interested in finding out your beliefs about some of these subjects.</p>" +
+            "<p>Please indicate the degree to which you believe each statement is likely to be true.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'GBCS',
+        }
+    };
+
+    /* Primals ------------------------------------*/
+    var PI_items = []
+    //for (const [index, element] of PI.entries()) {
+    for (var n = 0; n < 20; n++) {
+        PI_items.push({
+            prompt: PI[n],
+            name: PI_dim[n],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    // Attention Check 9 (note that this attention check item is one of the 3 used to validate the PI-99 in the original paper)
+    PI_items.push({
+        prompt: "<b>If you are doing your best to complete this survey honestly, please strongly agree with this statement</b><br>",
+        name: "Attention_Check_9",
+        labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
+        // required: false,
+        required: true,
+        // min: 0,
+        // max: 1,
+        // step: 0.01,
+        // slider_start: 0.5
+    })
+
+
+    for (var n = 20; n < 32; n++) {
+        PI_items.push({
+            prompt: PI[n],
+            name: PI_dim[n],
+            labels: ["<br>Strongly Disagree", "<br>Disagree", "<br>Slightly Disagree", "<br>Slightly Agree", "<br>Agree", "<br>Strongly Agree"],
+            // required: false,
+            required: true,
+            // min: 0,
+            // max: 1,
+            // step: 0.01,
+            // slider_start: 0.5
+        })
+    }
+
+    var PI_scale = {
+        type: jsPsychSurveyLikert,
+        questions: PI_items,
+        randomize_question_order: true,
+        preamble:
+            "<p>Below are very general statements about the world - not the world we wish we lived in, but the actual world <b>as it is now</b>.</p>" +
+            "<p>Please indicate the extent to which you agree with each statement</p>" +
+            "<p>When in doubt, go with what initially feels true of the real world.</p>" +
+            "<p>There are no right or wrong answers so you can respond as honestly as possible.</p>",
+        // require_movement: false,
+        // require_movement: true,
+        // slider_width: 600,
+        // min: 0,
+        // max: 100,
+        // slider_start: 50,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'PI_18',
+        }
+    };
+
+    /* LIE Profile --------------------------------------*/
+    var LIE_items = []
+    //for (const [index, element] of MAIA.entries()) {
+    for (var n = 0; n < 12; n++) {
+        LIE_items.push({
+            prompt: lie_scale[n],
+            name: lie_dim[n],
+            ticks: ["Disagree", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    // Attention Check 10
+    LIE_items.push({
+        prompt: "<b>I can demonstrate my attention by responding with the option on the extreme right</b><br>",
+        name: "Attention_Check_10",
+        ticks: ["Disagree", "Agree"],
+        // required: false,
+        required: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5
+    })
+
+    for (var n = 12; n < 16; n++) {
+        LIE_items.push({
+            prompt: lie_scale[n],
+            name: lie_dim[n],
+            ticks: ["Disagree", "Always"],
+            // required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+        })
+    }
+
+    var lie_profile = {
+        type: jsPsychMultipleSlider,
+        questions: LIE_items,
+        randomize_question_order: true,
+        preamble:
+            "<p>About lying...</p><p>Most people think a lie occurs any time you intentionally try to mislead someone. Some lies are big while others are small. Some are completely false statements and others are truths with details made up or left out. Some lies are obvious, and some are very subtle. Some lies are told for a good reason, some lies are not. Some lies are selfish, and some lies help others.</p>" +
+            "<p>We are interested in all these different types of lies and we seek your collaboration to help us to respond to the following questions as accurately and truthfully as possible. Please note that your answers are <b>completely anonymous</b>. They are safely stored and protected, and the data will be used only for the purpose of this scientific investigation.</p>",
+        // require_movement: false,
+        require_movement: true,
+        slider_width: 600,
+        // min: 0,
+        // max: 10,
+        // slider_start: 5,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: 'LIE',
+        }
+    };
+
+
+    /* ================================================================ */
+    /* ---------------------- END OF EXPERIMENT ----------------------- */
+    /* ================================================================ */
+        if (i < 3){
+            for (var t of jsPsych.randomization.shuffleNoRepeats([
+                timeline_mullerlyer,
+                timeline_ebbinghaus,
+                timeline_verticalhorizontal,
+            ])) {
+                timeline.push({timeline: t})
+                }
+        } else {
+            // if (i===3){
+            //     timeline.push(perceptual_instructions)
+            // }
+            for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
+                timeline_mullerlyer_perceptual,
+                timeline_ebbinghaus_perceptual,
+                timeline_verticalhorizontal_perceptual,
+        ])) {
+            timeline.push({timeline: t_percep})
+        }}
+        if (i === 2) {
+            timeline.push(make_break1)
+            for (var t_scale of jsPsych.randomization.shuffleNoRepeats([
+                IPIP6,
+                PID5,
+                SPQ_BRU,
+                AQ28,
+                MAIA_2,
+                IAS_R,
+                PHQ_4,
+                MSI_BPD,
+                GCBS_scale,
+                PI_scale,
+                lie_profile
+        ])) {
+            timeline.push(t_scale)
+            }
+            timeline.push(make_break2)
+            timeline.push(perceptual_instructions)
+        }
+    }
+
+    // Debriefing Information
+    var end_experiment = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["End"],
+        stimulus: function () {
+            var results = get_results(
+                1000, // population_scores["Total"]["IES_Mean"][0],
+                400 // population_scores["Total"]["IES_SD"][0]
+            )
+            var show_screen = get_debrief_display(results, "Final")
+            return (
+                //show_screen.display_score +
+                // "<hr>" +
+                // show_screen.display_comparison +
+                //"<hr>" +
+                "<p>Thank you for participating!</p>" +
+                "<p>You will now be redirected to Prolific to be reimbursed.</p>" +
+                "<p>Please click 'OK' when asked to leave the site.</p>"
+            )
+        },
+        data: {screen: "final_results"},
+    }
+    timeline.push(end_experiment)
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+    })
+
+
+    // /* Close connection to Pavlovia---*/
+    // var pavlovia_finish = {
+    //         type: jsPsychPavlovia,
+    //         command: "finish",
+    //         participantId: participant_id,
+    //         completedCallback: function (){
+    //             window.location.replace('https://app.prolific.co/submissions/complete?cc=XXX');
+    //     }
+    // }
+
+
+    jsPsych.run(timeline)
+
+
+
+</script>
+
+</html>
