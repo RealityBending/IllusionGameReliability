@@ -565,7 +565,7 @@ var SPQ = [
     "<b>I find it hard to be emotionally close to other people</b><br>",
     "<b>I feel that there is no one I am really close to outside of my immediate family, or people I can confide in or talk to about personal problems</b><br>",
     "<b>I tend to keep my feelings to myself</b><br>",
-    "<b>I rarely laugh and smile.</b><br>",
+    "<b>I rarely laugh and smile</b><br>",
     "<b>I am not good at expressing my true feelings by the way I talk and look</b><br>",
     "<b>Other people see me as slightly eccentric (odd)</b><br>",
     "<b>I am an odd, unusual person</b><br>",
@@ -586,7 +586,8 @@ var SPQ = [
     "<b>I often hear a voice speaking my thoughts aloud</b><br>",
     "<b>When I look at a person or at myself in a mirror, I have seen the face change right before my eyes</b><br>",
     "<b>My thoughts are sometimes so strong that I can almost hear them</b><br>",
-    "<b>Everyday things seem unusually large or small.</b><br>",
+    "<b>Everyday things seem unusually large or small</b><br>",
+
 ]
 // * SPQ-BRU has 4 higher-order factors (cognitive-perceptual [suspiciousness, magical thinking, ideas of reference and unusual perceptions], interpersonal [no close friends, constricted affect], disorganized (eccentric behavior and odd speech] and social anxiety)
 var SPQ_dim = [
@@ -630,7 +631,7 @@ var AQ = [
     "<b>I prefer to do things the same way over and over again</b><br>",
     "<b>Trying to imagine something, I find it easy to create a picture in my mind</b><br>",
     "<b>I frequently get strongly absorbed in one thing</b><br>",
-    "<b>I usually notice car number plates or similar strings of information </b><br>",
+    "<b>I usually notice car number plates or similar strings of information</b><br>",
     "<b>Reading a story, I can easily imagine what the characters might look like</b><br>",
     "<b>I am fascinated by dates</b><br>",
     "<b>I can easily keep track of several different people's conversations</b><br>",
@@ -639,7 +640,7 @@ var AQ = [
     "<b>I find making up stories easy</b><br>",
     "<b>I find myself drawn more strongly to people than to things</b><br>",
     "<b>I am fascinated by numbers</b><br>",
-    "<b>Reading a story, I find it difficult to work out the character's intentions </b><br>",
+    "<b>Reading a story, I find it difficult to work out the character's intentions</b><br>",
     "<b>I find it hard to make new friends</b><br>",
     "<b>I notice patterns in things all the time</b><br>",
     "<b>It does not upset my if my daily routine is disturbed</b><br>",
@@ -649,7 +650,7 @@ var AQ = [
     "<b>If there is an interruption, I can switch back very quickly</b><br>",
     "<b>I like to collect information about categories of things</b><br>",
     "<b>I find it difficult to imagine what it would be like to be someone else</b><br>",
-    "<b>I enjoy social occasions </b><br>",
+    "<b>I enjoy social occasions</b><br>",
     "<b>I find it difficult to work out people's intentions</b><br>",
     "<b>New situations make me anxious</b><br>",
     "<b>I enjoy meeting new people</b><br>",
@@ -690,9 +691,9 @@ var AQ_dim = [
 // Cognitive Flexibility Inventory
 var CFI = [
     "<b>I am good at 'sizing up' situations</b><br>",
-    "<b>I have a hard time making decisions when faced with difficult situations </b><br>",
+    "<b>I have a hard time making decisions when faced with difficult situations</b><br>",
     "<b>I consider multiple options before making a decision</b><br>",
-    "<b>When I encounter difficult situations, I feel like I am losing control </b><br>",
+    "<b>When I encounter difficult situations, I feel like I am losing control</b><br>",
     "<b>I like to look at difficult situations from many different angles</b><br>",
     "<b>I seek additional information not immediately available before attributing causes to behaviour</b><br>",
     "<b>When encountering difficult situations, I become so stressed that I can not think of a way to resolve the situation</b><br>",
@@ -705,7 +706,7 @@ var CFI = [
     "<b>I often look at a situation from different viewpoints</b><br>",
     "<b>I am capable of overcoming the difficulties in life that I face</b><br>",
     "<b>I consider all the available facts and information when attributing causes to behaviour</b><br>",
-    "<b>I feel I have no power to change things in difficult situations </b><br>",
+    "<b>I feel I have no power to change things in difficult situations</b><br>",
     "<b>When I encounter difficult situations, I stop and try to think of several ways to resolve it</b><br>",
     "<b>I can think of more than one way to resolve a difficult situation I'm confronted with</b><br>",
     "<b>I consider multiple options before responding to difficult situations</b><br>",
@@ -736,7 +737,7 @@ var CFI_dim = [
 
 // Short form - Five Factor Mindfulness Questionnaire (15 items)
 var FFMQ = [
-    "<b>When I take a shower or a bath, I stay alert to the sensations of water on my body.</b><br>",
+    "<b>When I take a shower or a bath, I stay alert to the sensations of water on my body</b><br>",
     "<b>I'm good at finding words to describe my feelings</b><br>",
     "<b>I don't pay attention to what I'm doing because I'm daydreaming, worrying, or otherwise distracted</b><br>",
     "<b>I believe some of my thoughts are abnormal or bad and I shouldn't think that way</b><br>",
@@ -744,7 +745,7 @@ var FFMQ = [
     "<b>I notice how foods and drinks affect my thoughts, bodily sensations, and emotions</b><br>",
     "<b>I have trouble thinking of the right words to express how I feel about things</b><br>",
     "<b>I do jobs or tasks automatically without being aware of what I'm doing</b><br>",
-    "<b>I think some of my emotions are bad or inappropriate and I shouldn't feel </b><br>",
+    "<b>I think some of my emotions are bad or inappropriate and I shouldn't feel</b><br>",
     "<b>When I have distressing thoughts or images I am able just to notice them without reacting.</b><br>",
     "<b>I pay attention to sensations, such as the wind in my hair or sun on my face</b><br>",
     "<b>Even when I'm feeling terribly upset I can find a way to put it into words</b><br>",
@@ -862,7 +863,7 @@ var PI = [
     "<b>It often feels like events are happening in order to help me in some way</b><br>",
     "<b>I tend to see the world as pretty safe</b><br>",
     "<b>What happens in the world is meant to happen</b><br>",
-    "<b>While some things are worth checking out or exploring further, most things probably aren't worth the effort.</b><br>",
+    "<b>While some things are worth checking out or exploring further, most things probably aren't worth the effort</b><br>",
     "<b>Most things in life are kind of boring</b><br>",
     "<b>The world is an abundant place with tons and tons to offer</b><br>",
     "<b>No matter where we are or what the topic might be, the world is fascinating</b><br>",
@@ -884,11 +885,11 @@ var PI = [
     "<b>Most things in the world could be ranked in order of importance</b><br>",
     "<b>Things are rarely equal. Most plants and animals, and even people, are better or worse than one another</b><br>",
     "<b>Most things can be organized into hierarchies, rankings, or pecking orders that reflect true differences among things</b><br>",
-    "<b>Humans, animals, plants, and pretty much everything else can be organized by how important or good they are.</b><br>",
+    "<b>Humans, animals, plants, and pretty much everything else can be organized by how important or good they are</b><br>",
     "<b>Most things aren't better or worse. It's hard to organize the world into hierarchies, rankings, or pecking orders that reflect true differences</b><br>",
     "<b>The world is easy enough to understand</b><br>",
     "<b>Most everything is easy enough to understand</b><br>",
-    "<b>The world is a confusing place where many skills and subjects are too hard to figure out.</b><br>",
+    "<b>The world is a confusing place where many skills and subjects are too hard to figure out</b><br>",
     "<b>Lots of things in the world are too confusing and difficult to understand</b><br>",
 ]
 
@@ -967,7 +968,7 @@ var MAIA = [
     "<b>I try to ignore pain</b><br>",
     "<b>I push feelings of discomfort away by focusing on something</b><br>",
     "<b>When I feel unpleasant body sensations, I occupy myself with something else so I don't have to feel them</b><br>",
-    "<b>When I feel physical pain, I become upset.</b><br>",
+    "<b>When I feel physical pain, I become upset</b><br>",
     "<b>I start to worry that something is wrong if I feel any discomfort</b><br>",
     "<b>I can notice an unpleasant body sensation without worrying about it</b><br>",
     "<b>I can stay calm and not worry when I have feelings of discomfort or pain</b><br>",
