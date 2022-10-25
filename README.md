@@ -90,7 +90,7 @@ Participants were invited to complete the illusion task again, about 1 week foll
 
 ### Sampling plan
 
-Our target sample size is 50 participants with complete data, consistent with the sample size of past reaction-time behavioural studies (Hedge et al., 2017;  Dmochowsk & Norcia, 2015).
+Our target sample size is 50 participants with complete data, consistent with the sample size of past reaction-time behavioural studies ([Hedge et al., 2017](https://doi.org/10.3758/s13428-017-0935-1); [Dmochowsk & Norcia, 2015](10.1371/journal.pone.0143339)).
 
 Participants will be recruited through advertising using university mailing lists, posters, flyers and online social media platforms (e.g., Facebook, Telegram etc.,). The study is estimated to take approximately 1 hour to complete. Each participant will be paid SGD50 upon completing the study. Only individuals above the age of 21 and proficient in English will be eligible to participate in this study. Each subject will be briefed about the experimental procedure and sign an informed consent form prior to taking part in the experiment. All participants will be reimbursed 50 Singapore Dollars in cash upon completion of the study. The study was approved by the Institutional Review Board (Reference Number: IRB-2022-187) of Nanyang Technological University (NTU).
 
