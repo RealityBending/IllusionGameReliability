@@ -1,19 +1,27 @@
 # IllusionGameReliability
 
 ## Introduction 
-The main aim of this study is to assess the reliability of the general factor of illusion sensitivity (Factor *i*), and its correlations with inter-individual traits, that we found in a previous study.
+Visual illusions are beguiling stimuli that can demonstrate how the brain integrates prior beliefs with incoming sensory evidence to inform our perceptions of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research had suggested a common mechanism underlying people's susceptibility to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies observed at most weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). As such,in a previous study, we aimed to investigate if sensitivity to illusions is stable within individuals across different illusions. To this end, we found evidence in favor of a general factor (labelled Factor *i*) underlying the sensitivity to different illusions. Furthermore, our results show significant correlations between illusion sensitivity and 'normal' personality traits such as Agreeableness and Honesty-Humility, as well as pathological traits such as Psychoticism, Antagonism, Disinhibition, and Negative Affect.
+
+The main aim of the current study is to assess the reliability of the general factor of illusion sensitivity (Factor *i*), and its correlations with inter-individual traits, that we found in the previous study.
 
 ## Hypotheses
 
 1. **Effect of Illusion Strength and Difficulty**
 1.1 *On error rate*
-1.1.1 Positive effect of illusion strength on error rate (H0: no effect)
-1.1.2 Positive effect of task difficulty on error rate (H0: no effect)
+    1.1.1 Positive effect of illusion strength on error rate (H0: no significant effect)
+    1.1.2 Positive effect of task difficulty on error rate (H0: no significant effect)
 1.2 *On RT*
+    1.2.1 Negative quadratic effect of illusion strength on response time (H0: no significant effect)
+    1.2.2 Negative quadratic effect of task difficulty on response time (H0: no significant effect)
 2. **General Factor**
+    2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions 
 3. **Reliability**
+    3.1 Across different illusions, inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*) (H0: no significant correlation)
 4. **Stability**
+    4.1 Across different illusion, inter-individual illusion scores will not significantly vary (H0: significant variation in intra-individual illusion scores)
 5. **Dispositional Correlates**
+    5.1 Inter-individual illusion scores correlate significantly with 'normal' and pathological personality traits even after adjustment for individual perceptual abilities
 
 ## Methods
 
@@ -21,7 +29,9 @@ The main aim of this study is to assess the reliability of the general factor of
 
 ### Pilot data
 
-10 participants were recruited ...
+10 participants were recruited via *Prolific*, a crowd-sourcing platform for administering online social and behavioural research. The only inclusion criterion specified was a fluent proficiency in English to ensure that the task instructions would be well-understood. Participants were incentivised with a reward of about \textsterling 7.50 for completing the task, which took about 50 minutes to finish. Demographic variables (age, gender, and ethnicity) were self-reported on a voluntary basis.
+
+...
 
 ### Procedure
 
@@ -29,17 +39,17 @@ The main aim of this study is to assess the reliability of the general factor of
 
 Similarly to the previous study, the manipulated experimental variables are the *illusion strength* (i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus). 3 illusions were included - namely, Ebbinghaus, Müller-Lyer, and Vertical-Horizontal, that was previously found to most strongly contribute to the general Factor *i*.
 
-The task starts with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a second series is presented (with different items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3), in which the goal was to answer "as fast as possible and without making errors" (an explicit double constraint on the speed-accuracy trade-off). Trials of the same block were separated by a fixation cross (presented for a random duration  bewteen 500 - 1000 s), that was spatially jittered around the center of the screen (in a radius of a 1 cm), attenuating its usefulness as a potential reference point.   
+The task starts with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a different series is presented (with distinct items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3), of which the goal was to answer "as fast as possible and without making errors" (an explicit double constraint on the speed-accuracy trade-off). Trials of the same block were separated by a fixation cross (presented for a random duration between 500 - 1000s), that was spatially jittered around the center of the screen (in a radius of a 1 cm), attenuating its usefulness as a potential reference point.   
 
 #### Perceptual Task
 
-To confirm that the illusion sensitivity measured by the illusion task is not just a pure reflection of perceptual abilities, participants were presented with a similar task, but in which targets were presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
+To confirm that the illusion sensitivity measured by the illusion task is not just a pure reflection of perceptual abilities, participants are presented with a perception task that is largely similar to the illusion task, but in which targets are presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes will be displayed side by side without the surrounding circles that create the illusion.
 
-The perceptual trial blocks will be administered at the end, after a series of questionnaires (see below). Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similarly to the illusion task. In total, each participant completes 192 perceptual task trials (2 x 32 x 3).
+The perceptual trial blocks will be administered towards the end of the experiment, after a series of self-report questionnaires (see below). Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similarly to the illusion task. In total, each participant completes 192 perceptual task trials (2 x 32 x 3).
 
 #### Questionnaires
 
-A series of questionnaires was administered in between the illusion task and the perceptual task, in a randomized order. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items).
+A series of questionnaires are administered in between the illusion task and the perceptual task, in a randomized order. All scales are presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items). Visual analog scales, instead of Likert scales with only 2 extreme anchors, were adapted for the MAIA, MSI-BPD, Mini-IPIP6 and IAS questionnaires to limit centrality bias.
 
 ##### Personality
 
@@ -50,7 +60,7 @@ With the goal of replicating the previous study and confirming the links between
 
 ##### Psychopathology
 
-Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal and autistic traits. Divergent validity was assessed by measuring depression and anxiety, as we do not hypothesize links with illusion sensitivity.
+Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978); [Lanyi et al., 2022](10.31234/osf.io/cbsm3)), anxious ([Passie et al., 2013](10.1080/13548506.2012.722649); [Ioakeimidis et al., 2021](10.1017/pen.2020.16)) and autistic traits ([Gori et al., 2016](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4842763/); [Razeghi et al., 2022](https://doi.org/10.1080/03004430.2020.1802260);[Park et al., 2022](10.1111/ejn.15739)). Divergent validity was assessed by measuring depression, as we do not hypothesize links with illusion sensitivity ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](10.1080/13548506.2012.722649)).
 
 - The [**SPQ-BRU**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/) (Schizotypal Personality Questionnaire – brief revised updated; Davidson et al., 2016) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point likert scale items (Strongly Disagree - Strongly Agree).
 - The [**ASQ - Short**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/) (Autism-Spectrum Quotient; Hoekstra et al., 2011) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
@@ -66,7 +76,7 @@ Imprecise predictions of internal bodily signals has been associated with an inc
 
 ##### Beliefs and Misbeliefs
 
-[van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
+[van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features). To this end, 
 
 
 - The [**GCB**](https://doi.org/10.3389/fpsyg.2013.00279) (Generic Conspiracist Beliefs scale; Brotherton, 2013) measures 5 aspects related to conspiracy beliefs (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using 15 5-point likert scale items (defintely not true - defintely true).
@@ -80,4 +90,15 @@ Participants were invited to complete the illusion task again, about 1 week foll
 
 ### Sampling plan
 
+Our target sample size is 200 participants with complete data. While past reaction-time behavioural studies have been inclined to use a smaller sample size (i.e., 30-50) (Hedge et al., 2017;  Dmochowsk & Norcia, 2015), a larger sample size is warranted in this study given the continuous nature of the two main experimental variables and the nature of our statistical models (that model both inter- and intra-individual parameters). Furthermore, as this study is fully online, a larger sample size was chosen to compensate for potential concerns regarding data quality (e.g., participants not paying attention, not motivated, etc.).
+
+As per the pilot study, participants will be recruited online using the *Prolific* platform. The study is estimated to take approximately 1 hour to complete. Each participant will be paid \textsterling 7.50 upon completing the study. Following *Prolific* rules, additional payments to participants will be given if the median completion time exceeds the estimate given. Only individuals above the age of 21 and proficient in English will be eligible to participate in this study.
+
+The purpose of the study is briefly explained on the title page of the online study without explicitly stating the research hypotheses. Informed consent is then obtained before participants are allowed to begin the study. Participants are informed that the study is completely voluntary and that they can choose to discontinue the study at any time without any penalty. Confidentiality of the participants is upheld with complete anonymity as the IP address of each response will not be collected. 
+
+Before the study begins, participants will be asked to answer a few personal demographic questions (e.g., age, sex, ethnicity, education level) to better characterize our population. They will then proceed to participate in the first set of two illusion blocks, each consisting of distinct stimuli, after which they will be given a break. The study will only proceed when participants click the button to ‘Continue’, following which participants answer a series of questionnaires (see above). After the questionnaires, participants complete a one of two perceptual blocks. Once the perceptual task has been completed, participants will be thanked for participating in the study and be compensated accordingly. 
+
+
 ### Analysis Plan
+Data of participants with outlying scores (in regard to the population distributions) will be further examined and potentially excluded if there is reason to suspect that they did not pay attention to the task (e.g., failing to make the appropriate response to attention check items embedded in questionnaires, the presence of a high number of errors in “easy” trials, as well as a very short total duration, might suggest that participants answered randomly to quickly finish the task). In this study, missing data is prevented through the implementation of a forced-choice reaction-time behavioural task, in which the trial does not proceed to the next display until participants make a response.
+
