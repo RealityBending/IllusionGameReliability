@@ -144,16 +144,7 @@ Participants were invited to complete the illusion task again, about 2 weeks fol
 
 ### Sampling plan
 
-The Bayesian analysis approach moves the focus towards evidence quantification (for instance, by means of Bayes factors). A frequentist power-analysis (https://sample-size.net/correlation-sample-size/) was run nonetheless based on the average correlation magnitude reported by [Makowski et al. (*under review*)], with α = .05, β = .2, r = .17, and suggested a minimum target sample of 240 participants. To account for the online measurement context, outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 400 participants. 
-
----
-
-Our target sample size is 50 participants with complete data, consistent with the sample size of past reaction-time behavioural studies ([Hedge et al., 2017](https://doi.org/10.3758/s13428-017-0935-1); [Dmochowsk & Norcia, 2015](10.1371/journal.pone.0143339)).
-
-Participants will be recruited through advertising using university mailing lists, posters, flyers and online social media platforms (e.g., Facebook, Telegram etc.,). The study is estimated to take approximately 1 hour to complete. Each participant will be paid SGD50 upon completing the study. Only individuals above the age of 21 and proficient in English will be eligible to participate in this study. Each subject will be briefed about the experimental procedure and sign an informed consent form prior to taking part in the experiment. All participants will be reimbursed 50 Singapore Dollars in cash upon completion of the study. The study was approved by the Institutional Review Board (Reference Number: IRB-2022-187) of Nanyang Technological University (NTU).
-
-Before the study begins, participants will be asked to answer a few personal demographic questions (e.g., age, sex, ethnicity, education level) to better characterize our population. They will then proceed to participate in the first set of two illusion blocks, each consisting of distinct stimuli, after which they will be given a break. The study will only proceed when participants click the button to ‘Continue’, following which participants answer a series of questionnaires (see above). After the questionnaires, participants complete a one of two perceptual blocks. Once the perceptual task has been completed, participants will be thanked for participating in the study and be compensated accordingly. 
-
+Although the Bayesian analysis approach moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (https://sample-size.net/correlation-sample-size/). Based on the average correlation reported by [Makowski et al. (*under review*)], with α = .05, β = .2, r = .17, it suggested a minimum target sample of 240 participants. To account for the outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 400 participants. 
 
 ### Analysis Plan
 
