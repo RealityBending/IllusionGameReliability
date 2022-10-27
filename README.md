@@ -17,62 +17,62 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 #### Psychometry
 
 1. **Effect of Illusion Strength and Difficulty**
-1.1 *On error rate*
-    1.1.1 Positive effect of illusion strength on error rate 
-    1.1.2 Positive effect of task difficulty on error rate (H0: no significant effect)
-1.2 *On RT*
-    1.2.1 Negative effect of illusion strength on response time (H0: no significant effect)
-    1.2.2 Negative effect of task difficulty on response time (H0: no significant effect)
+    - 1.1 *On error rate*
+        - 1.1.1 Positive effect of illusion strength on error rate
+        - 1.1.2 Positive effect of task difficulty on error rate
+    - 1.2 *On RT*
+        - 1.2.1 Negative effect of illusion strength on response time 
+        - 1.2.2 Negative effect of task difficulty on response time
 2. **General Factor *i***
-    2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions 
+    - 2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions 
     
 #### Inter-individual Correlates 
 
 3. **Normal personality traits**
-    3.1 Positive correlation between illusion sensitivity and Aggreableness
-    3.2 Positive correlation between illusion sensitivity and Honesty-Humility
+    - 3.1 Positive correlation between illusion sensitivity and Aggreableness
+    - 3.2 Positive correlation between illusion sensitivity and Honesty-Humility
 4. **Maladaptive personality traits**
-    4.1 Negative correlation between illusion sensitivity and Antagonism
-    4.2 Negative correlation between illusion sensitivity and Disinhibition
-    4.3 Negative correlation between illusion sensitivity and Negative Affect
-    4.4 Negative correlation between illusion sensitivity and Psychoticism
+    - 4.1 Negative correlation between illusion sensitivity and Antagonism
+    - 4.2 Negative correlation between illusion sensitivity and Disinhibition
+    - 4.3 Negative correlation between illusion sensitivity and Negative Affect
+    - 4.4 Negative correlation between illusion sensitivity and Psychoticism
 
 ### Confirmation
 
 **TODO: maybe attempt at specifying sub-dimensions: like "in particular the ... and ... dimensions**
 
 5. **Autism and Schizotypic traits**
-    5.1 Negative correlation between illusion sensitivity and autistic traits
-    5.2 Negative correlation between illusion sensitivity and schizotypic personality
+    - 5.1 Negative correlation between illusion sensitivity and autistic traits
+    - 5.2 Negative correlation between illusion sensitivity and schizotypic personality
 6. **Mood and Emotion Regulation**
-    6.1 ... correlation between illusion sensitivity and depression scores
-    6.2 ... correlation between illusion sensitivity and anxiety scores
-    6.2 ... correlation between illusion sensitivity and borderline personality traits
+    - 6.1 ... correlation between illusion sensitivity and depression scores
+    - 6.2 ... correlation between illusion sensitivity and anxiety scores
+    - 6.2 ... correlation between illusion sensitivity and borderline personality traits
 7. **Conspiracy Beliefs**
-    7.1 ... correlation between illusion sensitivity and conspiracy beliefs
+    - 7.1 ... correlation between illusion sensitivity and conspiracy beliefs
 
 ### Exploration
 
 #### Psychometry
 
 8. **Test-retest Reliability**
-    8.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
+    - 8.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
 9. **Within-participants Stability**
-    9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants). 
+    - 9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants). 
 10. **Perceptual independence**
-    10.1 None to weak correlation between illusion sensitivity and perceptual ability.
+    - 10.1 None to weak correlation between illusion sensitivity and perceptual ability.
 
 #### Inter-individual Correlates 
 
 11. **Interoception**
-    11.1 ... correlation between illusion sensitivity and interoception
+    - 11.1 ... correlation between illusion sensitivity and interoception
 12. **Lying tendency**
-    11.1 ... correlation between illusion sensitivity and deception profile
+    - 11.1 ... correlation between illusion sensitivity and deception profile
 13. **Primal beliefs**
-    13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
-    13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
-    13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
-    13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
+    - 13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
+    - 13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
+    - 13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
+    - 13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
 
 
 
