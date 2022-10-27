@@ -163,17 +163,17 @@
             {
                 prompt: "Please enter your age (in years, e.g., '31')",
                 name: "age",
-                required: true,
+                //required: true,
             },
             // {
             //     prompt: "Please enter your country of birth (e.g., 'France')",
             //     name: "nationality",
-            //     required: true,
+            //     //required: true,
             // },
             {
                 prompt: "Please enter your ethnicity (e.g., 'Caucasian')",
                 name: "ethnicity",
-                required: true,
+                //required: true,
             }
         ],
         on_finish: function () {
@@ -195,13 +195,13 @@
                 prompt: 'What is your gender?',
                 options: ["Male", "Female", "Other", "Prefer not to say"],
                 name: "sex",
-                required: true,
+                //required: true,
             },
             {
                 prompt: "What is your highest completed education level?",
                 options: ["University (doctorate)", "University (master)", "University (bachelor)", "High school", "Other", "Prefer not to say"],
                 name: "education",
-                required: true,
+                //required: true,
             }
         ],
         data: {
@@ -224,25 +224,23 @@
         ],
     })
 
-    // General Instructions
-    var general_instructions = {
-        type: jsPsychHtmlButtonResponse,
-        choices: ["Start the practice!"],
-        stimulus:
-            "<p><b>Part 1: Illusion Game</b></p>" +
-            "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
-            "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
-        data: {screen: "general_instructions"},
-    }
-    timeline.push(general_instructions)
-
-
     /* ============================================================== */
-    /*  -----------------------Practice Block-------------------------*/
+    /*  -------------------Illusion Practice -------------------------*/
     /* ============================================================== */
 
     // var block_number = 0   //For debugging only
     // var trial_number = 0
+
+    // Illusion Instructions
+    var illusion_instructions = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["Start the practice!"],
+        stimulus:
+            "<p><b>Illusion Game</b></p>" +
+            "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
+            "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
+        data: {screen: "illusion_instructions"},
+    }
 
     /* ----------------------Ebbinghaus Practice----------------------------*/
     var ebbinghaus_practice = make_trial(
@@ -251,8 +249,6 @@
         (illusion_name = "Ebbinghaus"),
         (type = 'leftright'))
 
-    timeline.push({timeline: ebbinghaus_practice})
-
     /* ----------------------Muller-Lyer Practice----------------------------*/
     var mullerlyer_practice = make_trial(
         (stimuli = stimuli_training),
@@ -260,7 +256,6 @@
         (illusion_name = "MullerLyer"),
         (type = 'updown'))
 
-    timeline.push({timeline: mullerlyer_practice})
 
     /* ----------------------Vertical Horizaontal Practice----------------------------*/
     var verticalhorizontal_practice = make_trial(
@@ -268,11 +263,6 @@
         (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
         (type = 'leftright'))
 
-    timeline.push({timeline: verticalhorizontal_practice})
-
-    /* ================================================================ */
-    /* ---------------------- END OF Practice ----------------------- */
-    /* ================================================================ */
     var end_practice = {
         type: jsPsychHtmlButtonResponse,
         choices: ["Let's Play!"],
@@ -283,138 +273,169 @@
             "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score), but the order of the blocks is random.</p>" +
             "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible. Good luck!</p><br>",
         data: {screen: "practice_debrief"},
+        on_finish: function () {
+            block_number = 1   // reset block number for illusion trials
+        }
     }
-    timeline.push(end_practice)
+
+    // Create Illusion Task Practice Block
+    var illusion_practice_block = {
+        timeline: [illusion_instructions,
+                {timeline:ebbinghaus_practice},
+                {timeline:mullerlyer_practice},
+                {timeline:verticalhorizontal_practice},
+                end_practice],
+    };
 
 
     /* ============================================================== */
-    /*  -----------------------Experiment Block-------------------------*/
+    /*  -----------------------TASK BLOCKS---------------------------*/
     /* ============================================================== */
     // Set experiment variables
     var trial_number = 1 // trial indexing variable starts at 1 for convenience
     var block_number = 1 // block indexing variable
 
-    // Set up block loop for different stimuli set
-    // for (var i of [1, 2]) {
-    for (var i = 1; i < 5; i++) {
-        if (i === 1) {
-            stimuli = stimuli_part1
-        } else if (i === 2) {
-            stimuli = stimuli_part2
-        } else if (i === 3 ){
-            stimuli = stimuli_perceptual1
-        } else {
-            stimuli = stimuli_perceptual2
-        }
+    // for (var i = 1; i < 5; i++) {
+    //     if (i === 1) {
+    //         stimuli = stimuli_part1
+    //     } else if (i === 2) {
+    //         stimuli = stimuli_part2
+    //     } else if (i === 3 ){
+    //         stimuli = stimuli_perceptual1
+    //     } else {
+    //         stimuli = stimuli_perceptual2
+    //     }
 
+    function create_task_block(stimuli){
+        if (stimuli==stimuli_part1||stimuli==stimuli_part2){
         /* ================================================================ */
         /* ---------------------- MULLERLYER ILLUSION --------------------- */
         /* ================================================================ */
-        var timeline_mullerlyer = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    mullerlyer_instructions
-            }),
-            (illusion_name = "MullerLyer"),
-            (type = "updown")
-        )
+            var timeline_mullerlyer = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        mullerlyer_instructions
+                }),
+                (illusion_name = "MullerLyer"),
+                (type = "updown")
+            )
 
-        /* ================================================================ */
-        /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
-        /* ================================================================ */
-        var timeline_ebbinghaus = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    ebbinghaus_instructions
-            }),
-            (illusion_name = "Ebbinghaus"),
-            (type = "leftright")
-        )
+            /* ================================================================ */
+            /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
+            /* ================================================================ */
+            var timeline_ebbinghaus = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        ebbinghaus_instructions
+                }),
+                (illusion_name = "Ebbinghaus"),
+                (type = "leftright")
+            )
 
+            /* ================================================================ */
+            /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
+            /* ================================================================ */
+            var timeline_verticalhorizontal = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        verticalhorizontal_instructions
+                }),
+                (illusion_name = "VerticalHorizontal"),
+                (type = "leftright")
+            )
 
-        /* ================================================================ */
-        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
-        /* ================================================================ */
-        var timeline_verticalhorizontal = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    verticalhorizontal_instructions
-            }),
-            (illusion_name = "VerticalHorizontal"),
-            (type = "leftright")
-        )
+            var task_block = {
+                timeline: [{timeline:timeline_mullerlyer},
+                        {timeline:timeline_ebbinghaus},
+                        {timeline:timeline_verticalhorizontal}],
+                randomize_order:true
+            }
+        }else {
+            /* ================================================================ */
+            /* ---------------------- MULLERLYER Perceptual --------------------- */
+            /* ================================================================ */
+            var timeline_mullerlyer_perceptual = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        mullerlyer_instructions_perceptual
+                }),
+                (illusion_name = "MullerLyer"),
+                (type = "updown")
+            )
 
-    /* ================================================================ */
-    /* ----------------- Perceptual Block -------------------------------*/
-    /* ================================================================ */
+            /* ================================================================ */
+            /* --------------------- EBBINGHAUS Perceptual ---------------------- */
+            /* ================================================================ */
+            var timeline_ebbinghaus_perceptual = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        ebbinghaus_instructions_perceptual
+                }),
+                (illusion_name = "Ebbinghaus"),
+                (type = "leftright")
+            )
 
-        var perceptual_instructions = {
-            type: jsPsychHtmlButtonResponse,
-            choices: ["I'm ready!"],
-            stimulus:
-                "<p><b>Vision Test</b></p>" +
-                "<p>In this new phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes</p>" +
-                "<p>Your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
-            data: {screen: "perceptual_instructions"},
-            on_finish: function () {
-                block_number = 1   // reset block number for perceptual trials
+            /* ================================================================ */
+            /* ----------------- VERTICAL-HORIZONTAL Perceptual ----------------- */
+            /* ================================================================ */
+            var timeline_verticalhorizontal_perceptual = make_trial(stimuli,
+                (instructions = function () {
+                    return "<p><b>Part " +
+                        block_number +
+                        "/6" +
+                        "</b></p>" +
+                        verticalhorizontal_instructions_perceptual
+                }),
+                (illusion_name = "VerticalHorizontal"),
+                (type = "leftright")
+            )
+
+            var task_block = {
+                timeline: [{timeline:timeline_mullerlyer_perceptual},
+                        {timeline:timeline_ebbinghaus_perceptual},
+                        {timeline:timeline_verticalhorizontal_perceptual}],
+                randomize_order:true
             }
         }
-
-        /* ================================================================ */
-        /* ---------------------- MULLERLYER Perceptual --------------------- */
-        /* ================================================================ */
-        var timeline_mullerlyer_perceptual = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    mullerlyer_instructions_perceptual
-            }),
-            (illusion_name = "MullerLyer"),
-            (type = "updown")
-        )
-
-        /* ================================================================ */
-        /* --------------------- EBBINGHAUS Perceptual ---------------------- */
-        /* ================================================================ */
-        var timeline_ebbinghaus_perceptual = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    ebbinghaus_instructions_perceptual
-            }),
-            (illusion_name = "Ebbinghaus"),
-            (type = "leftright")
-        )
+        return task_block
+    }
 
 
-        /* ================================================================ */
-        /* ----------------- VERTICAL-HORIZONTAL Perceptual ----------------- */
-        /* ================================================================ */
-        var timeline_verticalhorizontal_perceptual = make_trial(stimuli,
-            (instructions = function () {
-                return "<p><b>Part " +
-                    block_number +
-                    "/6" +
-                    "</b></p>" +
-                    verticalhorizontal_instructions_perceptual
-            }),
-            (illusion_name = "VerticalHorizontal"),
-            (type = "leftright")
-        )
+
+    // Perceptual Instructions -------------------------------*/
+    var perceptual_instructions = {
+        type: jsPsychHtmlButtonResponse,
+        choices: ["I'm ready!"],
+        stimulus:
+            "<p><b>Vision Test</b></p>" +
+            "<p>In this new phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes</p>" +
+            "<p>Your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+        data: {screen: "perceptual_instructions"},
+        on_finish: function () {
+            block_number = 1   // reset block number for perceptual trials
+        }
+    }
+
+    /* ----------------- Create Experiment Blocks -------------------------------*/
+    var illusion_part1 = create_task_block(stimuli_part1)
+    var illusion_part2 = create_task_block(stimuli_part2)
+    var perceptual_part1 = create_task_block(stimuli_perceptual1)
+    var perceptual_part2 = create_task_block(stimuli_perceptual2)
 
 
     /* ================================================================ */
@@ -428,14 +449,14 @@
             prompt: IPIP[n],
             name: IPIP_dim[n],
             ticks: ["Very Inaccurate", "Very Accurate"],
-        // required: false,
-        required: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        slider_start: 0.5
-        })
-    }
+            //required: false,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+            })
+        }
 
     // Attention Check 1
     IPIP_items.push({
@@ -449,7 +470,7 @@
         step: 0.01,
         slider_start: 0.5
     })
-    //   }
+
 
     for (var n = 8; n < 24; n++) {
         IPIP_items.push({
@@ -457,13 +478,13 @@
             name: IPIP_dim[n],
             ticks: ["Very Inaccurate", "Very Accurate"],
             // required: false,
-        required: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        slider_start: 0.5
-        })
-    }
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5
+            })
+        }
 
     var IPIP6 = {
         type: jsPsychMultipleSlider,
@@ -691,10 +712,7 @@
         }
     };
 
-
-    /* Interoception ------------------------------------------*/
-
-    // Interoceptive Accuracy
+    /* Interoceptive Accuracy--------------------------------------------------*/
     var IAS_items = []
     //for (const [index, element] of ISQ.entries()) {
     for (var n = 0; n < 18; n++) {
@@ -930,88 +948,124 @@
         }
     };
 
+    var all_scale = [IPIP6, PID5, SPQ_BRU, AQ28, IAS_R, PHQ_4, GCBS_scale, lie_profile]
 
+    /* ================================================================ */
+    /* ---------------------- RUN EXPERIMENT -------------------------- */
+    /* ================================================================ */
+    var condition = jsPsych.randomization.sampleWithoutReplacement([1,2],1)[0]
+    jsPsych.data.addProperties({
+        condition: condition
+    })
+
+    if (condition===1){
+        timeline.push(illusion_practice_block)
+        for (var t of jsPsych.randomization.shuffleNoRepeats([illusion_part1, illusion_part2])){
+            timeline.push(t)
+            }
+        timeline.push(make_break1)
+        for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scale)){
+            timeline.push(t_scale)
+        }
+        timeline.push(make_break2)
+        timeline.push(perceptual_instructions)
+        for (var t_percep of jsPsych.randomization.shuffleNoRepeats(
+            [perceptual_part1, perceptual_part2])){
+                timeline.push(t_percep)
+            }
+    } else if (condition===2){
+            timeline.push(perceptual_instructions)
+            for (var t_percep of jsPsych.randomization.shuffleNoRepeats(
+            [perceptual_part1, perceptual_part2])){
+                timeline.push(t_percep)
+            }
+            timeline.push(make_break1)
+            for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scale)){
+                timeline.push(t_scale)
+            }
+            timeline.push(make_break2)
+            timeline.push(illusion_practice_block)
+            for (var t of jsPsych.randomization.shuffleNoRepeats([illusion_part1, illusion_part2])){
+                timeline.push(t)
+            }
+        }
     /* ================================================================ */
     /* ---------------------- END OF EXPERIMENT ----------------------- */
     /* ================================================================ */
-        if (i < 3){
-            for (var t of jsPsych.randomization.shuffleNoRepeats([
-                timeline_mullerlyer,
-                timeline_ebbinghaus,
-                timeline_verticalhorizontal,
-            ])) {
-                timeline.push({timeline: t})
-                }
-        } else {
-            // if (i===3){
-            //     timeline.push(perceptual_instructions)
-            // }
-            for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
-                timeline_mullerlyer_perceptual,
-                timeline_ebbinghaus_perceptual,
-                timeline_verticalhorizontal_perceptual,
-        ])) {
-            timeline.push({timeline: t_percep})
-        }}
-        if (i === 2) {
-            timeline.push(make_break1)
-            for (var t_scale of jsPsych.randomization.shuffleNoRepeats([
-                IPIP6,
-                PID5,
-                SPQ_BRU,
-                AQ28,
-                IAS_R,
-                PHQ_4,
-                GCBS_scale,
-                lie_profile
-        ])) {
-            timeline.push(t_scale)
-            }
-            timeline.push(make_break2)
-            timeline.push(perceptual_instructions)
-        }
-    }
-
     // Debriefing Information
     var end_experiment = {
-        type: jsPsychHtmlButtonResponse,
-        choices: ["End"],
-        stimulus: function () {
-            var results = get_results(
-                1000, // population_scores["Total"]["IES_Mean"][0],
-                400 // population_scores["Total"]["IES_SD"][0]
-            )
-            var show_screen = get_debrief_display(results, "Final")
-            return (
-                //show_screen.display_score +
-                // "<hr>" +
-                // show_screen.display_comparison +
-                //"<hr>" +
-                "<p>Thank you for participating!</p>" +
-                "<p>You will now be redirected to Prolific to be reimbursed.</p>" +
-                "<p>Please click 'OK' when asked to leave the site.</p>"
-            )
-        },
-        data: {screen: "final_results"},
-    }
+            type: jsPsychHtmlButtonResponse,
+            choices: ["End"],
+            stimulus: function () {
+                var results = get_results(
+                    1000, // population_scores["Total"]["IES_Mean"][0],
+                    400 // population_scores["Total"]["IES_SD"][0]
+                )
+                var show_screen = get_debrief_display(results, "Final")
+                return (
+                    //show_screen.display_score +
+                    // "<hr>" +
+                    // show_screen.display_comparison +
+                    //"<hr>" +
+                    "<p>Thank you for participating!</p>" +
+                    "<p>You will now be redirected to Prolific to be reimbursed.</p>" +
+                    "<p>Please click 'OK' when asked to leave the site.</p>"
+                )
+            },
+            data: {screen: "final_results"},
+        }
     timeline.push(end_experiment)
 
     // Fullscreen mode
-    timeline.push({
+    timeline.push( {
         type: jsPsychFullscreen,
         fullscreen_mode: false,
     })
 
+//     if (i == 1|| i == 2){
+//         for (var t of jsPsych.randomization.shuffleNoRepeats([
+//             timeline_mullerlyer,
+//             timeline_ebbinghaus,
+//             timeline_verticalhorizontal,
+//         ])) {
+//             timeline.push({timeline: t})
+//             }
+//     } if (i === 2) {
+//         timeline.push(make_break1)
+//         for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scale)){
+//             timeline.push(t_scale)
+//         }
+//         timeline.push(make_break2)
+//         timeline.push(perceptual_instructions)
+//     } else {
+//         // if (i===3){
+//         //     timeline.push(perceptual_instructions)
+//         // }
+//         for (var t_percep of jsPsych.randomization.shuffleNoRepeats([
+//             timeline_mullerlyer_perceptual,
+//             timeline_ebbinghaus_perceptual,
+//             timeline_verticalhorizontal_perceptual,
+//     ])) {
+//         timeline.push({timeline: t_percep})
+//     } if( i === 4){
+//         timeline.push(end_experiment)
+//         timeline.push(fullscreen_off)
+//     }}
+// }
 
-    // /* Close connection to Pavlovia---*/
-    // var pavlovia_finish = {
-    //         type: jsPsychPavlovia,
-    //         command: "finish",
-    //         participantId: participant_id,
-    //         completedCallback: function (){
-    //             window.location.replace('https://app.prolific.co/submissions/complete?cc=XXX');
-    //     }
-    // }
+
+
+
+
+// /* Close connection to Pavlovia---*/
+// var pavlovia_finish = {
+//         type: jsPsychPavlovia,
+//         command: "finish",
+//         participantId: participant_id,
+//         completedCallback: function (){
+//             window.location.replace('https://app.prolific.co/submissions/complete?cc=XXX');
+//     }
+// }
 
 
     jsPsych.run(timeline)
