@@ -1,27 +1,56 @@
-# IllusionGameReliability
+# The Illusion Game 2: Reliability and Validity
 
-## Introduction 
-Visual illusions are beguiling stimuli that can demonstrate how the brain integrates prior beliefs with incoming sensory evidence to inform our perceptions of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research had suggested a common mechanism underlying people's susceptibility to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies observed at most weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). As such,in a previous study, we aimed to investigate if sensitivity to illusions is stable within individuals across different illusions. To this end, we found evidence in favor of a general factor (labelled Factor *i*) underlying the sensitivity to different illusions. Furthermore, our results show significant correlations between illusion sensitivity and 'normal' personality traits such as Agreeableness and Honesty-Humility, as well as pathological traits such as Psychoticism, Antagonism, Disinhibition, and Negative Affect.
+## Introduction
 
-The main aim of the current study is to assess the reliability of the general factor of illusion sensitivity (Factor *i*), and its correlations with inter-individual traits, that we found in the previous study.
+Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research theorized a common mechanism underlying people's sensitivity to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). Similarly, the theorethical arguments made in favour of the existence of a link between illusion sensitivity and participants' characteristics (personality and psychopathological traits or disorders), the empirical evidence remains weak **[REFS]**.
+
+In an attempt to address some of the limitations of previous studies, [makowski et al. (*under review*)](https://psyarxiv.com/9pjx5/) introduced a new paradigm that allows to manipulate the effect of various illusions in a continuous manner, and to collect the objective behavioural effect (on error rates and response time) of various traditional illusions. Using this *"Illusion Game"* framework, they reported evidence for the existence of a general factor (labelled Factor *i*) to the inter-individual sensitivity to 10 different illusions, as well as relationships with personality traits. However, several limitations were noted, including the potential confounding effect of purely perceptual abilities (unrelated to illusion sensitivity *per se*), and the non-inclusion of response times in the factor analysis (which could potentially capture different mechanisms related to illusion processing). 
+
+Using a short version of the Illusion Game (made of 3 distinct illusion types), the aim of the present study is to 1) replicate previous findings regarding the common factor of illusion sensitivity and the links with personality, 2) extend these findings to more targeted participant characteristics (such as shcizotypic and autistic traits), 3) test the validity and reliability of the measure using a control task of perceptual discrimination and test-retest protocol.
 
 ## Hypotheses
 
+We grouped our hypotheses according to 3 levels of expectation strength. The null hypothesis (H0) is no significant effect.
+
+### Replication
+
+#### Psychometry
+
 1. **Effect of Illusion Strength and Difficulty**
 1.1 *On error rate*
-    1.1.1 Positive effect of illusion strength on error rate (H0: no significant effect)
+    1.1.1 Positive effect of illusion strength on error rate 
     1.1.2 Positive effect of task difficulty on error rate (H0: no significant effect)
 1.2 *On RT*
-    1.2.1 Negative quadratic effect of illusion strength on response time (H0: no significant effect)
-    1.2.2 Negative quadratic effect of task difficulty on response time (H0: no significant effect)
-2. **General Factor**
+    1.2.1 Negative effect of illusion strength on response time (H0: no significant effect)
+    1.2.2 Negative effect of task difficulty on response time (H0: no significant effect)
+2. **General Factor *i***
     2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions 
+    
+#### Inter-individual Correlates 
+
+3. **Normal personality traits**
+    3.1 Positive correlation between illusion sensitivity and Aggreableness
+    3.2 Positive correlation between illusion sensitivity and Aggreableness
+4. **Maladaptive personality traits**
+    3.1 Illusion ssensitivity correlate significantly with 'normal' and pathological personality traits even after adjustment for individual perceptual abilities
+
+### Confirmation
+
+We extend previous findings and confirm the literature.
+
+
+#### Psychometry
+
+### Exploration
+
+We will at providing further evidence for ...
+
 3. **Reliability**
     3.1 Across different illusions, inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*) (H0: no significant correlation)
 4. **Stability**
     4.1 Across different illusion, inter-individual illusion scores will not significantly vary (H0: significant variation in intra-individual illusion scores)
-5. **Dispositional Correlates**
-    5.1 Inter-individual illusion scores correlate significantly with 'normal' and pathological personality traits even after adjustment for individual perceptual abilities
+
+
 
 ## Methods
 
