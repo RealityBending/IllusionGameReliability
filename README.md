@@ -10,7 +10,7 @@ Using a short version of the Illusion Game (made of 3 distinct illusion types), 
 
 ## Hypotheses
 
-We grouped our hypotheses according to 3 levels of expectation strength. The null hypothesis (H0) is no significant effect.
+We grouped our hypotheses according to 3 levels of expectation strength (*replication* of the Illugion Game original study, *confirmation* of the findings reported by past studies, and *exploration* of potential hypotheses based on theorethical models and assumptions). The null hypothesis (H0) is no significant effect.
 
 ### Replication
 
@@ -30,25 +30,49 @@ We grouped our hypotheses according to 3 levels of expectation strength. The nul
 
 3. **Normal personality traits**
     3.1 Positive correlation between illusion sensitivity and Aggreableness
-    3.2 Positive correlation between illusion sensitivity and Aggreableness
+    3.2 Positive correlation between illusion sensitivity and Honesty-Humility
 4. **Maladaptive personality traits**
-    3.1 Illusion ssensitivity correlate significantly with 'normal' and pathological personality traits even after adjustment for individual perceptual abilities
+    4.1 Negative correlation between illusion sensitivity and Antagonism
+    4.2 Negative correlation between illusion sensitivity and Disinhibition
+    4.3 Negative correlation between illusion sensitivity and Negative Affect
+    4.4 Negative correlation between illusion sensitivity and Psychoticism
 
 ### Confirmation
 
-We extend previous findings and confirm the literature.
+**TODO: maybe attempt at specifying sub-dimensions: like "in particular the ... and ... dimensions**
 
-
-#### Psychometry
+5. **Autism and Schizotypic traits**
+    5.1 Negative correlation between illusion sensitivity and autistic traits
+    5.2 Negative correlation between illusion sensitivity and schizotypic personality
+6. **Mood and Emotion Regulation**
+    6.1 ... correlation between illusion sensitivity and depression scores
+    6.2 ... correlation between illusion sensitivity and anxiety scores
+    6.2 ... correlation between illusion sensitivity and borderline personality traits
+7. **Conspiracy Beliefs**
+    7.1 ... correlation between illusion sensitivity and conspiracy beliefs
 
 ### Exploration
 
-We will at providing further evidence for ...
+#### Psychometry
 
-3. **Reliability**
-    3.1 Across different illusions, inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*) (H0: no significant correlation)
-4. **Stability**
-    4.1 Across different illusion, inter-individual illusion scores will not significantly vary (H0: significant variation in intra-individual illusion scores)
+8. **Test-retest Reliability**
+    8.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
+9. **Within-participants Stability**
+    9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants). 
+10. **Perceptual independence**
+    10.1 None to weak correlation between illusion sensitivity and perceptual ability.
+
+#### Inter-individual Correlates 
+
+11. **Interoception**
+    11.1 ... correlation between illusion sensitivity and interoception
+12. **Lying tendency**
+    11.1 ... correlation between illusion sensitivity and deception profile
+13. **Primal beliefs**
+    13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
+    13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
+    13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
+    13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
 
 
 
