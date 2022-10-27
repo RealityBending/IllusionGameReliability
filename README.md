@@ -80,11 +80,12 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 
 ### Ethics information
 
+This study was approved by the ... **TODO**
+
 ### Pilot data
 
-10 participants were recruited via *Prolific*, a crowd-sourcing platform for administering online social and behavioural research. The only inclusion criterion specified was a fluent proficiency in English to ensure that the task instructions would be well-understood. Participants were incentivised with a reward of about \textsterling 7.50 for completing the task, which took about 50 minutes to finish. Demographic variables (age, gender, and ethnicity) were self-reported on a voluntary basis.
+10 participants were recruited via the crowd-sourcing platform *Prolific*. The only inclusion criterion specified was a fluent proficiency in English to ensure that the task instructions would be well-understood. Participants were incentivised with a reward of about \textsterling 7.50 for completing the task, which took about one hour to finish (session 1 + session 2).
 
-...
 
 ### Procedure
 
@@ -139,7 +140,7 @@ Imprecise predictions of internal bodily signals has been associated with an inc
 
 #### Session 2
 
-Participants were invited to complete the illusion task again, about 1 week following their initial participation.
+Participants were invited to complete the illusion task again, about 2 weeks following their initial participation. To avoid session 1 from being too long, the MAIA-2, MSI-BPD and PI-18 questionnaires were administered during session 2, after the illusion task.
 
 ### Sampling plan
 
@@ -151,5 +152,8 @@ Before the study begins, participants will be asked to answer a few personal dem
 
 
 ### Analysis Plan
+
+The analysis script is available in ...
+
 Data of participants with outlying scores (in regard to the population distributions) will be further examined and potentially excluded if there is reason to suspect that they did not pay attention to the task (e.g., failing to make the appropriate response to attention check items embedded in questionnaires, the presence of a high number of errors in “easy” trials, as well as a very short total duration, might suggest that participants answered randomly to quickly finish the task). In this study, missing data is prevented through the implementation of a forced-choice reaction-time behavioural task, in which the trial does not proceed to the next display until participants make a response.
 
