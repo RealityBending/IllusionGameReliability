@@ -18,19 +18,38 @@ preprocess_raw <- function(file) {
     data <- data[which(data$screen == "practice_debrief"):nrow(data), ]
   }
   
-  # Illusion task data
-  if ("break1" %in% data$screen){
-    illusion_data <- data[0:which(data$screen == 'break1'),]
+  # Sort by random condition
+  if ('1' %in% data$condition){
+    # Illusion task data
+    if ("break1" %in% data$screen){
+      illusion_data <- data[0:which(data$screen == 'break1'),]
+    }
+    illusion_trials <- illusion_data[illusion_data$screen == "Trial", ]
+    illusion_trials$Task <- 'Illusion'
+    
+    # Perceptual task data
+    if ("perceptual_instructions" %in% data$screen){
+      perceptual_data <- data[which(data$screen =='perceptual_instructions'):nrow(data), ]
+    }
+    perceptual_trials <- perceptual_data[perceptual_data$screen =='Trial',]
+    perceptual_trials$Task <- 'Perceptual'
+    
+  } else {
+    # Perceptual task data
+    if ("break1" %in% data$screen){
+      perceptual_data <- data[0:which(data$screen == 'break1'),]
+    }
+    perceptual_trials <- perceptual_data[perceptual_data$screen == "Trial", ]
+    perceptual_trials$Task <- 'Perceptual'
+    
+    # Illusion task data
+    if ("illusion_instructions" %in% data$screen){
+      illusion_data <- data[which(data$screen =='illusion_instructions'):nrow(data), ]
+    }
+    illusion_trials <- illusion_data[illusion_data$screen =='Trial',]
+    illusion_trials$Task <- 'Illusion'
   }
-  illusion_trials <- illusion_data[illusion_data$screen == "Trial", ]
-  illusion_trials$Task <- 'Illusion'
   
-  # Perceptual task data
-  if ("perceptual_instructions" %in% data$screen){
-    perceptual_data <- data[which(data$screen =='perceptual_instructions'):nrow(data), ]
-  }
-  perceptual_trials <- perceptual_data[perceptual_data$screen =='Trial',]
-  perceptual_trials$Task <- 'Perceptual'
   
   # Get fixation cross position
   fixation<- data[data$screen=='fixation', 'stimulus']
@@ -66,6 +85,7 @@ preprocess_raw <- function(file) {
     Browser_Version = trials$browser_version,
     Device = ifelse(trials$mobile == TRUE, "Mobile", "Desktop"),
     Device_OS = trials$os,
+    Condition = trials$condition,
     Illusion_Type = trials$type,
     Block = trials$Task,
     Block_Order = as.numeric(trials$block_number),
