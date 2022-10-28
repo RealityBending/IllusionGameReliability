@@ -180,7 +180,7 @@ This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-P
 ### Competing Interests
 The authors declare no competing interests.
 
-### Design Table (**MANDATORY FOR NATURE**)
+### Design Table 
 |        Question        | Hypothesis  |Sampling Plan (e.g., power analysis)| Analysis Plan| Interpretation given to different outcomes|
 |------------------------|-------------|------------------------------------|--------------|--------------------------------------------
 |                        |             |                                    |              |                                           |
