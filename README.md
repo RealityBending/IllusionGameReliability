@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research theorized a common mechanism underlying people's sensitivity to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). Similarly, despite the theoretical arguments made in favour of the existence of a link between illusion sensitivity and participants' characteristics (personality ([Zhang et al., 2017](https://www.degruyter.com/document/doi/10.1515/tnsci-2017-0004/html?lang=en); [Konrath et al., 2009](10.1111/j.1467-6494.2009.00579.x); [Blake &Palmisano, 2021](https://doi.org/10.1177/0301006621100019)) and psychopathological traits or disorders ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [D’Amour et al., 2021](10.3758/s13414-020-02228-3))), the empirical evidence remains weak ([Kaliuzhna ert al., 2019](10.1016/j.schres.2018.12.027); [Yang et al., 2012](10.1177/2167702612464618); [Manning et al., 2017](https://doi.org/10.1186%2Fs13229-017-0127-y)).
+Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research theorized a common mechanism underlying people's sensitivity to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). Similarly, despite the theoretical arguments made in favour of the existence of a link between illusion sensitivity and participants' characteristics (personality ([Zhang et al., 2017](https://www.degruyter.com/document/doi/10.1515/tnsci-2017-0004/html?lang=en); [Konrath et al., 2009](10.1111/j.1467-6494.2009.00579.x); [Blake &Palmisano, 2021](https://doi.org/10.1177/0301006621100019)) and psychopathological traits or disorders ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [D’Amour et al., 2021](10.3758/s13414-020-02228-3)), the empirical evidence remains weak ([Kaliuzhna ert al., 2019](10.1016/j.schres.2018.12.027); [Yang et al., 2012](10.1177/2167702612464618); [Manning et al., 2017](https://doi.org/10.1186%2Fs13229-017-0127-y)).
 
 In an attempt to address some of the limitations of previous studies, [Makowski et al. (*under review*)](https://psyarxiv.com/9pjx5/) introduced a new paradigm that allows manipulating various illusory effects in a continuous manner, and measuring the objective behavioural effect (on error rates and response time) of various traditional illusions. Using this *"Illusion Game"* framework, they reported evidence for the existence of a general factor (labelled Factor *i*) to the inter-individual sensitivity to 10 different illusions, as well as relationships with personality traits. However, several limitations were noted, including the potential confounding effect of purely perceptual abilities (unrelated to illusion sensitivity *per se*), and the non-inclusion of response times - which could potentially capture different mechanisms related to illusion processing - in the factor analysis.
 
@@ -40,54 +40,59 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 ### Confirmation
 
 5. **Autism and Schizotypal traits**
-    Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6)). Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with higher disorganized and positive schizotypal traits ([Bressan & Kramer, 2013](https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00343); [Fradkin & Silverstein, 2022](10.1016/j.bionps.2022.100050)), as well as those with high systemizing tendencies (often associated with autism; [Walter et al., 2008](https://doi.org/10.1007/s10803-008-0630-2)).
+
+Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6)). Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with higher disorganized and positive schizotypal traits ([Bressan & Kramer, 2013](https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00343); [Fradkin & Silverstein, 2022](10.1016/j.bionps.2022.100050)), as well as those with high systemizing tendencies (often associated with autism; [Walter et al., 2008](https://doi.org/10.1007/s10803-008-0630-2)).
 
     - 5.1 Negative correlation between illusion sensitivity and autistic traits, specifically in dimensions related to systemizing tendencies (measured with the *Patterns/Numbers* subscale)
     - 5.2 Negative correlation between illusion sensitivity and schizotypal personality traits, particularly in the positive (measured with the *Cognitive-Perceptual* subscale) and disorganized dimensions (measured with the *Disorganized* subscale)
 
 6. **Mood and Emotion Regulation**
-    While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, some researchers report higher trait anxiety to be related to reduced illusion sensitivity ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)). In fact, consistent with the predictive coding theory, anxiety has been linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating ([Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649); [Hein et al., 2021](https://doi.org/10.1016/j.neuroimage.2020.117424)). Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits ([Flasbeck et al., 2020](https://doi.org/10.1186/s40479-020-00139-1)). On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)).
+
+While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, some researchers report higher trait anxiety to be related to reduced illusion sensitivity ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)). In fact, consistent with the predictive coding theory, anxiety has been linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating ([Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649); [Hein et al., 2021](https://doi.org/10.1016/j.neuroimage.2020.117424)). Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits ([Flasbeck et al., 2020](https://doi.org/10.1186/s40479-020-00139-1)). On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)).
 
     - 6.1 Negative correlation between illusion sensitivity and depression scores
     - 6.2 No correlation between illusion sensitivity and anxiety scores
     - 6.2 Positive correlation between illusion sensitivity and borderline personality traits
 
-7. **Conspiracy Beliefs**
-    Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
-
-    - 7.1 Negative correlation between illusion sensitivity and conspiracy beliefs
-
 ### Exploration
 
 #### Psychometry
 
-8. **Test-retest Reliability**
-    - 8.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
-9. **Within-participants Stability**
-    - 9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants).
-10. **Perceptual independence**
-    - 10.1 None to weak correlation between illusion sensitivity and perceptual ability.
+7. **Test-retest Reliability**
+    - 7.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
+8. **Within-participants Stability**
+    - 8.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants).
+9. **Perceptual independence**
+    - 9.1 None to weak correlation between illusion sensitivity and perceptual ability.
 
 #### Inter-individual Correlates
 
+10. **Conspiracy Beliefs**
+
+Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
+
+    - 10.1 Negative correlation between illusion sensitivity and conspiracy beliefs
+    
 11. **Interoception**
-    Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
+
+Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
 
     - 11.1 Positive correlation between illusion sensitivity and interoception
 
 12. **Lying tendency**
-    Given the significant links found between maladaptive personality traits and illusion sensitivity in the original Illusion Game study, we expect dispositional lying behaviour, which comprises dimensions related to pathological traits ([Makowski et al., 2020](https://psyarxiv.com/t7s32/)), to be correlated with inter-individual illusion sensitivity.
+
+Given the negative link observed between illusion sensitivity and honesty-humility, as well as with maladaptive personality traits [(Makowski et al.,*under review*)](https://psyarxiv.com/9pjx5/), we expect other related dimensions to relate, such as dispositional lying tendencies ([Makowski et al., 2020](https://psyarxiv.com/t7s32/)).
 
     - 11.1 Negative correlation between illusion sensitivity and deception profile
 
 13. **Primal beliefs**
-    Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([Clifton et al., 2021](http://dx.doi.org/10.1037/pas0001055)), and thus be associated with illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which is negatively correlated with beliefs in a safe world; [Leone et al., 2017](10.1002/ijop.12459)) and illusory pattern perception ([van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331)).
+
+Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([Clifton et al., 2021](http://dx.doi.org/10.1037/pas0001055)), and thus be associated with illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which is negatively correlated with beliefs in a safe world; [Leone et al., 2017](10.1002/ijop.12459)) and illusory pattern perception ([van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331)).
 
     - 13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
     - 13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
     - 13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
     - 13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
-
 
 
 ## Methods
