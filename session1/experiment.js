@@ -107,7 +107,7 @@ var make_break1 = {
     choices: ["Continue"],
     stimulus:
         "<p><b>CONGRATULATIONS!</b></p>" +
-        "<p>You have finished half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
+        "<p>You've completed about half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
         "<p>Let's continue with a few questionnaires about yourself.</p>",
     save_trial_parameters: {
         trial_duration: true,
