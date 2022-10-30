@@ -175,25 +175,20 @@
         ],
     })
 
-    // General Instructions
-    var general_instructions = {
+    /* ============================================================== */
+    /*  --------------------PRACTICE BLOCKS---------------------------*/
+    /* ============================================================== */
+
+    // Illusion Instructions
+    var illusion_instructions = {
         type: jsPsychHtmlButtonResponse,
         choices: ["Start the practice!"],
         stimulus:
-            "<p><b>The Illusion Game</b></p>" +
+            "<p><b>Illusion Game</b></p>" +
             "<p>In this game of speed and reflex, you will need to make <b>visual judgments</b> (for instance, which circle is the biggest, or which line is the longest), as fast and as correctly as possible, while <b>resisting different visual illusions</b>.</p>" +
             "<p>We are going to start with some examples of all the illusions you will encounter in the game.</p>",
-        data: {screen: "general_instructions"},
+        data: {screen: "illusion_instructions"},
     }
-    timeline.push(general_instructions)
-
-
-    /* ============================================================== */
-    /*  -----------------------Practice Block-------------------------*/
-    /* ============================================================== */
-
-    // var block_number = 0   //For debugging only
-    // var trial_number = 0
 
     /* ----------------------Ebbinghaus Practice----------------------------*/
     var ebbinghaus_practice = make_trial(
@@ -202,8 +197,6 @@
         (illusion_name = "Ebbinghaus"),
         (type = 'leftright'))
 
-    timeline.push({timeline: ebbinghaus_practice})
-
     /* ----------------------Muller-Lyer Practice----------------------------*/
     var mullerlyer_practice = make_trial(
         (stimuli = stimuli_training),
@@ -211,7 +204,6 @@
         (illusion_name = "MullerLyer"),
         (type = 'updown'))
 
-    timeline.push({timeline: mullerlyer_practice})
 
     /* ----------------------Vertical Horizaontal Practice----------------------------*/
     var verticalhorizontal_practice = make_trial(
@@ -219,11 +211,7 @@
         (instructions = "<p><b>Practice</b></p>" + verticalhorizontal_instructions), (illusion_name = "VerticalHorizontal"),
         (type = 'leftright'))
 
-    timeline.push({timeline: verticalhorizontal_practice})
-
-    /* ================================================================ */
-    /* ---------------------- END OF Practice ----------------------- */
-    /* ================================================================ */
+    // Debrief practice block
     var end_practice = {
         type: jsPsychHtmlButtonResponse,
         choices: ["Let's Play!"],
@@ -234,17 +222,29 @@
             "<p>Each illusion block will be repeated two times (so that you have the opportunity to improve your score), but the order of the blocks is random.</p>" +
             "<p>Remember, your goal is to be as <b>fast</b> and <b>accurate</b> as possible. Good luck!</p><br>",
         data: {screen: "practice_debrief"},
+        on_finish: function () {
+            block_number = 1   // reset block number for illusion trials
+        }
     }
-    timeline.push(end_practice)
+
+    // Create Illusion Task Practice Block
+    var illusion_practice_block = {
+        timeline: [illusion_instructions,
+                {timeline:ebbinghaus_practice},
+                {timeline:mullerlyer_practice},
+                {timeline:verticalhorizontal_practice},
+                end_practice],
+    };
+
+    timeline.push(illusion_practice_block)
 
     /* ============================================================== */
-    /*  -----------------------Experiment Block-------------------------*/
+    /*  -----------------------TASK BLOCKS---------------------------*/
     /* ============================================================== */
     // Set experiment variables
     var trial_number = 1 // trial indexing variable starts at 1 for convenience
     var block_number = 1 // block indexing variable
 
-    // Set up block loop for different stimuli set
     for (var i of [1, 2]) {
         if (i === 1) {
             stimuli = stimuli_part1
@@ -252,9 +252,9 @@
             stimuli = stimuli_part2
         }
 
-        /* ================================================================ */
-        /* ---------------------- MULLERLYER ILLUSION --------------------- */
-        /* ================================================================ */
+    /* ================================================================ */
+    /* ---------------------- MULLERLYER ILLUSION --------------------- */
+    /* ================================================================ */
         var timeline_mullerlyer = make_trial(stimuli,
             (instructions = function () {
                 return "<p><b>Part " +
@@ -282,7 +282,6 @@
             (type = "leftright")
         )
 
-
         /* ================================================================ */
         /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
         /* ================================================================ */
@@ -297,6 +296,13 @@
             (illusion_name = "VerticalHorizontal"),
             (type = "leftright")
         )
+
+        var illusion_task_block = {
+            timeline: [{timeline:timeline_mullerlyer},
+                    {timeline:timeline_ebbinghaus},
+                    {timeline:timeline_verticalhorizontal}],
+            randomize_order:true
+        }
 
 
     /* ================================================================ */
@@ -510,26 +516,17 @@
             }
         };
 
+        all_scales = [MAIA_2, MSI_BPD, PI_scale]
 
     /* ================================================================ */
     /* ---------------------- END OF EXPERIMENT ----------------------- */
     /* ================================================================ */
-        for (var t of jsPsych.randomization.shuffleNoRepeats([
-            timeline_mullerlyer,
-            timeline_ebbinghaus,
-            timeline_verticalhorizontal,
-        ])) {
-            timeline.push({timeline: t})
-            }
-        if (i === 1) {
+        timeline.push(illusion_task_block)
+        if (i===1){
             timeline.push(make_break1)
-            for (var t_scale of jsPsych.randomization.shuffleNoRepeats([
-                MAIA_2,
-                MSI_BPD,
-                PI_scale
-            ])) {
+            for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scales)){
                 timeline.push(t_scale)
-                }
+            }
             timeline.push(make_break2)
         }}
 

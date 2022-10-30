@@ -13,7 +13,7 @@ function get_results(illusion_mean, illusion_sd, illusion_type) {
     if (correct_trials.count() > 0) {
         var rt_mean_correct = correct_trials.select("rt").mean()
         var ies = rt_mean_correct / proportion_correct // compute inverse efficiency score
-        var score_to_display = 100 - ies / 50
+        var score_to_display = 100 - ies / 40
         if (score_to_display < 0) {
             score_to_display = 0
         }
@@ -55,12 +55,12 @@ function get_debrief_display(results, type = "Block") {
     return {
         display_score: score,
         display_accuracy:
-            "<p style='color:rgb(76,175,80);'>You responded correctly on <b>" +
+            "<p style='color:rgb(76,175,80);'> Correct Responses: <b>" +
             round_digits(results.accuracy * 100) +
             "" +
-            "%</b> of the trials.</p>",
+            "%</b></p>",
         display_rt:
-            "<p style='color:rgb(233,30,99);'>Your average response time was <b>" +
+            "<p style='color:rgb(233,30,99);'> Average Response Time: <b>" +
             round_digits(results.mean_reaction_time) +
             "</b> ms.</p>",
         display_comparison:
@@ -107,7 +107,7 @@ var make_break1 = {
     choices: ["Continue"],
     stimulus:
         "<p><b>CONGRATULATIONS!</b></p>" +
-        "<p>You have finished half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
+        "<p>You've completed about half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
         "<p>Let's continue with a few questionnaires about yourself.</p>",
     save_trial_parameters: {
         trial_duration: true,
@@ -334,10 +334,10 @@ function make_trial(stimuli, instructions, illusion_name, type) {
         repetitions: 1,
     })
 
-   // Debriefing Information
-    if (stimuli != stimuli_training) {
+    // Debriefing Information
+    if (stimuli == stimuli_part1 || stimuli == stimuli_part2) {
         timeline.push(create_debrief((illusion_name = illusion_name)))
-    } else if ((stimuli = stimuli_training)) {
+    } else if (stimuli === stimuli_training) {
         timeline.push({
             type: jsPsychHtmlButtonResponse,
             choices: ["Continue"],
@@ -348,8 +348,42 @@ function make_trial(stimuli, instructions, illusion_name, type) {
                         "#jspsych-progressbar-container"
                     ).style.display = "inline")
             },
-            stimulus: "<p><b>Great job!</b></p>",
-            data: { screen: "practice_block" },
+            stimulus: function () {
+                var results = get_results(
+                    1000, // population_scores[illusion_name]["IES_Mean"][0],
+                    400, // population_scores[illusion_name]["IES_SD"][0],
+                    illusion_name
+                )
+                var show_screen = get_debrief_display(results)
+                return (
+                    show_screen.display_accuracy +
+                    "<hr>" +
+                    show_screen.display_rt
+                    //"<hr><p>Can you do better in the next illusion?</p>"
+                )
+            },
+            data: { screen: "practice_block_results" },
+        })
+    } else {
+        timeline.push({
+            type: jsPsychHtmlButtonResponse,
+            choices: ["Continue"],
+            post_trial_gap: 500,
+            on_start: function () {
+                ;(document.body.style.cursor = "auto"),
+                    (document.querySelector(
+                        "#jspsych-progressbar-container"
+                    ).style.display = "inline")
+            },
+            stimulus:
+                "<p><b>Can you do better in the next round?</b></p>" +
+                "<p>Remember, your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+            data: { screen: "perceptual_block_results" },
+            // Reset trial number and update block number
+            on_finish: function () {
+                block_number += 1
+                trial_number = 1
+            },
         })
     }
     return timeline
@@ -386,8 +420,6 @@ const verticalhorizontal_instructions =
     "<p><img src='utils/answer/answer_leftright_keyboard.PNG' height='150'></img></p>" +
     "<p class='small'>In this example, the correct answer is the <b>LEFT arrow</b>.</p></div>" +
     "<p>Are you ready? <b>Press ENTER to start</b></p>"
-
-
 
 /* Psychometric scales---------------------------------------------------------------------*/
 
@@ -745,17 +777,17 @@ var GCBS = [
 
 var GCBS_dim = [
     "GM_1",
-    "MF_2",
+    "MG_2",
     "ET_3",
     "PW_4",
     "CI_5",
     "GM_6",
-    "MF_7",
+    "MG_7",
     "ET_8",
     "PW_9",
     "CI_10",
     "GM_11",
-    "MF_12",
+    "MG_12",
     "ET_13",
     "PW_14",
     "CI_15",
@@ -1131,10 +1163,10 @@ var lie_dim = [
     "Frequency_6",
     "Frequency_7",
     "Frequency_8",
-    "Negativty_9",
-    "Negativty_10",
-    "Negativty_11",
-    "Negativty_12",
+    "Negativity_9",
+    "Negativity_10",
+    "Negativity_11",
+    "Negativity_12",
     "Contextuality_13",
     "Contextuality_14",
     "Contextuality_15",

@@ -287,7 +287,6 @@
                 end_practice],
     };
 
-
     /* ============================================================== */
     /*  -----------------------TASK BLOCKS---------------------------*/
     /* ============================================================== */
@@ -949,7 +948,7 @@
         }
     };
 
-    var all_scale = [IPIP6, PID5, SPQ_BRU, AQ28, IAS_R, PHQ_4, GCBS_scale, lie_profile]
+    var all_scales = [IPIP6, PID5, SPQ_BRU, AQ28, IAS_R, PHQ_4, GCBS_scale, lie_profile]
 
     /* ================================================================ */
     /* ---------------------- RUN EXPERIMENT -------------------------- */
@@ -965,7 +964,7 @@
             timeline.push(t)
             }
         timeline.push(make_break1)
-        for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scale)){
+        for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scales)){
             timeline.push(t_scale)
         }
         timeline.push(make_break2)
@@ -981,7 +980,7 @@
                 timeline.push(t_percep)
             }
             timeline.push(make_break1)
-            for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scale)){
+            for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scales)){
                 timeline.push(t_scale)
             }
             timeline.push(make_break2)

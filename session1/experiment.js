@@ -55,12 +55,12 @@ function get_debrief_display(results, type = "Block") {
     return {
         display_score: score,
         display_accuracy:
-            "<p style='color:rgb(76,175,80);'>You responded correctly on <b>" +
+            "<p style='color:rgb(76,175,80);'> Correct Responses: <b>" +
             round_digits(results.accuracy * 100) +
             "" +
-            "%</b> of the trials.</p>",
+            "%</b></p>",
         display_rt:
-            "<p style='color:rgb(233,30,99);'>Your average response time was <b>" +
+            "<p style='color:rgb(233,30,99);'> Average Response Time: <b>" +
             round_digits(results.mean_reaction_time) +
             "</b> ms.</p>",
         display_comparison:
@@ -348,8 +348,21 @@ function make_trial(stimuli, instructions, illusion_name, type) {
                         "#jspsych-progressbar-container"
                     ).style.display = "inline")
             },
-            stimulus: "<p><b>Great job!</b></p>",
-            data: { screen: "practice_block" },
+            stimulus: function () {
+                var results = get_results(
+                    1000, // population_scores[illusion_name]["IES_Mean"][0],
+                    400, // population_scores[illusion_name]["IES_SD"][0],
+                    illusion_name
+                )
+                var show_screen = get_debrief_display(results)
+                return (
+                    show_screen.display_accuracy +
+                    "<hr>" +
+                    show_screen.display_rt
+                    //"<hr><p>Can you do better in the next illusion?</p>"
+                )
+            },
+            data: { screen: "practice_block_results" },
         })
     } else {
         timeline.push({
