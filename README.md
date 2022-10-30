@@ -124,9 +124,6 @@ To confirm that the illusion sensitivity measured by the illusion task is not si
 
 A series of questionnaires were administered in between the Illusion Task and the Perceptual Task, in a randomized order. To prevent fatigue, these questionnaires were split and administered in 2 separate sessions one week apart. In session 1, the **Mini-IPIP6**, **PID-5**, **SPQ_BRU**, **ASQ - Short**, **IAS_R**, **PHQ-4**, **GCB** and **LIE scale** were presented, whereas in session 2, the **MAIA-2**, **MSI-BPD** and **PI-18** were administered. All scales were presented as described in their validation study. However, one attention check item was included within the items of each questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items). Visual analog scales, instead of Likert scales with only 2 extreme anchors, were adapted for the MAIA, MSI-BPD, Mini-IPIP6 and IAS-R questionnaires to limit centrality bias.
 
-##### Confirmatory
-With the goal of replicating the previous study and confirming the links between illusion sensitivity and personality, we included:
-
 ##### Personality
 
 - The [**Mini IPIP6**](https://www.psychology.org.nz/journal-archive/Sibley-IPIP61.pdf) (Mini International Personality Item Pool; Sibley, 2012) measures 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 7-point Likert scale (strongly disagree - strongly agree) items.
@@ -134,15 +131,10 @@ With the goal of replicating the previous study and confirming the links between
 
 ##### Psychopathology
 
-Based on the literature of illusion sensitivity and psychopathology, convergent validity was assessed by measuring schizotypal ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978); [Lanyi et al., 2022](10.31234/osf.io/cbsm3)), anxious ([Passie et al., 2013](10.1080/13548506.2012.722649); [Ioakeimidis et al., 2021](10.1017/pen.2020.16)) and autistic traits ([Gori et al., 2016](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4842763/); [Razeghi et al., 2022](https://doi.org/10.1080/03004430.2020.1802260);[Park et al., 2022](10.1111/ejn.15739)). Divergent validity was assessed by measuring depression, as we do not hypothesize links with illusion sensitivity ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](10.1080/13548506.2012.722649)).
-
 - The [**SPQ-BRU**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/) (Schizotypal Personality Questionnaire – brief revised updated; Davidson et al., 2016) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point Likert scale items (Strongly Disagree - Strongly Agree).
 - The [**ASQ - Short**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/) (Autism-Spectrum Quotient; Hoekstra et al., 2011) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scale items (definitely disagree - definitely agree).
 - The [**MSI-BPD**](https://psycnet.apa.org/record/2004-10325-009) (Mclean Screening Instrument for Borderline Personality Disorder; Zanarini et al., 2003) measures borderline personality with 10 5-point Likert scale items ([Huczewska et al., 2019]( https://doi.org/10.5114/cipp.2019.89674)).
 - The [**PHQ-4**](https://pubmed.ncbi.nlm.nih.gov/19996233/) (Patient Health Questionnaire; Kroenke et al., 2009) assesses anxiety and depression (2 items each) with 4-point Likert scales (0 - not at all to 3 - nearly every day).
-
-#### Exploratory
-To further investigate the inter-individual correlates of illusion sensitivity, we included:
 
 ##### Interoception
 
@@ -169,7 +161,7 @@ The materials and procedure of the experiment will be the same as the pilot stud
 
 ### Sampling plan
 
-Although the Bayesian analysis approach moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (https://sample-size.net/correlation-sample-size/). Based on the average correlation reported by [Makowski et al. (*under review*)], with α = .05, β = .2, r = .17, it suggested a minimum target sample of 240 participants. To account for the outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 400 participants.
+Although the Bayesian analysis approach moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (https://sample-size.net/correlation-sample-size/). Using α = .05, β = .2 and the average correlation reported by [Makowski et al. (*under review*)] of r = .17, the suggested minimum target sample size was 240 participants. To account for potential outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 400 participants.
 
 ### Analysis Plan
 
@@ -178,11 +170,13 @@ The analysis script is available in ...
 Data of participants with outlying scores (in regard to the population distributions) will be further examined and potentially excluded if there is reason to suspect that they did not pay attention to the task (e.g., failing to make the appropriate response to attention check items embedded in questionnaires, the presence of a high number of errors in “easy” trials, as well as a very short total duration, might suggest that participants answered randomly to quickly finish the task). In this study, missing data will be prevented through the implementation of a forced-choice reaction-time behavioural task, in which the trial does not proceed to the next display until participants make a response.
 
 ### Funding & Acknowledgements
+
 This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-PPF-2020-10014) from Nanyang Technological University (awarded to DM). The funders have/had no role in study design, data collection and analysis, decision to publish or preparation of the manuscript.
 
 ### Author Contributions
 
 ### Competing Interests
+
 The authors declare no competing interests.
 
 ### Design Table 
