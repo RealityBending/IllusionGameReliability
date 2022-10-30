@@ -13,7 +13,7 @@ function get_results(illusion_mean, illusion_sd, illusion_type) {
     if (correct_trials.count() > 0) {
         var rt_mean_correct = correct_trials.select("rt").mean()
         var ies = rt_mean_correct / proportion_correct // compute inverse efficiency score
-        var score_to_display = 100 - ies / 50
+        var score_to_display = 100 - ies / 40
         if (score_to_display < 0) {
             score_to_display = 0
         }
