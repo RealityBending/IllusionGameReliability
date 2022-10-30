@@ -53,16 +53,16 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 
 Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6)). Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with higher disorganized and positive schizotypal traits ([Bressan & Kramer, 2013](https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00343); [Fradkin & Silverstein, 2022](10.1016/j.bionps.2022.100050)), as well as those with high systemizing tendencies (often associated with autism; [Walter et al., 2008](https://doi.org/10.1007/s10803-008-0630-2)).
 
-    - 5.1 Negative correlation between illusion sensitivity and autistic traits, specifically in dimensions related to systemizing tendencies (measured with the *Patterns/Numbers* subscale)
-    - 5.2 Negative correlation between illusion sensitivity and schizotypal personality traits, particularly in the positive (measured with the *Cognitive-Perceptual* subscale) and disorganized dimensions (measured with the *Disorganized* subscale)
+- 5.1 Negative correlation between illusion sensitivity and autistic traits, specifically in dimensions related to systemizing tendencies (measured with the *Patterns/Numbers* subscale)
+- 5.2 Negative correlation between illusion sensitivity and schizotypal personality traits, particularly in the positive (measured with the *Cognitive-Perceptual* subscale) and disorganized dimensions (measured with the *Disorganized* subscale)
 
 6. **Mood and Emotion Regulation**
 
 While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, some researchers report higher trait anxiety to be related to reduced illusion sensitivity ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)). In fact, consistent with the predictive coding theory, anxiety has been linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating ([Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649); [Hein et al., 2021](https://doi.org/10.1016/j.neuroimage.2020.117424)). Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits ([Flasbeck et al., 2020](https://doi.org/10.1186/s40479-020-00139-1)). On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)).
 
-    - 6.1 Negative correlation between illusion sensitivity and depression scores
-    - 6.2 No correlation between illusion sensitivity and anxiety scores
-    - 6.2 Positive correlation between illusion sensitivity and borderline personality traits
+- 6.1 Negative correlation between illusion sensitivity and depression scores
+- 6.2 No correlation between illusion sensitivity and anxiety scores
+- 6.2 Positive correlation between illusion sensitivity and borderline personality traits
 
 ### Exploration
 
@@ -81,28 +81,28 @@ While the literature regarding the links between emotion and mood dysregulation 
 
 Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
-    - 10.1 Negative correlation between illusion sensitivity and conspiracy beliefs
+- 10.1 Negative correlation between illusion sensitivity and conspiracy beliefs
     
 11. **Interoception**
 
 Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
 
-    - 11.1 Positive correlation between illusion sensitivity and interoception
+- 11.1 Positive correlation between illusion sensitivity and interoception
 
 12. **Lying tendency**
 
 Given the negative link observed between illusion sensitivity and honesty-humility, as well as with maladaptive personality traits [(Makowski et al.,*under review*)](https://psyarxiv.com/9pjx5/), we expect other related dimensions to relate, such as dispositional lying tendencies ([Makowski et al., 2020](https://psyarxiv.com/t7s32/)).
 
-    - 11.1 Negative correlation between illusion sensitivity and deception profile
+- 11.1 Negative correlation between illusion sensitivity and deception profile
 
 13. **Primal beliefs**
 
 Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([Clifton et al., 2021](http://dx.doi.org/10.1037/pas0001055)), and thus be associated with illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which is negatively correlated with beliefs in a safe world; [Leone et al., 2017](10.1002/ijop.12459)) and illusory pattern perception ([van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331)).
 
-    - 13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
-    - 13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
-    - 13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
-    - 13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
+- 13.1 Negative correlation between illusion sensitivity and the "Safe" primal belief
+- 13.2 Negative correlation between illusion sensitivity and the "Changing" primal belief
+- 13.3 Positive correlation between illusion sensitivity and the "Understandable" primal belief
+- 13.4 Positive correlation between illusion sensitivity and the "Hierarchical" primal belief
 
 
 ## Methods
@@ -185,11 +185,16 @@ This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-P
 
 ### Author Contributions
 
+The authors made the following contributions. DM: Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing – original draft; AST: Project administration, Resources, Investigation, Writing – original draft; SK: Project administration, Resources, Writing – original draft; NZL: Project administration, Resources, Writing – review & editing; AC: Project administration, Supervision, Writing – review & editing.
+
+
 ### Competing Interests
 
 The authors declare no competing interests.
 
 ### Design Table 
+
+
 |        Question        | Hypothesis  |Sampling Plan (e.g., power analysis)| Analysis Plan| Interpretation given to different outcomes|
 |------------------------|-------------|------------------------------------|--------------|--------------------------------------------
 |                        |             |                                    |              |                                           |
