@@ -2,15 +2,15 @@
 
 *Dominique Makowski, An Shu Te, Stephanie Kirk, Ngoi Zi Liang, & S.H. Annabel Chen*
 
-## Abstract 
+## Abstract
 
 TODO.
 
 ## Introduction
 
-Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research theorized a common mechanism underlying people's sensitivity to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). This issue is important given the theorethical proposition that the effect of illusions is not only an artifact caused by our perceptual system, but a marker of a general feature of our cognitive systems...
+Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality ([Carbon, 2014](https://www.frontiersin.org/articles/10.3389/fnhum.2014.00566)). While early research theorized a common mechanism underlying people's sensitivity to illusions ([Halpern et al., 1999](https://direct.mit.edu/jocn/article/11/5/521/3374/Interindividual-Variation-in-Human-Visual); [Thurstone, 1944](https://psycnet.apa.org/record/1945-00890-000)), recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions ([Grzeczkowski et al., 2017](https://www.sciencedirect.com/science/article/pii/S004269891630150X); [Grzeczkowski et al., 2018](https://www.sciencedirect.com/science/article/pii/S0165178117305978)). The significance of this issue is further compounded, given the theoretical proposition that the effect of illusions is not only an artifact caused by our perceptual system, but a marker of a general feature of our cognitive systems.
 
-The idea that visual illusions do indeed reflect charasteritics of functioning at a general cognitive level is supported by evidence linking them to high-level perturbations of the cognitive system, such as ...
+The idea that visual illusions do indeed reflect characteristics of functioning at a general cognitive level is supported by evidence linking them to high-level perturbations of the cognitive system. For instance, susceptibility to illusory effects has been associated with a lower ability to process within-object relational properties ([Chouinard et al., 2016](10.1007/s10803-016-2753-1)); poorer working memory ([Bednarek et al., 2018]( 10.2139/ssrn.4077517)) and weaker top-down cognitive control ([Liao et al., 2011](10.1097/WNR.0b013e32834ab40b)). In a study conducted with neurotypical children, [Chouinard et al., 2019](https://doi.org/10.3758/s13414-019-01904-3) reports illusion sensitivity negatively correlated with higher ordered cognitive processes that developed with age, thereby demonstrating the influence of cognitive functions on people's resistance towards visual illusions.
 
 Similarly, despite the theoretical arguments made in favour of the existence of a link between illusion sensitivity and participants' characteristics (personality ([Zhang et al., 2017](https://www.degruyter.com/document/doi/10.1515/tnsci-2017-0004/html?lang=en); [Konrath et al., 2009](10.1111/j.1467-6494.2009.00579.x); [Blake &Palmisano, 2021](https://doi.org/10.1177/0301006621100019)) and psychopathological traits or disorders ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [D’Amour et al., 2021](10.3758/s13414-020-02228-3)), the empirical evidence remains weak ([Kaliuzhna ert al., 2019](10.1016/j.schres.2018.12.027); [Yang et al., 2012](10.1177/2167702612464618); [Manning et al., 2017](https://doi.org/10.1186%2Fs13229-017-0127-y)).
 
@@ -82,7 +82,7 @@ While the literature regarding the links between emotion and mood dysregulation 
 Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
 - 10.1 Negative correlation between illusion sensitivity and conspiracy beliefs
-    
+
 11. **Interoception**
 
 Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
@@ -192,7 +192,7 @@ The authors made the following contributions. DM: Conceptualization, Data curati
 
 The authors declare no competing interests.
 
-### Design Table 
+### Design Table
 
 
 |        Question        | Hypothesis  |Sampling Plan (e.g., power analysis)| Analysis Plan| Interpretation given to different outcomes|
