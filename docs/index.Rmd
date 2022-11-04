@@ -152,8 +152,8 @@ A series of questionnaires were administered in between the Illusion Task and th
 
 ##### Interoception
 
--   The [**MAIA-2**](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034) (Multidimensional Assessment of Interoceptive Awareness Version 2; Mehling et al., 2018) measures 5 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting) with 37 items.
--   The [**IAS-R**](https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale) (Interoceptive Accuracy Scale Revised; adapted from [Murphy et al., 2019](http://dx.doi.org/10.31234/osf.io/fqgu4)), measures 5 aspects of bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) using 18 analagog scales.
+-   The [**MAIA-2**](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208034) (Multidimensional Assessment of Interoceptive Awareness Version 2; Mehling et al., 2018) measures 8 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting) with 37 items using a visual analog scale.
+-   The [**IAS-R**](https://github.com/DominiqueMakowski/InteroceptiveAccuracyScale) (Interoceptive Accuracy Scale Revised; adapted from [Murphy et al., 2019](http://dx.doi.org/10.31234/osf.io/fqgu4)), measures 5 factors of bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) using a visual analog scale.
 
 ##### Beliefs and Misbeliefs
 
@@ -276,7 +276,7 @@ Analysis_Plan <- c("We will use Bayesian mixed models to analyse the relationshi
                    "As above"
                    )
   
-Interpretation <- c("If greater illusion strength and task difficult is found to lead to a significant* increase (*Bayes Factor >1) in error rate and repsonse time, we will interpret that there is sufficient evidence to claim that the results of the previous Illusion Game study was successfully replicated",
+Interpretation <- c("If greater illusion strength and task difficult is found to lead to a significant increase in error rate and repsonse time, we will interpret that there is sufficient evidence to claim that the results of the previous Illusion Game study was successfully replicated",
                    "If an acceptable or satisfactory fit for a model with all 3 illusion-specific factors are found to load onto a common factor, we will interpret that there is sufficient evidence to claim that a general sensitivity to illusions exists.",
                    "If the correlation between illusion sensitivty measured two weeks apart is found to be significant, we will interpret that there is sufficient evidence to claim that illusion sensitivty is reliable across time",
                    "If participants' illusion scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants), we will interpret that there is sufficient evidence to claim that illusion sensitivity is more stable within participants than between participants",
