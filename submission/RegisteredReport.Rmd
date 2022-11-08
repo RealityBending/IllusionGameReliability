@@ -31,22 +31,22 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 
 #### Psychometry
 
-1.  **Effect of Illusion Strength and Difficulty**
+H1.  **Effect of Illusion Strength and Difficulty**
     -   1.1 *On error rate*
         -   1.1.1 Positive effect of illusion strength on error rate
         -   1.1.2 Positive effect of task difficulty on error rate
     -   1.2 *On RT*
         -   1.2.1 Negative effect of illusion strength on response time
         -   1.2.2 Negative effect of task difficulty on response time
-2.  **General Factor *i***
+H2.  **General Factor *i***
     -   2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions
 
 #### Inter-individual Correlates
 
-3.  **Normal personality traits**
+H3.  **Normal personality traits**
     -   3.1 Positive correlation between illusion sensitivity and Agreableness
     -   3.2 Positive correlation between illusion sensitivity and Honesty-Humility
-4.  **Maladaptive personality traits**
+H4.  **Maladaptive personality traits**
     -   4.1 Negative correlation between illusion sensitivity and Antagonism
     -   4.2 Negative correlation between illusion sensitivity and Disinhibition
     -   4.3 Negative correlation between illusion sensitivity and Negative Affect
@@ -54,14 +54,14 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 
 ### Confirmation
 
-5.  **Autism and Schizotypal traits**
+H5.  **Autism and Schizotypal traits**
 
 Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences ([Notredame et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4130106/); [Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6)). Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with higher disorganized and positive schizotypal traits ([Bressan & Kramer, 2013](https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00343); [Fradkin & Silverstein, 2022](10.1016/j.bionps.2022.100050)), as well as those with high systemizing tendencies (often associated with autism; [Walter et al., 2008](https://doi.org/10.1007/s10803-008-0630-2)).
 
 -   5.1 Negative correlation between illusion sensitivity and autistic traits, specifically in dimensions related to systemizing tendencies (measured with the *Patterns/Numbers* subscale)
 -   5.2 Negative correlation between illusion sensitivity and schizotypal personality traits, particularly in the positive (measured with the *Cognitive-Perceptual* subscale) and disorganized dimensions (measured with the *Disorganized* subscale)
 
-6.  **Mood and Emotion Regulation**
+H6.  **Mood and Emotion Regulation**
 
 While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, some researchers report higher trait anxiety to be related to reduced illusion sensitivity ([Baroun & Al-Ansari, 2005](10.2224/sbp.2005.33.1.33); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)). In fact, consistent with the predictive coding theory, anxiety has been linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating ([Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649); [Hein et al., 2021](https://doi.org/10.1016/j.neuroimage.2020.117424)). Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits ([Flasbeck et al., 2020](https://doi.org/10.1186/s40479-020-00139-1)). On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects ([Koethe et al., 2009](https://link.springer.com/article/10.1007/s00406-008-0851-6); [Passie et al., 2013](https://doi.org/10.1080/13548506.2012.722649)).
 
@@ -73,41 +73,43 @@ While the literature regarding the links between emotion and mood dysregulation 
 
 #### Psychometry
 
-7.  **Test-retest Reliability**
+H7.  **Test-retest Reliability**
     -   7.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
-8.  **Within-participants Stability**
-    -   8.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants).
-9.  **Perceptual independence**
-    -   9.1 None to weak correlation between illusion sensitivity and perceptual ability.
+H8.  **Case-level Estimation Reliability**
+    -   8.1 The individual illusion sensitivity scores derived from the population models will strongly correlate with scores estimated by individual models fitted on each participant.
+H9.  **Within-participants Stability**
+    -   9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants)
+H10.  **Perceptual independence**
+    -   10.1 None to weak correlation between illusion sensitivity and perceptual ability
 
 #### Inter-individual Correlates
 
-10. **Conspiracy Beliefs**
+H11. **Conspiracy Beliefs**
 
 Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331) report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [van Elk (2015)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0130422#sec002), that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
--   10.1 Negative correlation between illusion sensitivity and tendency to believe in conspiracies
+-   11.1 Negative correlation between illusion sensitivity and tendency to believe in conspiracies
 
-11. **Interoception**
+H12. **Interoception**
 
 Imprecise predictions of internal bodily signals has been associated with an increased reliance on external environmental cues ([Synofzik et al., 2010](10.1093/brain/awp291); [Seth et al., 2012](10.3389/fpsyg.2011.00395)), which should translate into a lesser illusion sensitivity of people with lower interoceptive skills. This is in line with with the evidence showing that autism and schizophrenia, in which decreased interoceptive abilities are reported ([Notredame et al., 2014](https://doi.org/10.3389/fnint.2014.00063); [Ciszewski et al., 2015](http://dx.doi.org/10.12740/PP/27072); [Park et al., 2022](https://doi.org/10.1111/ejn.15739); [Bölte et al., 2007](10.1007/s10803-006-0231-x)), are also associated with a lower illusion sensitivity.
 
--   11.1 Positive correlation between illusion sensitivity and interoceptive abilities
+-   12.1 Positive correlation between illusion sensitivity and interoceptive abilities
 
-12. **Lying tendency**
+H13. **Lying tendency**
 
 Given the positive relationship observed between illusion sensitivity and honesty-humility, as well as the negative link it shares with maladaptive personality traits [(Makowski et al.,*under review*)](https://psyarxiv.com/9pjx5/), we expect illusion sensitivity to be associated with other related dimensions, such as dispositional lying tendencies ([Makowski et al., 2020](https://psyarxiv.com/t7s32/)).
 
--   12.1 Negative correlation between illusion sensitivity and general dispositional tendency to lie
+-   13.1 Negative correlation between illusion sensitivity and general dispositional tendency to lie
 
-13. **Primal beliefs**
+H14. **Primal beliefs**
 
 Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([Clifton et al., 2021](http://dx.doi.org/10.1037/pas0001055)), and thus be related to illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which negatively correlates with beliefs of a safe world; [Leone et al., 2017](10.1002/ijop.12459)) and illusory pattern perception ([van Prooijen et al. (2017)](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.2331)).
 
--   13.1 Negative correlation between illusion sensitivity and the tendency to believe that the world is safe (measured with the *Safe* subscale in PI-18)
--   13.2 Negative correlation between illusion sensitivity and the tendency to believe that the world is not static (measured with the *Changing* subscale in PI-18)
--   13.3 Positive correlation between illusion sensitivity and the tendency to believe that the world inherently has an underlying order (measured with the *Hierarchical* subscale in PI-18)
--   13.4 Positive correlation between illusion sensitivity and the tendency to believe that the world is comprehensible (measured with the *Understandable* subscale in PI-18)
+-   14.1 Negative correlation between illusion sensitivity and the tendency to believe that the world is safe (measured with the *Safe* PI-18 subscale)
+-   14.2 Negative correlation between illusion sensitivity and the tendency to believe that the world is not static (measured with the *Changing* PI-18 subscale)
+-   14.3 Positive correlation between illusion sensitivity and the tendency to believe that the world inherently has an underlying order (measured with the *Hierarchical* PI-18 subscale)
+-   14.4 Positive correlation between illusion sensitivity and the tendency to believe that the world is comprehensible (measured with the *Understandable* PI-18 subscale)
 
 # Methods
 
@@ -168,13 +170,11 @@ About 2 weeks following their initial participation, participants were invited t
 
 ## Design Plan
 
-This study will have a within-subjects design with repeated measures. Data collection and analysis will not be performed blind to the conditions of the experiment. Prior to the start of the experiment, all participants will be required to give their consent via an informed consent form, where the study's purpose will be stated. However, participants will not be explicitly informed of the independent variables measured and the research hypotheses.
-
-The materials and procedure of the experiment will be the same as that of the pilot study (see above).
+This study has a mixed design with within-subjects repeated measures (for the experimental tasks) and between-subjects analyses. Data collection and analysis will not be performed blind to the conditions of the experiment. Prior to the start of the experiment, all participants will be required to give their consent via an informed consent form, where the study's purpose will be stated. However, participants will not be explicitly informed of the independent variables measured and the research hypotheses. The materials and procedure of the experiment will be the same as that of the pilot study (see **Pilot Data** section).
 
 ## Sampling plan
 
-Although the Bayesian analysis approach moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (<https://sample-size.net/correlation-sample-size/>). Using α = .05, β = .2 and the average correlation reported by [Makowski et al. (*under review*)] of r = .17, the suggested minimum target sample size was 240 participants. To account for potential outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 400 participants.
+Although Bayesian analysis moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (<https://sample-size.net/correlation-sample-size/>) to provide a lower bound estimate. Using α = .05, β = .2 and the average correlation reported by [Makowski et al. (*under review*)](https://psyarxiv.com/9pjx5/) of r = .17, the suggested minimum target sample size was 240 participants. To account for potential outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 500 participants.
 
 ## Analysis Plan
 
@@ -182,13 +182,15 @@ The analysis script is available in ...
 
 Data of participants with outlying scores (in regard to the population distributions) will be further examined and potentially excluded if there is reason to suspect that they did not pay attention to the task (e.g., failing to make the appropriate response to attention check items embedded in questionnaires, the presence of a high number of errors in "easy" trials, as well as a very short total duration, might suggest that participants answered randomly to quickly finish the task). In this study, missing data will be prevented through the implementation of a forced-choice reaction-time behavioural task, in which the trial does not proceed to the next display until participants make a response.
 
+<!-- We will make our statistical inferences and interpretation based on the Bayes Factors (BF). BF values above 3 and below 1/3 will be regarded as sufficient evidence for the alternative and the null hypothesis, otherwise we will interpret the BF as the strength of relative evidence between the hypotheses. -->
+
 # Funding & Acknowledgements
 
 This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-PPF-2020-10014) from Nanyang Technological University (awarded to DM). The funders have/had no role in study design, data collection and analysis, decision to publish or preparation of the manuscript.
 
 # Author Contributions
 
-The authors made the following contributions. DM: Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing -- original draft; AST: Project administration, Resources, Investigation, Writing -- original draft; SK: Project administration, Resources, Writing -- original draft; NZL: Project administration, Resources, Writing -- review & editing; AC: Project administration, Supervision, Writing -- review & editing.
+The authors made the following contributions. DM: Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing -- original draft; AST: Project administration, Data curation, Resources, Software, Investigation, Writing -- original draft; SK: Project administration, Resources, Writing -- original draft; NZL: Project administration, Resources, Writing -- review & editing; AC: Project administration, Supervision, Writing -- review & editing.
 
 # Competing Interests
 
@@ -197,145 +199,189 @@ The authors declare no competing interests.
 # Design Table
 
 ```{r echo=FALSE, warning=FALSE}
-Question <- c("Are the results of the previous Illusion Game study replicable?",
-              "Is there a general factor that characterizes inter-individual differences in illusion sensitivity?",
-              "Is intra-individual illusion sensitivity reliable across time?",
-              "Is illusion sensitivity more stable within individuals than between them?",
-              "Is illusion sensitivity distinct from pure perceptual ability?",
-              "Does illusion sensitivity correlate with the HEXACO personality traits, specifically in the dimensions of Agreeableness and Honesty-Humility?",
-              "Does illusion sensitivity correlate with the PID-5 maladaptive personality traits, speicifically in the dimensions of Antagonism, Disinhibition, Negative Affect and Psychoticism",
-              "Does illusion sensitivity correlate with autistic traits, specifically in the dimensions related to systemizing tendencies?",
-              "Does illusion sensitivity correlate with schizotypal traits, specifically in the cognitive-perceptual and disorganzied dimensions?",
-              "Does illusion sensitivtiy correlate with trait depression levels?",
-              "Does illusion sensitivity correlate with trait anxiety levels?",
-              "Does illusion sensitivity correlate with borderline personality traits?",
-              "Does illusion sensitivity correlate with conspiracy beliefs?",
-              "Does illusion sensitivtiy correlate with interoception?",
-              "Does illusion sensitivtiy correlate with dispositional lying tendencies?",
-              "Does illusion sensitivity correlate with primal beliefs, specifically in the beliefs of the world being safe, hierarchical, understandable and changing?")
-
-Hypothesis <- c("Participants will make more errors when the illusion strength is greater (H1.1.1)",
-                "Participants will make more errors when the task difficulty is higher (H1.1.2)",
-                "Participants will take a shorter time to respond when the illusion strength is greater (H1.2.1)",
-                "Participants will take a shorter time to respond when the task difficulty is higher (H1.2.2)",
-                "Across different illusions, inter-individual illusion scores will load onto a unique latent dimension that reflects a general sensitivity to illusions (H2)",
-                "Participants' illusion sensitivity (measured using illusion scores calculated by assessing the inter-individual variability in the effect of illusion strength and its interaction with task difficulty) at time point 1 (t1) will correlate significantly with the illusion sensitivty found at time point 2 (t2, which takes place two weeks later) (H3)",
-                "There will be a larger betweeen-participant variance in illusion sensitivity than within-participants. (H4)",
-                "Participants' intra-individual illusion sensitivity will not correlate significantly with their objective perceptual ability (H5)",
-                "Participants with greater illusion sensitivity will score higher on Agreeableness (measured using the Mini-IPIP scale) (H6.1)",
-                "Participants with greater illusion sensitivity will score higher on Honesty-Humility (meausured using the Mini-IPIP scale) (H6.2)",
-                "Participants with greater illusion sensitivity will score lower on Antagonism (measured using the PID-5 scale) (H7.1)",
-                "Participants with greater illusion sensitivity will score lower on Disinhibition (measured using the PID-5 scale) (H7.2)",
-                "Participants with greater illusion sensitivity will score lower on Negative Affect (measured using the PID-5 scale) (H7.3)",
-                "Participants with greater illusion sensitivity will score lower on Psychoticism (measured using the PID-5 scale) (H7.4)",
-                "Participants with lower illusion sensitivity will exhibit more autistic traits, particularly in the dimensions related to systemizing tendencies (measured using the Patterns/Numbers subscale in ASQ-Short) (H8.1)",
-                "Participants with lower illusion sensitivity will exhibit more schizotypal personality traits, particularly in the positive (measured using the Cognitive-Perceptual subscale in SPQ) and disorganized dimensions (measured with the Disorganized subscale in SPQ) (H8.2)",
-                "Participants with lower illusion sensitivity will display higher levels of depression (measured using the Depression subscale in the PHQ-4) (H9.1)",
-                "Participants' illusion sensitivity will not have any significant associations with their level of anxiety (measured using the Anxiety subscale in the PHQ-4) (H9.2)",
-                "Participants with higher illusion sensitivity will exhibit more borderline personality traits (measured using the MSI-BPD) (H9.3)",
-                "Participants with lower illusion sensitivity will exhibit a greater tendency to believe in conpiracies (measured using the GCBS) (H10)",
-                "Participants with greater illusion sensitivity will have better interoceptive abilities (measured using the IAS-R and MAIA-2) (H11)",
-                "Participants with higher illusion sensitivity will exhibit a lower dispositional tendency to lie (measured using The LIE Scale) (H12)",
-                "Participants with lower illusion sensitivity will exhibit a higher tendency to believe that the world is safe (measured using the Safe subscale in PI-18) (H13.1)",
-                "Participants with lower illusion sensitivity will exhibit a higher tendency to believe that the world is not static (measured using the Changing subscale in PI-18) (H13.2)",
-                "Participants with higher illusion sensitivity will exhibit a higher tendency to believe that the world is inherently has an underlying order (measured using the Hierarchical subscale in PI-18) (H13.3)",
-                "Participants with higher illusion sensitivity will exhibit a higher tendency to believe that the world is comprehensible (measured with the Understandable subscale in PI-18) (H13.4)"
+table <- data.frame(
+  Question = "Replication of Makowski et al., (under review)",
+  Hypothesis = "H1.1 - Participants make more errors for high Illusion Strength and Difficulty",
+  Sampling = "N=400 * 384 trials",
+  Analysis = "The analysis will be similar to that of Makowski et al., (under review). We will use Bayesian mixed models to analyse the relationship between the parametric properties of the visual illusions (i.e., illusion strength and objective difference), and participants’ behavioural reactions i.e., their speed and accuracy in their responses. Error rates will be analyzed using Bayesian logistic mixed models, and RTs of correct responses will be analyzed using an ex-Gaussian family.",
+  Interpretation = "Successful replication if greater illusion strength and task difficult is found to lead to a significant increase in error rate and repsonse time."
 )
 
-Sampling_Plan <- c("Using a two-sided 5% significance level test (α=0.05) with power 80% power (β=0.2), the required sample size to detect a correlation r=0.17 is 240. To account for expected drop-outs, attrition rate and outliers due to poor data quality based on prior research sampling conducted on online platforms ([Palan & Schitter, 2018](https://doi.org/10.1016/j.jbef.2017.12.004)); [Peer et al., 2022](10.3758/s13428-021-01694-3)), we will target to recruit 400 participants.",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400",
-                   "N=400")
-  
-Analysis_Plan <- c("We will use Bayesian mixed models to analyse the relationship between the parametric properties of the visual illusions (i.e., illusion strength and objective difference), and participants’ behavioural reactions i.e., their speed and accuracy in their responses. Error rates will be analyzed using Bayesian logistic mixed models, and RTs of correct responses will be analyzed using an ex-Gaussian family.",
-                   "We will extract inter-individual variance in the effect of illusion strength and its interaction with task difficulty from models as participant-level scores and conduct Structural Equation Modelling (SEM) as well as Confirmatory Factor Analysis (CFA) to test for the existence of a general factor of illusion sensitivity",
-                   "A correlation analysis will be conducted across participants to assess the test-retest reliabiltiy of the intra-individual illusion sensitvity factor found",
-                   "We will compare the width of the confidence intevals (95% CI width) of illusion scores with the range of the point-estimates (95% ETI)",
-                   "We will assess the correlation between participants' illusion scores with their objective perceptual task scores using Pearson's test (or Spearman ???)",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above",
-                   "As above"
-                   )
-  
-Interpretation <- c("If greater illusion strength and task difficult is found to lead to a significant increase in error rate and repsonse time, we will interpret that there is sufficient evidence to claim that the results of the previous Illusion Game study was successfully replicated",
-                   "If an acceptable or satisfactory fit for a model with all 3 illusion-specific factors are found to load onto a common factor, we will interpret that there is sufficient evidence to claim that a general sensitivity to illusions exists.",
-                   "If the correlation between illusion sensitivty measured two weeks apart is found to be significant, we will interpret that there is sufficient evidence to claim that illusion sensitivty is reliable across time",
-                   "If participants' illusion scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants), we will interpret that there is sufficient evidence to claim that illusion sensitivity is more stable within participants than between participants",
-                   "If participants' illusion scores do not significantly correlate with their perceptual task scores, we will interpret that illusion sensitivity is distinct from pure perceptual ability",
-                   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in Agreeableness and/or Honesty-Humility, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have higher scores in the correespondiong HEXACO traits",
-                   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in Antagonism, Disinhibition, Negative Affect and/or Psychoticism, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have lower scores in the corresponding maladaptive traits",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "If participants' illusion sensitivity is not found to correlate significantly with their levels of anxiety, we will interpret that there is sufficient eviedence to claim that illusion sensitivity is significantly not associated with trait anxiety",
-                   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in MSI-BPD, we will interpret that there is sufficient evidence to conclude that people with higher illusion sensitivity are more likely to exhibit borderline personality traits",
-                   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in GCBS, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are more likely to have less conspiracy beliefs",
-                   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in interoception, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have better interoceptive abilities",
-                   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in the LIE scale, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are likely to exhibit a tendency to lie",
-                   "If participants' illusion sensitivty is found to significantly positively correlate with their scores in the Safe and/or Changing subscales of the PI-18, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are more likely to exhibit the corresponding primal beliefs. If participants' illusion sensitivty is found to significantly negatively correlate with their scores in the Hierarchical and/or Understandable subscales of the PI-18, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are less likely to exhibit the corresponding primal beliefs" )
 
-Rationale<- c("We will make our statistical inferences and interpretation based on the Bayes Factors (BF). BF values above 3 and below 1/3 will be regarded as sufficient evidence for the alternative and the null hypothesis, otherwise we will interpret the BF as the strength of relative evidence between the hypotheses.",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above",
-                   "As Above")
+table <- table |>
+  rbind(
+    list(
+      Question = "",
+      Hypothesis = "H1.2 - Participants are slower for high Illusion Strength and Difficulty",
+      Sampling = "N=400 * 384 trials",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "",
+      Hypothesis = "H.2 - The illusion sensitivit scores for each illusion type will be related to a General Factor *i*",
+      Sampling = "N=400",
+      Analysis = "Factor analysis and structural equation modeling will be applied on the individual scores derived from the aforementioned models to test the existence of an overarching latent factor.",
+      Interpretation = "Successful replication if we found a superior fit for a common factor model against models with only illusion-specific factors."
+    ),
+    list(
+      Question = "",
+      Hypothesis = "H.3",
+      Sampling = "N=400",
+      Analysis = "blabla",
+      Interpretation = "blabla"
+    )
+  )
 
-
-design_table<-tibble:: tribble (~Question, ~Hypothesis, ~Sampling_Plan, ~Analysis_Plan, ~Interpretation, ~Rationale, Question[1], Hypothesis[1:4], Sampling_Plan[1], Analysis_Plan[1], Interpretation[1], Rationale[1],
-Question[2], Hypothesis[5], Sampling_Plan[2], Analysis_Plan[2], Interpretation[2], Rationale[2],
-Question[3], Hypothesis[6], Sampling_Plan[3], Analysis_Plan[3], Interpretation[3], Rationale[3],
-Question[4], Hypothesis[7], Sampling_Plan[4], Analysis_Plan[4], Interpretation[4], Rationale[4],
-Question[5], Hypothesis[8], Sampling_Plan[5], Analysis_Plan[5], Interpretation[5], Rationale[5],
-Question[6], Hypothesis[9:10], Sampling_Plan[6], Analysis_Plan[6], Interpretation[6], Rationale[6],
-Question[7], Hypothesis[11:14], Sampling_Plan[7], Analysis_Plan[7], Interpretation[7], Rationale[7],
-Question[8], Hypothesis[15], Sampling_Plan[8], Analysis_Plan[8], Interpretation[8], Rationale[8],
-Question[9], Hypothesis[16], Sampling_Plan[9], Analysis_Plan[9], Interpretation[9], Rationale[9],
-Question[10], Hypothesis[17], Sampling_Plan[10], Analysis_Plan[10], Interpretation[10], Rationale[10],
-Question[11], Hypothesis[18], Sampling_Plan[11], Analysis_Plan[11], Interpretation[11], Rationale[11],
-Question[12], Hypothesis[19], Sampling_Plan[12], Analysis_Plan[12], Interpretation[12], Rationale[12],
-Question[13], Hypothesis[20], Sampling_Plan[13], Analysis_Plan[13], Interpretation[13], Rationale[13],
-Question[14], Hypothesis[21], Sampling_Plan[14], Analysis_Plan[14], Interpretation[14], Rationale[14],
-Question[15], Hypothesis[22], Sampling_Plan[15], Analysis_Plan[15], Interpretation[15], Rationale[15],
-Question[16], Hypothesis[23:26], Sampling_Plan[16], Analysis_Plan[16], Interpretation[16], Rationale[16])
+knitr::kable(table)
 
 
 
-
-names(design_table) <- c('Question', 'Hypothesis', 'Sampling Plan', 'Analysis Plan', 'Interpretation', 'Rationale for Sensitivity of Test')
-
-knitr::kable(design_table)
-
-
+# Question <- c(
+#   "Is illusion sensitivity more stable within individuals than between them?",
+#   "Is illusion sensitivity distinct from pure perceptual ability?",
+#   "Does illusion sensitivity correlate with the HEXACO personality traits, specifically in the dimensions of Agreeableness and Honesty-Humility?",
+#   "Does illusion sensitivity correlate with the PID-5 maladaptive personality traits, speicifically in the dimensions of Antagonism, Disinhibition, Negative Affect and Psychoticism",
+#   "Does illusion sensitivity correlate with autistic traits, specifically in the dimensions related to systemizing tendencies?",
+#   "Does illusion sensitivity correlate with schizotypal traits, specifically in the cognitive-perceptual and disorganzied dimensions?",
+#   "Does illusion sensitivtiy correlate with trait depression levels?",
+#   "Does illusion sensitivity correlate with trait anxiety levels?",
+#   "Does illusion sensitivity correlate with borderline personality traits?",
+#   "Does illusion sensitivity correlate with conspiracy beliefs?",
+#   "Does illusion sensitivtiy correlate with interoception?",
+#   "Does illusion sensitivtiy correlate with dispositional lying tendencies?",
+#   "Does illusion sensitivity correlate with primal beliefs, specifically in the beliefs of the world being safe, hierarchical, understandable and changing?"
+# )
+# 
+# Hypothesis <- c(
+#   "Participants will make more errors when the illusion strength is greater (H1.1.1)",
+#   "Participants will make more errors when the task difficulty is higher (H1.1.2)",
+#   "Participants will take a shorter time to respond when the illusion strength is greater (H1.2.1)",
+#   "Participants will take a shorter time to respond when the task difficulty is higher (H1.2.2)",
+#   "Across different illusions, inter-individual illusion scores will load onto a unique latent dimension that reflects a general sensitivity to illusions (H2)",
+#   "Participants' illusion sensitivity (measured using illusion scores calculated by assessing the inter-individual variability in the effect of illusion strength and its interaction with task difficulty) at time point 1 (t1) will correlate significantly with the illusion sensitivty found at time point 2 (t2, which takes place two weeks later) (H3)",
+#   "There will be a larger betweeen-participant variance in illusion sensitivity than within-participants. (H4)",
+#   "Participants' intra-individual illusion sensitivity will not correlate significantly with their objective perceptual ability (H5)",
+#   "Participants with greater illusion sensitivity will score higher on Agreeableness (measured using the Mini-IPIP scale) (H6.1)",
+#   "Participants with greater illusion sensitivity will score higher on Honesty-Humility (meausured using the Mini-IPIP scale) (H6.2)",
+#   "Participants with greater illusion sensitivity will score lower on Antagonism (measured using the PID-5 scale) (H7.1)",
+#   "Participants with greater illusion sensitivity will score lower on Disinhibition (measured using the PID-5 scale) (H7.2)",
+#   "Participants with greater illusion sensitivity will score lower on Negative Affect (measured using the PID-5 scale) (H7.3)",
+#   "Participants with greater illusion sensitivity will score lower on Psychoticism (measured using the PID-5 scale) (H7.4)",
+#   "Participants with lower illusion sensitivity will exhibit more autistic traits, particularly in the dimensions related to systemizing tendencies (measured using the Patterns/Numbers subscale in ASQ-Short) (H8.1)",
+#   "Participants with lower illusion sensitivity will exhibit more schizotypal personality traits, particularly in the positive (measured using the Cognitive-Perceptual subscale in SPQ) and disorganized dimensions (measured with the Disorganized subscale in SPQ) (H8.2)",
+#   "Participants with lower illusion sensitivity will display higher levels of depression (measured using the Depression subscale in the PHQ-4) (H9.1)",
+#   "Participants' illusion sensitivity will not have any significant associations with their level of anxiety (measured using the Anxiety subscale in the PHQ-4) (H9.2)",
+#   "Participants with higher illusion sensitivity will exhibit more borderline personality traits (measured using the MSI-BPD) (H9.3)",
+#   "Participants with lower illusion sensitivity will exhibit a greater tendency to believe in conpiracies (measured using the GCBS) (H10)",
+#   "Participants with greater illusion sensitivity will have better interoceptive abilities (measured using the IAS-R and MAIA-2) (H11)",
+#   "Participants with higher illusion sensitivity will exhibit a lower dispositional tendency to lie (measured using The LIE Scale) (H12)",
+#   "Participants with lower illusion sensitivity will exhibit a higher tendency to believe that the world is safe (measured using the Safe subscale in PI-18) (H13.1)",
+#   "Participants with lower illusion sensitivity will exhibit a higher tendency to believe that the world is not static (measured using the Changing subscale in PI-18) (H13.2)",
+#   "Participants with higher illusion sensitivity will exhibit a higher tendency to believe that the world is inherently has an underlying order (measured using the Hierarchical subscale in PI-18) (H13.3)",
+#   "Participants with higher illusion sensitivity will exhibit a higher tendency to believe that the world is comprehensible (measured with the Understandable subscale in PI-18) (H13.4)"
+# )
+# 
+# Sampling_Plan <- c(
+#   "Using a two-sided 5% significance level test (α=0.05) with power 80% power (β=0.2), the required sample size to detect a correlation r=0.17 is 240. To account for expected drop-outs, attrition rate and outliers due to poor data quality based on prior research sampling conducted on online platforms ([Palan & Schitter, 2018](https://doi.org/10.1016/j.jbef.2017.12.004)); [Peer et al., 2022](10.3758/s13428-021-01694-3)), we will target to recruit 400 participants.",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400",
+#   "N=400"
+# )
+# 
+# Analysis_Plan <- c(
+#   "We will use Bayesian mixed models to analyse the relationship between the parametric properties of the visual illusions (i.e., illusion strength and objective difference), and participants’ behavioural reactions i.e., their speed and accuracy in their responses. Error rates will be analyzed using Bayesian logistic mixed models, and RTs of correct responses will be analyzed using an ex-Gaussian family.",
+#   "We will extract inter-individual variance in the effect of illusion strength and its interaction with task difficulty from models as participant-level scores and conduct Structural Equation Modelling (SEM) as well as Confirmatory Factor Analysis (CFA) to test for the existence of a general factor of illusion sensitivity",
+#   "A correlation analysis will be conducted across participants to assess the test-retest reliabiltiy of the intra-individual illusion sensitvity factor found",
+#   "We will compare the width of the confidence intevals (95% CI width) of illusion scores with the range of the point-estimates (95% ETI)",
+#   "We will assess the correlation between participants' illusion scores with their objective perceptual task scores using Pearson's test (or Spearman ???)",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above",
+#   "As above"
+# )
+# 
+# Interpretation <- c(
+#   "If greater illusion strength and task difficult is found to lead to a significant increase in error rate and repsonse time, we will interpret that there is sufficient evidence to claim that the results of the previous Illusion Game study was successfully replicated",
+#   "",
+#   "If the correlation between illusion sensitivty measured two weeks apart is found to be significant, we will interpret that there is sufficient evidence to claim that illusion sensitivty is reliable across time",
+#   "If participants' illusion scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants), we will interpret that there is sufficient evidence to claim that illusion sensitivity is more stable within participants than between participants",
+#   "If participants' illusion scores do not significantly correlate with their perceptual task scores, we will interpret that illusion sensitivity is distinct from pure perceptual ability",
+#   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in Agreeableness and/or Honesty-Humility, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have higher scores in the correespondiong HEXACO traits",
+#   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in Antagonism, Disinhibition, Negative Affect and/or Psychoticism, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have lower scores in the corresponding maladaptive traits",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "If participants' illusion sensitivity is not found to correlate significantly with their levels of anxiety, we will interpret that there is sufficient eviedence to claim that illusion sensitivity is significantly not associated with trait anxiety",
+#   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in MSI-BPD, we will interpret that there is sufficient evidence to conclude that people with higher illusion sensitivity are more likely to exhibit borderline personality traits",
+#   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in GCBS, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are more likely to have less conspiracy beliefs",
+#   "if participants' illusion sensitivty is found to significantly positiviely correlate with their scores in interoception, we will interpret that there is sufficient evidence to claim that  people with greater illusion sensitivty are more likely to have better interoceptive abilities",
+#   "if participants' illusion sensitivty is found to significantly negatively correlate with their scores in the LIE scale, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are likely to exhibit a tendency to lie",
+#   "If participants' illusion sensitivty is found to significantly positively correlate with their scores in the Safe and/or Changing subscales of the PI-18, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are more likely to exhibit the corresponding primal beliefs. If participants' illusion sensitivty is found to significantly negatively correlate with their scores in the Hierarchical and/or Understandable subscales of the PI-18, we will interpret that there is sufficient evidence to claim that people with greater illusion sensitivty are less likely to exhibit the corresponding primal beliefs"
+# )
+# 
+# Rationale <- c(
+#   "We will make our statistical inferences and interpretation based on the Bayes Factors (BF). BF values above 3 and below 1/3 will be regarded as sufficient evidence for the alternative and the null hypothesis, otherwise we will interpret the BF as the strength of relative evidence between the hypotheses.",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above",
+#   "As Above"
+# )
+# 
+# 
+# design_table <- tibble::tribble(
+#   ~Question, ~Hypothesis, ~Sampling_Plan, ~Analysis_Plan, ~Interpretation, ~Rationale, Question[1], Hypothesis[1:4], Sampling_Plan[1], Analysis_Plan[1], Interpretation[1], Rationale[1],
+#   Question[2], Hypothesis[5], Sampling_Plan[2], Analysis_Plan[2], Interpretation[2], Rationale[2],
+#   Question[3], Hypothesis[6], Sampling_Plan[3], Analysis_Plan[3], Interpretation[3], Rationale[3],
+#   Question[4], Hypothesis[7], Sampling_Plan[4], Analysis_Plan[4], Interpretation[4], Rationale[4],
+#   Question[5], Hypothesis[8], Sampling_Plan[5], Analysis_Plan[5], Interpretation[5], Rationale[5],
+#   Question[6], Hypothesis[9:10], Sampling_Plan[6], Analysis_Plan[6], Interpretation[6], Rationale[6],
+#   Question[7], Hypothesis[11:14], Sampling_Plan[7], Analysis_Plan[7], Interpretation[7], Rationale[7],
+#   Question[8], Hypothesis[15], Sampling_Plan[8], Analysis_Plan[8], Interpretation[8], Rationale[8],
+#   Question[9], Hypothesis[16], Sampling_Plan[9], Analysis_Plan[9], Interpretation[9], Rationale[9],
+#   Question[10], Hypothesis[17], Sampling_Plan[10], Analysis_Plan[10], Interpretation[10], Rationale[10],
+#   Question[11], Hypothesis[18], Sampling_Plan[11], Analysis_Plan[11], Interpretation[11], Rationale[11],
+#   Question[12], Hypothesis[19], Sampling_Plan[12], Analysis_Plan[12], Interpretation[12], Rationale[12],
+#   Question[13], Hypothesis[20], Sampling_Plan[13], Analysis_Plan[13], Interpretation[13], Rationale[13],
+#   Question[14], Hypothesis[21], Sampling_Plan[14], Analysis_Plan[14], Interpretation[14], Rationale[14],
+#   Question[15], Hypothesis[22], Sampling_Plan[15], Analysis_Plan[15], Interpretation[15], Rationale[15],
+#   Question[16], Hypothesis[23:26], Sampling_Plan[16], Analysis_Plan[16], Interpretation[16], Rationale[16]
+# )
+# 
+# 
+# 
+# 
+# names(design_table) <- c("Question", "Hypothesis", "Sampling Plan", "Analysis Plan", "Interpretation", "Rationale for Sensitivity of Test")
+# 
+# knitr::kable(design_table)
 ```
-
