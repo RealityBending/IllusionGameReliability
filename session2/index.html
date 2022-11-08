@@ -267,9 +267,9 @@
             (type = "updown")
         )
 
-        /* ================================================================ */
-        /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
-        /* ================================================================ */
+    /* ================================================================ */
+    /* --------------------- EBBINGHAUS ILLUSION ---------------------- */
+    /* ================================================================ */
         var timeline_ebbinghaus = make_trial(stimuli,
             (instructions = function () {
                 return "<p><b>Part " +
@@ -282,9 +282,9 @@
             (type = "leftright")
         )
 
-        /* ================================================================ */
-        /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
-        /* ================================================================ */
+    /* ================================================================ */
+    /* ----------------- VERTICAL-HORIZONTAL ILLUSION ----------------- */
+    /* ================================================================ */
         var timeline_verticalhorizontal = make_trial(stimuli,
             (instructions = function () {
                 return "<p><b>Part " +
@@ -296,14 +296,6 @@
             (illusion_name = "VerticalHorizontal"),
             (type = "leftright")
         )
-
-        var illusion_task_block = {
-            timeline: [{timeline:timeline_mullerlyer},
-                    {timeline:timeline_ebbinghaus},
-                    {timeline:timeline_verticalhorizontal}],
-            randomize_order:true
-        }
-
 
     /* ================================================================ */
     /* --------------------- Psychometric scales----------------------- */
@@ -524,14 +516,20 @@
     /* ================================================================ */
     /* ---------------------- END OF EXPERIMENT ----------------------- */
     /* ================================================================ */
-        timeline.push(illusion_task_block)
-        if (i===1){
+    for (var t of jsPsych.randomization.shuffleNoRepeats([
+            timeline_mullerlyer,
+            timeline_ebbinghaus,
+            timeline_verticalhorizontal,
+        ])) {
+            timeline.push({timeline: t})
+        }
+        if (i === 2) {
             timeline.push(make_break1)
             for (var t_scale of jsPsych.randomization.shuffleNoRepeats(all_scales)){
-                timeline.push(t_scale)
-            }
-            timeline.push(make_break2)
+            timeline.push(t_scale)
         }}
+    }
+
 
     // Debriefing Information
     var end_experiment = {
