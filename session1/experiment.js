@@ -13,7 +13,7 @@ function get_results(illusion_mean, illusion_sd, illusion_type) {
     if (correct_trials.count() > 0) {
         var rt_mean_correct = correct_trials.select("rt").mean()
         var ies = rt_mean_correct / proportion_correct // compute inverse efficiency score
-        var score_to_display = 100 - ies / 40
+        var score_to_display = 100 - ies / 35
         if (score_to_display < 0) {
             score_to_display = 0
         }
@@ -60,7 +60,7 @@ function get_debrief_display(results, type = "Block") {
             "" +
             "%</b></p>",
         display_rt:
-            "<p style='color:rgb(233,30,99);'> Average Response Time: <b>" +
+            "<p style='color:rgb(139, 195, 74);'> Average Response Time: <b>" +
             round_digits(results.mean_reaction_time) +
             "</b> ms.</p>",
         display_comparison:
@@ -107,7 +107,7 @@ var make_break1 = {
     choices: ["Continue"],
     stimulus:
         "<p><b>CONGRATULATIONS!</b></p>" +
-        "<p>You've completed about half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
+        "<p>You've completed about one third of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
         "<p>Let's continue with a few questionnaires about yourself.</p>",
     save_trial_parameters: {
         trial_duration: true,
@@ -116,10 +116,10 @@ var make_break1 = {
 }
 var make_break2 = {
     type: jsPsychHtmlButtonResponse,
-    choices: ["I am ready to continue!"],
+    choices: ["Continue"],
     stimulus:
-        "<p><b>Back to the illusions</b></p>" +
-        "<p>Try to improve your previous score!</p>",
+        "<p><b>You've completed about 3/4 of the study.</b></p>" +
+        "<p>Ready for the last part?</p>",
     save_trial_parameters: {
         trial_duration: true,
     },
@@ -375,9 +375,7 @@ function make_trial(stimuli, instructions, illusion_name, type) {
                         "#jspsych-progressbar-container"
                     ).style.display = "inline")
             },
-            stimulus:
-                "<p><b>Can you do better in the next round?</b></p>" +
-                "<p>Remember, your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
+            stimulus: "<p><b>Great!</b> Ready for the next set?</p>",
             data: { screen: "perceptual_block_results" },
             // Reset trial number and update block number
             on_finish: function () {
@@ -600,7 +598,6 @@ var SPQ = [
     "<b>When I look at a person or at myself in a mirror, I have seen the face change right before my eyes</b><br>",
     "<b>My thoughts are sometimes so strong that I can almost hear them</b><br>",
     "<b>Everyday things seem unusually large or small</b><br>",
-
 ]
 // * SPQ-BRU has 4 higher-order factors (cognitive-perceptual [suspiciousness, magical thinking, ideas of reference and unusual perceptions], interpersonal [no close friends, constricted affect], disorganized (eccentric behavior and odd speech] and social anxiety)
 var SPQ_dim = [

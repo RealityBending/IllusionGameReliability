@@ -150,7 +150,7 @@
             "<div class='margin-left-10'>"+
             "<p>This study contains decision tests in which you must be fast and accurate, as well as various personality questionnaires.</p>" +
             "<p><b>By participating, you agree to follow the instructions and provide honest answers.</b><br>Your participation in this research will be kept completely confidential.<br>Your responses are entirely anonymous, and no IP address is collected.</p>" +
-            "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).<br><b>If you do not wish - or do not have time - to participate this survey, simply close your browser.</b></p>" +
+            "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).<br><b>If you do not wish - or do not have time - to participate this survey, simply close your browser.</b></br></p>" +
             "<p><sub><sup>If you have any questions about the project, you may contact the team via the chat option in Prolific.<br>This project has been reviewed and approved by the University Institutional Review Board (NTU IRB-2022-187).<br>Questions concerning your rights as a participant in this research may be directed to the NTU-IRB at IRB@ntu.edu.sg or call +65 6592 2495.</sup></sub></p></div>",
         choices: ["I consent"],
         data: { screen: "consent" }
@@ -422,7 +422,7 @@
         choices: ["I'm ready!"],
         stimulus:
             "<p><b>Vision Test</b></p>" +
-            "<p>In this new phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes</p>" +
+            "<p>In this phase, we are going to assess your perceptual abilities by testing how fast you can spot small differences in sizes.</p>" +
             "<p>Your goal is still to be as <b>fast</b> and <b>accurate</b> as possible.</p>",
         data: {screen: "perceptual_instructions"},
         on_finish: function () {
@@ -447,7 +447,7 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            ticks: ["Very Inaccurate", "Very Accurate"],
+            ticks: ["Inaccurate", "Accurate"],
             //required: false,
             required: true,
             min: 0,
@@ -461,7 +461,7 @@
     IPIP_items.push({
         prompt: "<b>I am paying attention right now</b><br>",
         name: "Attention_Check_1",
-        ticks: ["Very Inaccurate", "Very Accurate"],
+        ticks: ["Inaccurate", "Accurate"],
         // required: false,
         required: true,
         min: 0,
@@ -475,7 +475,7 @@
         IPIP_items.push({
             prompt: IPIP[n],
             name: IPIP_dim[n],
-            ticks: ["Very Inaccurate", "Very Accurate"],
+            ticks: ["Inaccurate", "Accurate"],
             // required: false,
             required: true,
             min: 0,
@@ -625,6 +625,7 @@
         questions: SPQ_items,
         randomize_question_order: true,
         preamble:
+        "<p><b>Instructions</b></p>" +
         "<p>This questionnaire describes normal phenomena, behaviors and feelings that many experience during their lives.</p>" +
           "<p>Please select the response that best describes you currently.</p>",
         // require_movement: false,
@@ -748,6 +749,7 @@
         questions: IAS_items,
         randomize_question_order: true,
         preamble:
+            "<p><b>About your body...</b></p>" +
             "<p>Below are several statements regarding how accurately you can perceive specific bodily sensations.</p>" +
             "<p>Please rate on the scale on how well you believe you can perceive each specific signal.</p>" +
             "<p>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet you would rate your accuracy perceiving this bodily signal as low.</p>" +
@@ -777,7 +779,7 @@
         PHQ_items.push({
             prompt: element,
             name: PHQ_dim[index],
-            labels: ["<br>Not at All", "<br>Several Days", "<br>More than Half the Days", "<br>Nearly Every Day"],
+            labels: ["<br>Not at all", "<br>Once or twice", "<br>Several days", "<br>More than half the days", "<br>Nearly every day"],
             // required: false,
             required: true,
             // min: 0,
@@ -792,7 +794,8 @@
         questions: PHQ_items,
         randomize_question_order: false,
         preamble:
-            "<p>Over the last 2 weeks, how often have you been bothered by the following problems?</p>",
+            "<p><b>About your emotions...</b></p>" +
+            "<p>Over the <b>last 2 weeks</b>, how often have you been bothered by the following problems?</p>",
         // require_movement: false,
         // require_movement: true,
         // slider_width: 600,
@@ -859,6 +862,7 @@
         questions: GCBS_items,
         randomize_question_order: false,
         preamble:
+            "<p><b>Instructions</b></p>" +
             "<p>There is often debate about whether or not the public is told the whole truth about various important issues.</p>" +
             "<p>We are interested in finding out your beliefs about some of these subjects.<br>" +
             "Please indicate the degree to which you believe each statement is likely to be true.</p>",
@@ -887,7 +891,7 @@
         LIE_items.push({
             prompt: lie_scale[n],
             name: lie_dim[n],
-            ticks: ["Disagree", "Always"],
+            ticks: ["Disagree", "Agree"],
             // required: false,
             required: true,
             min: 0,
@@ -899,7 +903,7 @@
 
     // Attention Check 7
     LIE_items.push({
-        prompt: "<b>I can demonstrate my attention by responding with the option on the extreme right</b><br>",
+        prompt: "<b>I can show that I am reading by answering with Agree</b><br>",
         name: "Attention_Check_7",
         ticks: ["Disagree", "Agree"],
         // required: false,
@@ -914,7 +918,7 @@
         LIE_items.push({
             prompt: lie_scale[n],
             name: lie_dim[n],
-            ticks: ["Disagree", "Always"],
+            ticks: ["Disagree", "Agree"],
             // required: false,
             required: true,
             min: 0,
@@ -929,9 +933,8 @@
         questions: LIE_items,
         randomize_question_order: true,
         preamble:
-            "<p>About lying...</p><p>Most people think a lie occurs any time you intentionally try to mislead someone. Some lies are big while others are small. Some are completely false statements and others are truths with details made up or left out. Some lies are obvious, and some are very subtle. Some lies are told for a good reason, some lies are not. Some lies are selfish, and some lies help others.</p>" +
-            "<p>We are interested in all these different types of lies and we seek your collaboration to help us to respond to the following questions as accurately and truthfully as possible. Please note that your answers are <b>completely anonymous</b>. They are safely stored and protected, and the data will be used only for the purpose of this scientific investigation.</p>",
-        // require_movement: false,
+            "<p><b>About lying...</b></p><p>Most people think a lie occurs any time you intentionally try to mislead someone. Some lies are big while others are small. Some are completely false statements and others are truths with details made up or left out. Some lies are obvious, and some are very subtle. Some lies are told for a good reason, some lies are not. Some lies are selfish, and some lies help others.</p>" +
+            "<p>We are interested in all these different types of lies and we seek your collaboration to help us to respond to the following questions as accurately and truthfully as possible.</p>",
         require_movement: true,
         slider_width: 600,
         // min: 0,
@@ -1007,7 +1010,7 @@
                     // "<hr>" +
                     // show_screen.display_comparison +
                     //"<hr>" +
-                    "<p>Thank you for participating!</p>" +
+                    "<p><b>Thank you for participating and helping science!</b></p>" +
                     "<p>You will now be redirected to Prolific to be reimbursed.</p>" +
                     "<p>Please click 'OK' when asked to leave the site.</p>"
                 )

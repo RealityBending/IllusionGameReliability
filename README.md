@@ -8,6 +8,6 @@ Despite it being a popular stimuli used in psychological research, the mechanism
 
 ## Content
 
-- **Registered Report** (add link)
+- [**Registered Report**](https://realitybending.github.io/IllusionGameReliability/submission/RegisteredReport.html)
 - [**Try Experiment (session 1)**](https://realitybending.github.io/IllusionGameReliability/session1/index.html)
 - [**Try Experiment (session 2)**](https://realitybending.github.io/IllusionGameReliability/session2/index.html)

@@ -170,7 +170,7 @@ About 2 weeks following their initial participation, participants were invited t
 
 ## Design Plan
 
-This study has a mixed design with within-subjects repeated measures (for the experimental tasks) and between-subjects analyses. Data collection and analysis will not be performed blind to the conditions of the experiment. Prior to the start of the experiment, all participants will be required to give their consent via an informed consent form, where the study's purpose will be stated. However, participants will not be explicitly informed of the independent variables measured and the research hypotheses. The materials and procedure of the experiment will be the same as that of the pilot study (see **Pilot Data** section).
+This study has a mixed design with within-subjects repeated measures (for the experimental tasks) and between-subjects analyses. Data collection and analysis will not be performed blind to the conditions of the experiment. The materials and procedure of the experiment will be the same as that of the pilot study (see **Pilot Data** section).
 
 ## Sampling plan
 
@@ -184,7 +184,20 @@ Data of participants with outlying scores (in regard to the population distribut
 
 <!-- We will make our statistical inferences and interpretation based on the Bayes Factors (BF). BF values above 3 and below 1/3 will be regarded as sufficient evidence for the alternative and the null hypothesis, otherwise we will interpret the BF as the strength of relative evidence between the hypotheses. -->
 
-# Funding & Acknowledgements
+# Data Availability
+
+Anonymized data is available at https://github.com/RealityBending/IllusionGameReliability
+
+# Code Availability
+
+The code for the experiment and the analysis is available at https://github.com/RealityBending/IllusionGameReliability
+
+
+# References
+
+<div id="refs"></div>
+
+# Acknowledgements
 
 This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-PPF-2020-10014) from Nanyang Technological University (awarded to DM). The funders have/had no role in study design, data collection and analysis, decision to publish or preparation of the manuscript.
 
