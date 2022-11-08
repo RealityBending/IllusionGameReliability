@@ -13,7 +13,7 @@ function get_results(illusion_mean, illusion_sd, illusion_type) {
     if (correct_trials.count() > 0) {
         var rt_mean_correct = correct_trials.select("rt").mean()
         var ies = rt_mean_correct / proportion_correct // compute inverse efficiency score
-        var score_to_display = 100 - ies / 40
+        var score_to_display = 100 - ies / 35
         if (score_to_display < 0) {
             score_to_display = 0
         }
@@ -107,8 +107,8 @@ var make_break1 = {
     choices: ["Continue"],
     stimulus:
         "<p><b>CONGRATULATIONS!</b></p>" +
-        "<p>You've completed about half of the study. We know it's long and challenging, so we appreciate you staying focused until the end!</p>" +
-        "<p>Let's continue with a few questionnaires about yourself.</p>",
+        "<p>You've completed about half of the study.</p>" +
+        "<p>Before ending, please complete 3 more questionnaires about yourself.</p>",
     save_trial_parameters: {
         trial_duration: true,
     },
@@ -571,7 +571,6 @@ var SPQ = [
     "<b>When I look at a person or at myself in a mirror, I have seen the face change right before my eyes</b><br>",
     "<b>My thoughts are sometimes so strong that I can almost hear them</b><br>",
     "<b>Everyday things seem unusually large or small</b><br>",
-
 ]
 // * SPQ-BRU has 4 higher-order factors (cognitive-perceptual [suspiciousness, magical thinking, ideas of reference and unusual perceptions], interpersonal [no close friends, constricted affect], disorganized (eccentric behavior and odd speech] and social anxiety)
 var SPQ_dim = [
