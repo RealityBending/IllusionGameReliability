@@ -85,7 +85,7 @@
                 .localSave(
                     "json",
                     `${jsPsych.data.get().values()[0]["participant_id"]
-                    }_IllusionGame.json`
+                    }_IllusionGame_Session1.json`
                 )
             // window.location = "https://app.prolific.co/submissions/complete?cc=XXX" /* redirect to prolific when experiment is finished */
         },
@@ -489,7 +489,7 @@
         type: jsPsychMultipleSlider,
         questions: IPIP_items,
         randomize_question_order: false,
-        preamble: "<p>Please answer the following questions based on how accurately each statement describes you in general.</p>",
+        preamble: "<p><b>About your personality...</b></p><p>Please answer the following questions based on how accurately each statement describes you in general.</p>",
         // require_movement: false,
         require_movement: true,
         slider_width: 600,
@@ -556,7 +556,7 @@
         type: jsPsychSurveyLikert,
         questions: PID_items,
         randomize_question_order: false,
-        preamble: "<p>Below is a list of things different people might say about themselves.</p>" +
+        preamble: "<p><b>About yourself...</b></p><p>Below is a list of things different people might say about themselves.</p>" +
         "<p>Please select the response that best describes you.</p>",
         // require_movement: false,
         // require_movement: true,
@@ -625,7 +625,7 @@
         questions: SPQ_items,
         randomize_question_order: true,
         preamble:
-        "<p><b>Instructions</b></p>" +
+        "<p><b>About your temperament and beliefs...</b></p>" +
         "<p>This questionnaire describes normal phenomena, behaviors and feelings that many experience during their lives.</p>" +
           "<p>Please select the response that best describes you currently.</p>",
         // require_movement: false,
@@ -695,7 +695,7 @@
         questions: AQ_items,
         randomize_question_order: false,
         preamble:
-            "<p>Please select the response that best describes you.</p>",
+            "<p><b>About your personality...</b></p><p>Please select the response that best describes you.</p>",
         // require_movement: false,
         // require_movement: true,
         // slider_width: 600,
@@ -749,7 +749,7 @@
         questions: IAS_items,
         randomize_question_order: true,
         preamble:
-            "<p><b>About your body...</b></p>" +
+            "<p><b>About your body sensations...</b></p>" +
             "<p>Below are several statements regarding how accurately you can perceive specific bodily sensations.</p>" +
             "<p>Please rate on the scale on how well you believe you can perceive each specific signal.</p>" +
             "<p>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet you would rate your accuracy perceiving this bodily signal as low.</p>" +
@@ -862,7 +862,7 @@
         questions: GCBS_items,
         randomize_question_order: false,
         preamble:
-            "<p><b>Instructions</b></p>" +
+            "<p><b>About your worldviews...</b></p>" +
             "<p>There is often debate about whether or not the public is told the whole truth about various important issues.</p>" +
             "<p>We are interested in finding out your beliefs about some of these subjects.<br>" +
             "Please indicate the degree to which you believe each statement is likely to be true.</p>",

@@ -130,6 +130,8 @@ Three illusions that were previously found to most strongly contribute to the ge
 
 The task started with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a different series is presented (with distinct items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3), of which the goal was to answer "as fast as possible and without making errors" (an explicit double constraint on the speed-accuracy trade-off). Trials of the same block were separated by a fixation cross (presented for a random duration between 500 - 1000s), that was spatially jittered around the center of the screen (in a radius of a 1 cm), attenuating its usefulness as a potential reference point.
 
+For the purpose of "gamification" (making the task more interesting and generating intrinsic motivation to maximize speed and accuracy), we added a score ($100 - \mu_{RTcorrect} / P_{correct}$), expressed in percentage, at the end of each block.
+
 ### Perceptual Task
 
 To confirm that the illusion sensitivity measured by the illusion task is not simply a pure reflection of perceptual abilities, participants were administered a perception task that was largely similar to the Illusion Task, but in which targets were presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes were displayed side by side without the surrounding circles that create the illusion. Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similar to the Illusion Task. In total, each participant completed 192 Perceptual Task trials (2 x 32 x 3). To avoid order effects between the illusion and the perceptual tasks, the order of the tasks was counterbalanced across participants.
@@ -151,7 +153,7 @@ A series of questionnaires was administered in between the Illusion Task and the
 -   The [**SPQ-BRU**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4834869/) (Schizotypal Personality Questionnaire - brief revised updated; Davidson et al., 2016) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point Likert scales.
 -   The [**ASQ - Short**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3076581/) (Autism-Spectrum Quotient; Hoekstra et al., 2011) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scales.
 -   The [**MSI-BPD**](https://psycnet.apa.org/record/2004-10325-009) (Mclean Screening Instrument for Borderline Personality Disorder; Zanarini et al., 2003) measures borderline personality with 10 analog scales ([Huczewska et al., 2019](https://doi.org/10.5114/cipp.2019.89674)).
--   The [**PHQ-4**](https://pubmed.ncbi.nlm.nih.gov/19996233/) (Patient Health Questionnaire; Kroenke et al., 2009) assesses anxiety and depression (2 items each) with 4-point Likert scales.
+-   The [**PHQ-4**](https://pubmed.ncbi.nlm.nih.gov/19996233/) (Patient Health Questionnaire; Kroenke et al., 2009) assesses anxiety and depression (2 items each) with 5-point Likert scales.
 
 #### Interoception
 
