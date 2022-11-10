@@ -252,6 +252,28 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -299,8 +321,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -308,16 +330,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -658,6 +673,11 @@ block were separated by a fixation cross (presented for a random
 duration between 500 - 1000s), that was spatially jittered around the
 center of the screen (in a radius of a 1 cm), attenuating its usefulness
 as a potential reference point.</p>
+<p>For the purpose of “gamification” (making the task more interesting
+and generating intrinsic motivation to maximize speed and accuracy), we
+added a score (<span class="math inline">\(100 - \mu_{RTcorrect} /
+P_{correct}\)</span>), expressed in percentage, at the end of each
+block.</p>
 </div>
 <div id="perceptual-task" class="section level3">
 <h3>Perceptual Task</h3>
@@ -719,7 +739,7 @@ scales (<a href="https://doi.org/10.5114/cipp.2019.89674">Huczewska et
 al., 2019</a>).</li>
 <li>The <a href="https://pubmed.ncbi.nlm.nih.gov/19996233/"><strong>PHQ-4</strong></a>
 (Patient Health Questionnaire; Kroenke et al., 2009) assesses anxiety
-and depression (2 items each) with 4-point Likert scales.</li>
+and depression (2 items each) with 5-point Likert scales.</li>
 </ul>
 </div>
 <div id="interoception" class="section level4">
@@ -770,12 +790,8 @@ administered during session 2, after the Illusion Task.</p>
 <p>This study has a mixed design with within-subjects repeated measures
 (for the experimental tasks) and between-subjects analyses. Data
 collection and analysis will not be performed blind to the conditions of
-the experiment. Prior to the start of the experiment, all participants
-will be required to give their consent via an informed consent form,
-where the study’s purpose will be stated. However, participants will not
-be explicitly informed of the independent variables measured and the
-research hypotheses. The materials and procedure of the experiment will
-be the same as that of the pilot study (see <strong>Pilot Data</strong>
+the experiment. The materials and procedure of the experiment will be
+the same as that of the pilot study (see <strong>Pilot Data</strong>
 section).</p>
 </div>
 <div id="sampling-plan" class="section level2">
@@ -807,8 +823,22 @@ response.</p>
 <!-- We will make our statistical inferences and interpretation based on the Bayes Factors (BF). BF values above 3 and below 1/3 will be regarded as sufficient evidence for the alternative and the null hypothesis, otherwise we will interpret the BF as the strength of relative evidence between the hypotheses. -->
 </div>
 </div>
-<div id="funding-acknowledgements" class="section level1">
-<h1>Funding &amp; Acknowledgements</h1>
+<div id="data-availability" class="section level1">
+<h1>Data Availability</h1>
+<p>Anonymized data is available at <a href="https://github.com/RealityBending/IllusionGameReliability" class="uri">https://github.com/RealityBending/IllusionGameReliability</a></p>
+</div>
+<div id="code-availability" class="section level1">
+<h1>Code Availability</h1>
+<p>The code for the experiment and the analysis is available at <a href="https://github.com/RealityBending/IllusionGameReliability" class="uri">https://github.com/RealityBending/IllusionGameReliability</a></p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<div id="refs">
+
+</div>
+</div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
 <p>This work was supported by the Presidential Postdoctoral Fellowship
 Grant (NTU-PPF-2020-10014) from Nanyang Technological University
 (awarded to DM). The funders have/had no role in study design, data
@@ -835,10 +865,10 @@ review &amp; editing.</p>
 <h1>Design Table</h1>
 <table>
 <colgroup>
-<col width="5%" />
-<col width="12%" />
-<col width="2%" />
-<col width="60%" />
+<col width="14%" />
+<col width="21%" />
+<col width="1%" />
+<col width="43%" />
 <col width="18%" />
 </colgroup>
 <thead>
@@ -852,7 +882,8 @@ review &amp; editing.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Replication of Makowski et al., (under review)</td>
+<td align="left">Q1 Replication - Will the results observed from
+Makowski et al., (under review) be replicated?</td>
 <td align="left">H1.1 - Participants make more errors for high Illusion
 Strength and Difficulty</td>
 <td align="left">N=400 * 384 trials</td>
@@ -869,7 +900,7 @@ task difficult is found to lead to a significant increase in error rate
 and repsonse time.</td>
 </tr>
 <tr class="even">
-<td align="left"></td>
+<td align="left">Q1 Replication</td>
 <td align="left">H1.2 - Participants are slower for high Illusion
 Strength and Difficulty</td>
 <td align="left">N=400 * 384 trials</td>
@@ -877,8 +908,8 @@ Strength and Difficulty</td>
 <td align="left">See above.</td>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left">H.2 - The illusion sensitivit scores for each illusion
+<td align="left">Q1 Replication</td>
+<td align="left">H2 - The illusion sensitivity scores for each illusion
 type will be related to a General Factor <em>i</em></td>
 <td align="left">N=400</td>
 <td align="left">Factor analysis and structural equation modeling will
@@ -889,11 +920,208 @@ common factor model against models with only illusion-specific
 factors.</td>
 </tr>
 <tr class="even">
-<td align="left"></td>
-<td align="left">H.3</td>
+<td align="left">Q1 Replication</td>
+<td align="left">H3 - Inter-individual illusion sensitivity will
+correlate positively with <em>Agreeableness</em> and
+<em>Honesty-Humility</em></td>
 <td align="left">N=400</td>
-<td align="left">blabla</td>
-<td align="left">blabla</td>
+<td align="left">Using Pearson’s test (or Spearman?), correlation
+analysis will be conducted between participants’ general illusion
+sensitivity and their personality trait scores</td>
+<td align="left">Successful replication if we found strong evidence (BF
+&gt;10) in favor of H3. BF &lt;0.1 will be regarded as strong evidence
+for the null hypothesis.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q1 Replication</td>
+<td align="left">H4 - Inter-individual illusion sensitivity will
+correlate negatively with <em>Antagonism</em>, <em>Disinhibition</em>,
+<em>Negative Affect</em> and <em>Psychoticism</em></td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="even">
+<td align="left">Q2 Confirmation - Will the General Factor <em>i</em>
+correlate in the directions we expect with other measures/variables that
+assess similar/unrelated constructs?</td>
+<td align="left">H5.1 - Inter-individual illusion sensitivity will
+correlate negatively with autistic traits, particularly with the
+systemizing dimensions (measured with the <em>Patterns/Numbers</em>
+subscale in ASQ-short)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">Convergent validity for the one-factor solution of
+illusion sensitivity is supported if we find strong evidence (BF &gt;10)
+for H5.1. BF &lt;0.1 will be regarded as strong evidence for the null
+hypothesis.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q2 Confirmation</td>
+<td align="left">H5.2 - Inter-individual illusion sensitivity will
+correlate negatively with schizotypal traits, particularly with the
+positive and disorganized dimensions (measured with the
+<em>Cognitve-Perceptual</em> and <em>Disorganized</em> subscale in the
+SPQ)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="even">
+<td align="left">Q2 Confirmation</td>
+<td align="left">H6.1 - Inter-individual illusion sensitivity will
+correlate negatively with depression scores (meausured with the
+<em>Depression</em> subscale in PHQ-4)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q2 Confirmation</td>
+<td align="left">H6.2 - Inter-individual illusion sensitivity will not
+correlate significantly with anxiety scores (meausured with the
+<em>Anxiety</em> subscale in PHQ-4)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">Divergent validity for the one-factor solution of
+illusion sensitivity is supported if we find strong evidence (BF &gt;10)
+for H5.1. BF &lt;0.1 will be regarded as strong evidence for the null
+hypothesis.</td>
+</tr>
+<tr class="even">
+<td align="left">Q2 Confirmation</td>
+<td align="left">H6.3 - Inter-individual illusion sensitivity will
+correlate positively with borderline personality traits</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">Convergent validity for the one-factor solution of
+illusion sensitivity is supported if we find strong evidence (BF &gt;10)
+for H5.1. BF &lt;0.1 will be regarded as strong evidence for the null
+hypothesis.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q3 Psychomtery - Will the General Illusion Sensitivty
+one-factor solution found demonstrate adequate psychometric
+properties?</td>
+<td align="left">H7 - Inter-individual illusion scores at time point 1
+(<em>t2</em>) will correlate significantly with the scores at time point
+2 (t2*)</td>
+<td align="left">N=400</td>
+<td align="left">Correlation analysis will be conducted between illusion
+scores at <em>t1</em> and <em>t2</em> to assess the test-retest
+reliabiltiy of the General Illusion Sensitivity Factor <em>i</em></td>
+<td align="left">Factor <em>i</em> is regarded as reliable if we find
+strong evidence (BF &gt;10) for H5.1. BF &lt;0.1 will be regarded as
+strong evidence for the null hypothesis.</td>
+</tr>
+<tr class="even">
+<td align="left">Q3 Psychometry</td>
+<td align="left">H8 - The individual illusion sensitivity scores derived
+from the population models will strongly correlate with scores estimated
+by individual models fitted on each participant</td>
+<td align="left">N=400</td>
+<td align="left">Correlation analysis will be conducted between
+individual illusion scores derived from population models and that
+derived from individual models to assess case-level estimation
+reliability of the Factor <em>i</em></td>
+<td align="left">See above.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q3 Psychometry</td>
+<td align="left">H9 - The variability in inter-individual illusion
+scores will be larger than the variability in indiviudal illusion scores
+(i.e., larger between-participants variance than
+within-participants)</td>
+<td align="left">N=400</td>
+<td align="left">The width of the confidence intevals (95% CI width) of
+inter-individual illusion scores will be compared with the range of the
+point-estimates (95% ETI)</td>
+<td align="left">Factor <em>i</em> is regarded as being stable within
+individuals if we find strong evidence (BF &gt;10) for H9. BF &lt;0.1
+will be regarded as strong evidence for the null hypothesis.</td>
+</tr>
+<tr class="even">
+<td align="left">Q3 Psychometry</td>
+<td align="left">H10 - There will be none or weak correlation between
+individuals’ general illusion sensitivity and perceptual ability</td>
+<td align="left">N=400</td>
+<td align="left">Correlation analysis will be conducted between
+individuals’ illusion sensitivity scores and their perceptual task
+scores</td>
+<td align="left">Factor <em>i</em> is regarded as distinct from pure
+perceptual ability if we find strong evidence (BF &gt;10) for H10. BF
+&lt;0.1 will be regarded as strong evidence for the null
+hypothesis.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q4 Conspiracy Beliefs - Will individuals’ general
+illusion sensitivity correlate with their beliefs in conspiracy
+theories?</td>
+<td align="left">H11 - Inter-individual illusion sensitivity will
+correlate negatively with tendency to believe in conspiracies</td>
+<td align="left">N=400</td>
+<td align="left">correlation analysis will be conducted between
+participants’ general illusion sensitivity and their GCBS scores</td>
+<td align="left">H11 is supported if we find strong evidence (BF &gt;10)
+in favor of it. BF &lt;0.1 will be regarded as strong evidence for the
+null hypothesis.</td>
+</tr>
+<tr class="even">
+<td align="left">Q5 Interoception - Will individuals’ general illusion
+sensitivity correlate with interoception?</td>
+<td align="left">H12 - Inter-individual illusion sensitivity will
+correlate positively with interoceptive abilities</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q6 Lying Tendency - Will individuals’ general illusion
+sensitivity correlate with their dispositional tendency to lie?</td>
+<td align="left">H13 - Inter-individual illusion sensitivity will
+correlate negatively with general dispositonal tendency to lie</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="even">
+<td align="left">Q7 Primal Beliefs - Will individuals’ general illusion
+sensitivity correlate with their basic beliefs about the world?</td>
+<td align="left">H14.1 - Inter-individual illusion sensitivity will
+correlate negatively with the tendency to believe that the world is safe
+(measured with the <em>Safe</em> subscale in PI-18)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q7 Primal Beliefs</td>
+<td align="left">H14.2 - Inter-individual illusion sensitivity will
+correlate negatively with the tendency to believe that the world is not
+static (measured with the <em>Changing</em> subscale in PI-18)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="even">
+<td align="left">Q7 Primal Beliefs</td>
+<td align="left">H14.3 - Inter-individual illusion sensitivity will
+correlate positively with the tendency to believe that the world
+inherently has an underlying order (measured with the
+<em>Hierarchical</em> subscale in PI-18)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
+</tr>
+<tr class="odd">
+<td align="left">Q7 Primal Beliefs</td>
+<td align="left">H14.4 - Inter-individual illusion sensitivity will
+correlate positively with the tendency to believe that the world is
+comprehensible (measured with the <em>Understandable</em> subscale in
+PI-18)</td>
+<td align="left">N=400</td>
+<td align="left">See above.</td>
+<td align="left">See above.</td>
 </tr>
 </tbody>
 </table>

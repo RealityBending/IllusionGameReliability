@@ -215,7 +215,7 @@ The authors declare no competing interests.
 
 ```{r echo=FALSE, warning=FALSE}
 table <- data.frame(
-  Question = "Replication of Makowski et al., (under review)",
+  Question = "Q1 Replication - Will the results observed from Makowski et al., (under review) be replicated?",
   Hypothesis = "H1.1 - Participants make more errors for high Illusion Strength and Difficulty",
   Sampling = "N=400 * 384 trials",
   Analysis = "The analysis will be similar to that of Makowski et al., (under review). We will use Bayesian mixed models to analyse the relationship between the parametric properties of the visual illusions (i.e., illusion strength and objective difference), and participants’ behavioural reactions i.e., their speed and accuracy in their responses. Error rates will be analyzed using Bayesian logistic mixed models, and RTs of correct responses will be analyzed using an ex-Gaussian family.",
@@ -226,27 +226,148 @@ table <- data.frame(
 table <- table |>
   rbind(
     list(
-      Question = "",
+      Question = "Q1 Replication",
       Hypothesis = "H1.2 - Participants are slower for high Illusion Strength and Difficulty",
       Sampling = "N=400 * 384 trials",
       Analysis = "See above.",
       Interpretation = "See above."
     ),
     list(
-      Question = "",
-      Hypothesis = "H.2 - The illusion sensitivit scores for each illusion type will be related to a General Factor *i*",
+      Question = "Q1 Replication",
+      Hypothesis = "H2 - The illusion sensitivity scores for each illusion type will be related to a General Factor *i*",
       Sampling = "N=400",
       Analysis = "Factor analysis and structural equation modeling will be applied on the individual scores derived from the aforementioned models to test the existence of an overarching latent factor.",
       Interpretation = "Successful replication if we found a superior fit for a common factor model against models with only illusion-specific factors."
     ),
     list(
-      Question = "",
-      Hypothesis = "H.3",
+      Question = "Q1 Replication",
+      Hypothesis = "H3 - Inter-individual illusion sensitivity will correlate positively with *Agreeableness* and *Honesty-Humility*",
       Sampling = "N=400",
-      Analysis = "blabla",
-      Interpretation = "blabla"
-    )
-  )
+      Analysis = "Using Pearson's test (or Spearman?), correlation analysis will be conducted between participants' general illusion sensitivity and their personality trait scores",
+      Interpretation = "Successful replication if we found strong evidence (BF >10) in favor of H3. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q1 Replication",
+      Hypothesis = "H4 - Inter-individual illusion sensitivity will correlate negatively with *Antagonism*, *Disinhibition*, *Negative Affect* and *Psychoticism*",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q2 Confirmation - Will the General Factor *i* correlate in the directions we expect with other measures/variables that assess similar/unrelated constructs?",
+      Hypothesis = "H5.1 - Inter-individual illusion sensitivity will correlate negatively with autistic traits, particularly with the systemizing dimensions (measured with the *Patterns/Numbers* subscale in ASQ-short)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "Convergent validity for the one-factor solution of illusion sensitivity is supported if we find strong evidence (BF >10) for H5.1. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+      ),
+    list(
+      Question = "Q2 Confirmation",
+      Hypothesis = "H5.2 - Inter-individual illusion sensitivity will correlate negatively with schizotypal traits, particularly with the positive and disorganized dimensions (measured with the *Cognitve-Perceptual* and *Disorganized* subscale in the SPQ)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q2 Confirmation",
+      Hypothesis = "H6.1 - Inter-individual illusion sensitivity will correlate negatively with depression scores (meausured with the *Depression* subscale in PHQ-4)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q2 Confirmation",
+      Hypothesis = "H6.2 - Inter-individual illusion sensitivity will not correlate significantly with anxiety scores (meausured with the *Anxiety* subscale in PHQ-4)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "Divergent validity for the one-factor solution of illusion sensitivity is supported if we find strong evidence (BF >10) for H5.1. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q2 Confirmation",
+      Hypothesis = "H6.3 - Inter-individual illusion sensitivity will correlate positively with borderline personality traits",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "Convergent validity for the one-factor solution of illusion sensitivity is supported if we find strong evidence (BF >10) for H5.1. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q3 Psychomtery - Will the General Illusion Sensitivty one-factor solution  found demonstrate adequate psychometric properties? ",
+      Hypothesis = "H7 - Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (t2*) ",
+      Sampling = "N=400",
+      Analysis = "Correlation analysis will be conducted between illusion scores at *t1* and *t2* to assess the test-retest reliabiltiy of the General Illusion Sensitivity Factor *i*",
+      Interpretation = "Factor *i* is regarded as reliable if we find strong evidence (BF >10) for H5.1. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q3 Psychometry",
+      Hypothesis = "H8 - The individual illusion sensitivity scores derived from the population models will strongly correlate with scores estimated by individual models fitted on each participant",
+      Sampling = "N=400",
+      Analysis = "Correlation analysis will be conducted between individual illusion scores derived from population models and that derived from individual models to assess case-level estimation reliability of the Factor *i*",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q3 Psychometry",
+      Hypothesis = "H9 - The variability in inter-individual illusion scores will be larger than the variability in indiviudal illusion scores (i.e., larger between-participants variance than within-participants)",
+      Sampling = "N=400",
+      Analysis = "The width of the confidence intevals (95% CI width) of inter-individual illusion scores will be compared with the range of the point-estimates (95% ETI)",
+      Interpretation = "Factor *i* is regarded as being stable within individuals if we find strong evidence (BF >10) for H9. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q3 Psychometry",
+      Hypothesis = "H10 - There will be none or weak correlation between individuals' general illusion sensitivity and perceptual ability ",
+      Sampling = "N=400",
+      Analysis = "Correlation analysis will be conducted between individuals' illusion sensitivity scores and their perceptual task scores",
+      Interpretation = "Factor *i* is regarded as distinct from pure perceptual ability if we find strong evidence (BF >10) for H10. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q4 Conspiracy Beliefs - Will individuals' general illusion sensitivity correlate with their beliefs in conspiracy theories?",
+      Hypothesis = "H11 - Inter-individual illusion sensitivity will correlate negatively with tendency to believe in conspiracies",
+      Sampling = "N=400",
+      Analysis = "correlation analysis will be conducted between participants' general illusion sensitivity and their GCBS scores",
+      Interpretation = "H11 is supported if we find strong evidence (BF >10) in favor of it. BF <0.1 will be regarded as strong evidence for the null hypothesis."
+    ),
+    list(
+      Question = "Q5 Interoception - Will individuals' general illusion sensitivity correlate with interoception?",
+      Hypothesis = "H12 - Inter-individual illusion sensitivity will correlate positively with interoceptive abilities",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q6 Lying Tendency - Will individuals' general illusion sensitivity correlate with their dispositional tendency to lie?",
+      Hypothesis = "H13 - Inter-individual illusion sensitivity will correlate negatively with general dispositonal tendency to lie",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q7 Primal Beliefs - Will individuals' general illusion sensitivity correlate with their basic beliefs about the world? ",
+      Hypothesis = "H14.1 - Inter-individual illusion sensitivity will correlate negatively with the tendency to believe that the world is safe (measured with the *Safe* subscale in PI-18)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q7 Primal Beliefs",
+      Hypothesis = "H14.2 - Inter-individual illusion sensitivity will correlate negatively with the tendency to believe that the world is not static (measured with the *Changing* subscale in PI-18)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q7 Primal Beliefs",
+      Hypothesis = "H14.3 - Inter-individual illusion sensitivity will correlate positively with the tendency to believe that the world inherently has an underlying order (measured with the *Hierarchical* subscale in PI-18)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ),
+    list(
+      Question = "Q7 Primal Beliefs",
+      Hypothesis = "H14.4 - Inter-individual illusion sensitivity will correlate positively with the tendency to believe that the world is comprehensible (measured with the *Understandable* subscale in PI-18)",
+      Sampling = "N=400",
+      Analysis = "See above.",
+      Interpretation = "See above."
+    ))
+
+
+    
 
 knitr::kable(table)
 
