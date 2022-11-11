@@ -653,7 +653,7 @@ var AQ = [
     "<b>Reading a story, I find it difficult to work out the character's intentions</b><br>",
     "<b>I find it hard to make new friends</b><br>",
     "<b>I notice patterns in things all the time</b><br>",
-    "<b>It does not upset my if my daily routine is disturbed</b><br>",
+    "<b>It does not upset me if my daily routine is disturbed</b><br>",
     "<b>I find it easy to do more than one thing at once</b><br>",
     "<b>I enjoy doing things spontaneously</b><br>",
     "<b>I find it easy to work out what someone is thinking or feeling</b><br>",
