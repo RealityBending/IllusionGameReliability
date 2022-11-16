@@ -386,6 +386,7 @@ for (ppt in participants) {
   df <- rbind(df, preprocess_raw(file = paste0(paste0(rawdata_folder, "session1/"), ppt)))
   sf<- rbind(sf, session1_scales(file = paste0(paste0(rawdata_folder, "session1/"), ppt)))
 }
+# Reformat Participant ID
 df$Participant <- gsub("\\_.*", "", df$Participant)
 sf$Participant<- gsub("\\_.*", "", sf$Participant)
 
@@ -396,33 +397,34 @@ for (ppt in participants_2){
   df2<- rbind(df2, preprocess_raw(file = paste0(paste0(rawdata_folder, "session2/"), ppt)))
   sf2<- rbind(sf2, session2_scales(file= paste0(paste0(rawdata_folder, "session2/"), ppt)))
 } 
+# Reformat Participant ID
 df2$Participant <- gsub("\\_.*", "", df2$Participant)
 sf2$Participant<- gsub("\\_.*", "", sf2$Participant)
   
-# Combine Data from both sessions 
+#---------------------- Combine Data from both sessions -----------------------
 #full_df<- data.frame()
 for (id in unique(df$Participant)){
  if (id %in% unique(df2$Participant)){
   #  labels<- colnames(df)[1:33]
     # scales_s1<- colnames(df)[34:ncol(df)]
     # scales_s2<- colnames(df2)[30:ncol(df2)]
-    matching_labels<- colnames(df2)[1:29]
+    matching_labels<- colnames(df2)
     
   # Get Illusion and Perceptual Task Data
     temp<- df[, matching_labels]
     temp<- rbind(temp, df2[df2$Participant==id, matching_labels])
  }
-  # Combine with questionnaires 
+ 
    # temp<- merge(temp, sf, by='Participant')
- #   temp<- cbind(temp, df2[df2$Participant==id, scales_s2])
- # full_df<- rbind(full_df, temp)
+   # temp<- cbind(temp, df2[df2$Participant==id, scales_s2])
+   # full_df<- rbind(full_df, temp)
 } 
-
+# Combine with questionnaires 
 full_df<- merge(temp, sf, by='Participant')
 full_df<- merge(full_df, sf2, by='Participant', all=T)
 
 
-# ---------------------------------------Add Demographic data
+# ----------------Add Demographic data
 demo<- df[,c("Participant","Age", "Sex", "Education")]
 prolific<- list.files(paste0(rawdata_folder, "session1/"), pattern='prolific')
 prolific2<- list.files(paste0(rawdata_folder, "session2/"), pattern='prolific')
@@ -439,14 +441,11 @@ for (ppt in prolific2){
   demo_df<- rbind(demo_df, get_prolific(file=paste0(paste0(rawdata_folder, "session2/"), ppt)))
 }
 
-# Remove duplicates and Merge all demo info
-
+# Merge all demo info and Remove duplicates
 demo_df<-merge(demo, demo_df, by='Participant')
 demo_df<-demo_df[!duplicated(demo_df),]
 
 #-------------------------- Combine All Data--------------------------------------------
-# Reformat Data 
-
 
 full_df<- merge(full_df, demo_df, by='Participant', all=T)
 
