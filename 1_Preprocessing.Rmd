@@ -1,0 +1,406 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Preprocessing"
+author: "Dominique Makowski et al."
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: paper
+    code_folding: hide
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+cache <- TRUE
+runModels <- FALSE
+bestModels <- TRUE
+fig.width <- see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.path = "./figures/",
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+# Preprocessing
+
+
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+
+illusion1 <- read.csv("data/raw_illusion1.csv") |>
+  mutate(
+    Illusion_Effect = fct_relevel(as.factor(Illusion_Effect), "Incongruent", "Congruent"),
+    Block = as.factor(Block)
+  )
+
+illusion2 <- read.csv("data/raw_illusion2.csv") |>
+  mutate(
+    Illusion_Effect = fct_relevel(as.factor(Illusion_Effect), "Incongruent", "Congruent"),
+    Block = as.factor(Block)
+  )
+
+perceptual <- read.csv("data/raw_perceptual.csv") |>
+  mutate(
+    Block = as.factor(Block)
+  )
+
+sub <- read.csv("data/raw_questionnaires.csv")
+
+#   mutate(
+#     Education = fct_relevel(Education, "High School", "Bachelor", "Master", "Doctorate", "Other", "Prefer not to Say")
+#   )
+```
+
+
+
+# Outlier (Tasks)
+
+
+
+```{r message=FALSE, warning=FALSE}
+outliers_perceptual <- c(
+  "S003"
+  )
+outliers_illusion1 <- c()
+outliers_illusion2 <- c()
+```
+
+We removed `r length(outliers_illusion1)`, `r length(outliers_perceptual)`, and `r length(outliers_illusion2)` participants for the illusion task - session 1, perceptual task, and illusion task - session 2 respectively, upon inspection of the average error rage (when close to 50%, suggesting random answers) and/or when the reaction time distribution was implausibly fast. 
+
+
+
+### Descriptive Table
+
+```{r message=FALSE, warning=FALSE}
+data <- rbind(illusion1, illusion2, perceptual) |>
+  filter(RT < 10000) |>
+  mutate(
+    RT = RT / 1000,
+    Participant = fct_rev(Participant),
+    Task = fct_relevel(Task, "Illusion_Session1", "Perceptual", "Illusion_Session2")
+  )
+
+table <- data |>
+  group_by(Participant, Task) |>
+  summarize(
+    Error = sum(Error) / n(),
+    RT = mean(RT)
+  ) |>
+  ungroup() |>
+  arrange(desc(Error)) |>
+  tidyr::pivot_wider(names_from = "Task", values_from = c("Error", "RT"), names_vary = "slowest") |>
+  datawizard::data_relocate(ends_with("Session2"), after = -1) |>
+  arrange(desc(Error_Illusion_Session1))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+data.frame(Participant = c("Total"), t(sapply(table[2:ncol(table)], mean, na.rm = TRUE))) |>
+  rbind(table) |>
+  knitr::kable() |>
+  kableExtra::row_spec(1, italic = TRUE) |>
+  kableExtra::row_spec(which(table$Participant %in% c(outliers_perceptual, outliers_illusion1, outliers_illusion2)) + 1, background = "#EF9A9A") |>
+  # kableExtra::column_spec(2, color="white", 
+  #                         background = kableExtra::spec_color(c(NA, table$Error_Illusion_Session1))) |> 
+  kableExtra::kable_styling(full_width = TRUE) |>
+  kableExtra::scroll_box(width = "100%", height = "500px")
+```
+
+### Reaction Time Distribution
+
+
+```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
+p <- data |>
+  estimate_density(select = "RT", at = c("Participant", "Task", "Block")) |>
+  group_by(Participant) |>
+  normalize(select = "y") |>
+  ungroup() |>
+  mutate(
+    Participant = fct_relevel(Participant, as.character(table$Participant)),
+    color = case_when(
+      Participant %in% outliers_perceptual & Task == "Perceptual" ~ "red", 
+      Participant %in% outliers_illusion1 & Task == "Illusion_Session1" ~ "red", 
+      TRUE ~ "blue"),
+    Task = fct_recode(Task,
+      "Illusion task (session 1)" = "Illusion_Session1",
+      "Illusion task (session 2)" = "Illusion_Session2",
+      "Perceptual task" = "Perceptual"
+    )
+  ) |>
+  ggplot(aes(x = x, y = y)) +
+  geom_area(data = normalize(estimate_density(data, select = "RT"), select = "y"), alpha = 0.2) +
+  geom_line(aes(color = color, group = interaction(Participant, Block), linetype = Block), size = 1) +
+  geom_vline(xintercept = 0.125, linetype = "dashed", color = "red") +
+  scale_color_manual(values = c("red" = "#F44336", "orange" = "#FF9800", "blue" = "blue"), guide = "none") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  coord_cartesian(xlim = c(0, 3)) +
+  theme_modern() +
+  theme(axis.text.y = element_blank()) +
+  facet_grid(Participant ~ Task) +
+  labs(y = "", x = "Reaction Time (s)")
+# p
+ggsave("figures/outliers_RT.png", p, width = 10, height = 5, dpi = 150)
+knitr::include_graphics("figures/outliers_RT.png")
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+illusion1 <- filter(illusion1, !Participant %in% outliers_illusion1)
+illusion2 <- filter(illusion2, !Participant %in% outliers_illusion2)
+perceptual <- filter(perceptual, !Participant %in% outliers_perceptual)
+```
+
+
+# Outlier (Blocks)
+
+For each block, we computed the error rate and, if more than 50%, we discarded the whole block (as it likely indicates that instructions got mixed up, for instance participants were selecting the smaller instead of the bigger circle).
+
+```{r outliers_errorblock, message=FALSE, warning=FALSE}
+data <- rbind(illusion1, illusion2, perceptual) |>
+  group_by(Participant, Task, Illusion_Type, Block) |>
+  summarize(ErrorRate_per_block = sum(Error) / n()) |>
+  ungroup() |>
+  arrange(desc(ErrorRate_per_block))
+
+
+data |>
+  estimate_density(at = c("Task", "Illusion_Type", "Block"), method="KernSmooth") |>
+  ggplot(aes(x = x, y = y)) +
+  geom_line(aes(color = Illusion_Type, linetype = Block)) +
+  geom_vline(xintercept = 0.5, linetype = "dashed") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +  
+  scale_color_manual(values = c("Ebbinghaus"="#2196F3", "MullerLyer" = "#4CAF50", "VerticalHorizontal"="#FF5722")) +
+  labs(y = "Distribution", x = "Error Rate") +
+  theme_modern() + 
+  facet_wrap(~Task)
+```
+
+```{r message=FALSE, warning=FALSE}
+remove_badblocks <- function(df) {
+  n <- nrow(df)
+  df <- df |>
+    group_by(Participant, Illusion_Type, Block) |>
+    mutate(ErrorRate_per_block = sum(Error) / n()) |>
+    ungroup() |>
+    filter(ErrorRate_per_block < 0.5) |>
+    select(-ErrorRate_per_block)
+  text <- paste0("We removed ",
+                 n-nrow(df),
+                 " (",
+                 insight::format_value((n-nrow(df)) / n, as_percent=TRUE),
+                 ") trials belonging to bad blocks.")
+  list(data = df, text = text)
+}
+
+out <- remove_badblocks(illusion1)
+print(out$text)
+illusion1 <- out$data
+
+out <- remove_badblocks(illusion2)
+print(out$text)
+illusion2 <- out$data
+
+out <- remove_badblocks(perceptual)
+print(out$text)
+perceptual <- out$data
+```
+
+
+
+# Outlier (Trials)
+
+## Reaction Time per Trial {.tabset}
+
+```{r outliers_RTtrials, message=FALSE, warning=FALSE}
+check_trials <- function(df) {
+  data <- df |>
+    mutate(Outlier = ifelse(RT >= 10000, TRUE, FALSE)) |>
+    group_by(Participant) |>
+    mutate(Outlier = ifelse(RT < 125 | standardize(RT, robust = TRUE) > 4, TRUE, Outlier)) |>
+    ungroup()
+
+  p1 <- data |>
+    filter(RT < 10000) |>
+    estimate_density(select = "RT", at = "Participant") |>
+    group_by(Participant) |>
+    normalize(select = "y") |>
+    ungroup() |>
+    merge(data |>
+      group_by(Participant) |>
+      mutate(Threshold = median(RT) + 4 * mad(RT)) |>
+      filter(Error == 0) |>
+      summarize(Threshold = mean(Threshold))) |>
+    mutate(Outlier = ifelse(x >= Threshold, TRUE, FALSE)) |>
+    ggplot(aes(x = x, y = y)) +
+    geom_area(data = normalize(estimate_density(filter(data, RT < 10000), select = "RT"), select = "y"), alpha = 0.2) +
+    geom_line(aes(color = Participant, linetype = Outlier), alpha = 0.2) +
+    geom_vline(xintercept = c(125), linetype = "dashed", color = "red") +
+    scale_color_material_d("rainbow", guide = "none") +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    guides(linetype = "none") +
+    coord_cartesian(xlim = c(0, 4000)) +
+    theme_modern() +
+    theme(axis.text.y = element_blank()) +
+    labs(y = "", x = "Reaction Time (ms)")
+
+
+  p2 <- data |>
+    group_by(Participant) |>
+    summarize(Outlier = sum(Outlier) / nrow(illusion1)) |>
+    mutate(Participant = fct_reorder(Participant, Outlier)) |>
+    ggplot(aes(x = Participant, y = Outlier)) +
+    geom_bar(stat = "identity", aes(fill = Participant)) +
+    scale_fill_material_d("rainbow", guide = "none") +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0), labels = scales::percent) +
+    see::theme_modern() +
+    theme(axis.text.x = element_blank()) +
+    labs(y = "Percentage of outlier trials")
+
+  text <- paste0(
+    "We removed ",
+    sum(data$Outlier),
+    " (",
+    insight::format_value(sum(data$Outlier) / nrow(data), as_percent = TRUE),
+    ") outlier trials (125 ms < RT < 4 MAD above median)."
+  )
+
+  data <- filter(data, Outlier == FALSE)
+  data$Outlier <- NULL
+  data$RT <- data$RT / 1000 # Convert to second for better model convergence
+
+  list(p = p1 / p2, data = data, text = text)
+}
+```
+
+### Illusion Task (Session 1)
+
+```{r message=FALSE, warning=FALSE}
+out <- check_trials(illusion1)
+out$text
+out$p
+illusion1 <- out$data
+```
+
+
+### Illusion Task (Session 2)
+
+```{r message=FALSE, warning=FALSE}
+out <- check_trials(illusion2)
+out$text
+out$p
+illusion1 <- out$data
+```
+
+
+### Perceptual Task
+
+```{r message=FALSE, warning=FALSE}
+out <- check_trials(perceptual)
+out$text
+out$p
+illusion1 <- out$data
+```
+
+
+
+
+# Outlier (Questionnaires)
+
+```{r message=FALSE, warning=FALSE}
+outliers_questionnaires <- c(
+  "S003"
+)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+table <- sub |>
+  mutate(Outlier_Task1 = Participant %in% outliers_illusion1,
+         Outlier_Task2 = Participant %in% outliers_illusion2,
+         Outlier_Task3 = Participant %in% outliers_perceptual,
+         Outlier_Tasks = Outlier_Task1 + Outlier_Task2 + Outlier_Task3) |> 
+  select(Participant,
+         Outlier_Tasks,
+         AttentionCheck_Session1,
+         IPIP6_RT, IPIP6_SD,
+         PID5_RT, PID5_SD,
+         AttentionCheck_Session2,
+         BPD_RT, BPD_SD,
+         MAIA_RT, MAIA_SD,
+         PI_RT, PI_SD) |> 
+  arrange(desc(AttentionCheck_Session1))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+t <- data.frame(Participant = c("Total"), t(sapply(table[2:ncol(table)], mean, na.rm = TRUE))) |>
+  rbind(table) |>
+  knitr::kable() |>
+  kableExtra::row_spec(1, italic = TRUE)
+
+for(i in 2:ncol(table)) {
+  t <- kableExtra::column_spec(
+    t, i, color="white",
+    background = kableExtra::spec_color(
+      c(NA, table[[i]]), 
+      option = "E", 
+      direction = ifelse(str_detect(names(table)[i], "RT"), -1, 1)))
+}
+
+
+t |> 
+  kableExtra::kable_styling(full_width = TRUE) |>
+  kableExtra::scroll_box(width = "100%", height = "500px")
+```
+
+
+```{r message=FALSE, warning=FALSE}
+sub[sub$Participant %in% outliers_questionnaires, names(sub)[!names(sub) %in% c("Participant", "Nationality", "Age", "Ethnicity", "Sex", "Student", "Education", "Interval", "AttentionCheck_Session1", "AttentionCheck_Session2")]] <- NA
+```
+
+
+# Final Sample
+
+The final sample included `r report::report_participants(sub, age="Age", sex="Sex")`.
+
+## Origin
+
+<!-- # TODO: map -->
+
+## Demographics
+
+```{r message=FALSE, warning=FALSE}
+write.csv(illusion1, "preprocessed_illusion1.csv")
+write.csv(illusion2, "preprocessed_illusion2.csv")
+write.csv(perceptual, "preprocessed_perceptual.csv")
+write.csv(sub, "preprocessed_questionnaires.csv")
+```
