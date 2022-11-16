@@ -49,7 +49,8 @@ get_session1<- function(data){
   trials
 }
 
-session1_scales<- function(data){
+session1_scales<- function(file){
+  data<- read.csv(file)
   df<- data.frame(Participant=data$participant_id[1])
   # IPIP6
   if("IPIP6" %in% data$screen) { 
@@ -212,7 +213,8 @@ get_session2<- function(data){
   trials
 }
 
-session2_scales<- function(data){
+session2_scales<- function(file){
+  data<- read.csv(file)
   df<- data.frame(Participant=data$participant_id[1])
   if("MAIA" %in% data$screen) { 
     # MAIA
@@ -225,8 +227,8 @@ session2_scales<- function(data){
     df$MAIA_AttentionRegulation <- rowMeans(maia[grepl("AttentionRegulation", names(maia))])
     df$MAIA_EmotionalAwareness <- rowMeans(maia[grepl("EmotionalAwareness", names(maia))])
     df$MAIA_SelfRegulation <- rowMeans(maia[grepl("SelfRegulation", names(maia))])
-    df$MAIA_BodyListening<- rowMeans(maia[grepl('BodyListening'), names(maia)])
-    df$MAIA_Trusting<- rowMeans(maia[grepl('Trusting'), names(maia)])
+    df$MAIA_BodyListening<- rowMeans(maia[grepl('BodyListening', names(maia))])
+    df$MAIA_Trusting<- rowMeans(maia[grepl('Trusting', names(maia))])
     df$MAIA_SD <- mean(c(sd(maia[grepl("Noticing", names(maia))]),
                          sd(maia[grepl("NotDistracting", names(maia))]),
                          sd(maia[grepl("NotWorrying", names(maia))]),
@@ -238,11 +240,13 @@ session2_scales<- function(data){
     
     # BPD
     bpd<- as.data.frame(jsonlite::fromJSON(data[data$screen =='MSI_BPD', 'response']))
+    df<- merge(df, bpd)
     df$BPD <-rowMeans(bpd[grepl("MSI_", names(bpd))])
     df$BPD_SD <- sd(bpd[grepl("MSI_", names(bpd))])
     
     # PI-18
     pi18<- as.data.frame(jsonlite::fromJSON(data[data$screen =='PI_18', 'response']))
+    df<- merge(df, pi18)
     pi18[grepl("_R", names(pi18))] <- 6 - pi18[grepl("_R", names(pi18))]
     df$PI_Enticing<- rowMeans(pi18[grepl('GE_', names(pi18))])
     df$PI_Alive<- rowMeans(pi18[grepl('A_', names(pi18))])
@@ -252,11 +256,11 @@ session2_scales<- function(data){
     df$PI_Hierarchical<- rowMeans(pi18[grepl('Hierarchical', names(pi18))])
     df$PI18_Understandable<- rowMeans(pi18[grepl('Understandable', names(pi18))])
     df$PI18_SD<- mean(c(sd(pi18[grepl('GE_', names(pi18))]),
-                        df(pi18[grepl('A_', names(pi18))]),
+                        sd(pi18[grepl('A_', names(pi18))]),
                         sd(pi18[grepl('GS_', names(pi18))]),
                         sd(pi18[grepl('Changing', names(pi18))]),
                         sd(pi18[grepl('Hierarchical', names(pi18))]),
-                        df(pi18[grepl('Understandable', names(pi18))])))
+                        sd(pi18[grepl('Understandable', names(pi18))])))
     
     # Attention Check 
     ### MAIA and BPD are measured on visual analog scales 
@@ -282,11 +286,20 @@ preprocess_raw <- function(file) {
   # Sort by session
   if (!is.null(data$condition)){
     trials<- get_session1(data)
-    scales<- session1_scales(data)
-  }
-  else {
+  #  scales<- session1_scales(data)
+    df<- data.frame(
+      Participant = trials$participant_id,
+      Age = as.numeric(jsonlite::fromJSON(dem[1])$age),
+      Sex = jsonlite::fromJSON(dem[2])$sex,
+      Education = jsonlite::fromJSON(dem[2])$education,
+      Ethnicity = tools::toTitleCase(jsonlite::fromJSON(dem[1])$ethnicity)
+    )
+  } else {
     trials<- get_session2(data)
-    scales<- session2_scales(data)
+   # scales<- session2_scales(data)
+    df<- data.frame(
+      Participant = trials$participant_id
+    )
   }
   
   # Get fixation cross position
@@ -305,16 +318,12 @@ preprocess_raw <- function(file) {
   # trials<- trials[order(trials$trial_index),]
   trials<- cbind(trials, fixation_position)
 
-  df <- data.frame(
-    Participant = trials$participant_id,
-    Age = as.numeric(jsonlite::fromJSON(dem[1])$age),
-    Sex = jsonlite::fromJSON(dem[2])$sex,
-    Education = jsonlite::fromJSON(dem[2])$education,
-    Ethnicity = tools::toTitleCase(jsonlite::fromJSON(dem[1])$ethnicity),
+  dy <- data.frame(
+    #Participant = trials$participant_id,
     Date = ifelse(is.null(info$date), NA, info$date),
     Time = ifelse(is.null(info$time), NA, info$time),
     Duration = as.numeric(data[data$screen == "final_results", "time_elapsed"]) / 1000 / 60,
-    Break_Duration = as.numeric(data[data$screen %in% c("break", "break2") & !is.na(data$screen), "rt"]) / 1000 / 60,
+    Break_Duration = as.numeric(data[data$screen %in% c("break1", "break2") & !is.na(data$screen), "rt"]) / 1000 / 60,
     Screen_Resolution = paste0(trials$screen_width, "x", trials$screen_height),
     Screen_Size = (as.numeric(trials$screen_width) / 1000) * (as.numeric(trials$screen_height) / 1000),
     Screen_Refresh = trials$vsync_rate,
@@ -341,8 +350,25 @@ preprocess_raw <- function(file) {
     ISI = as.numeric(trials$ISI),
     RT = as.numeric(trials$rt)
   )
-  df<- merge(df, scales, by='Participant')
+  df<- cbind(df, dy)
+ # df<- merge(df, scales, by='Participant')
   df
+}
+
+#============ Retrieve Prolific Data Function ===========================#
+get_prolific<- function(file){
+  data<-read.csv(file)
+  # data<- tidyr::separate(data=data, col=Started.at, into=c('Date', 'Time'), sep='T')
+  
+  dat<-data.frame(
+    Participant = data$Participant.id,
+    # Date = format(as.Date(data$Date), "%d/%m/%Y"),
+    # Prolific_Time = gsub("\\..*","",data$Time),
+    Ethnicity = data$Ethnicity.simplified,
+    Nationality = data$Nationality,
+    BirthCountry = data$Country.of.birth    
+  )
+  dat
 }
   
 
@@ -353,61 +379,76 @@ rawdata_folder <- "C:/Users/anshu/Dropbox/IllusionGameReliability/"
 participants <- list.files(paste0(rawdata_folder, "session1/"), pattern='IllusionGameReliability')
 participants_2<- list.files(paste0(rawdata_folder, "session2/"), pattern='IllusionGameReliability')
 
-# Session 1
+#---------------------- Session 1
 df <- data.frame()
+sf <- data.frame() 
 for (ppt in participants) {
   df <- rbind(df, preprocess_raw(file = paste0(paste0(rawdata_folder, "session1/"), ppt)))
+  sf<- rbind(sf, session1_scales(file = paste0(paste0(rawdata_folder, "session1/"), ppt)))
 }
-    
+df$Participant <- gsub("\\_.*", "", df$Participant)
+sf$Participant<- gsub("\\_.*", "", sf$Participant)
 
-# Session 2 
+# ---------------------------Session 2 
 df2<- data.frame()
+sf2<- data.frame()
 for (ppt in participants_2){
-    df2<- rbind(df2, preprocess_raw(file = paste0(paste0(rawdata_folder, "session2/"), ppt)))
-  } 
+  df2<- rbind(df2, preprocess_raw(file = paste0(paste0(rawdata_folder, "session2/"), ppt)))
+  sf2<- rbind(sf2, session2_scales(file= paste0(paste0(rawdata_folder, "session2/"), ppt)))
+} 
+df2$Participant <- gsub("\\_.*", "", df2$Participant)
+sf2$Participant<- gsub("\\_.*", "", sf2$Participant)
   
 # Combine Data from both sessions 
-full_df<- data.frame()
+#full_df<- data.frame()
 for (id in unique(df$Participant)){
-  if (id %in% unique(df2$Participant)){
-    labels<- colnames(df)[1:33]
-    labels2<- colnames(df)[34:ncol(df)]
+ if (id %in% unique(df2$Participant)){
+  #  labels<- colnames(df)[1:33]
+    # scales_s1<- colnames(df)[34:ncol(df)]
+    # scales_s2<- colnames(df2)[30:ncol(df2)]
+    matching_labels<- colnames(df2)[1:29]
     
   # Get Illusion and Perceptual Task Data
-    temp<- df[df$Participant==id, labels]
-    temp<- rbind(temp, df2[df2$Participant==id, labels])
-    
+    temp<- df[, matching_labels]
+    temp<- rbind(temp, df2[df2$Participant==id, matching_labels])
+ }
   # Combine with questionnaires 
-    temp<- cbind(temp, df[df$Participant==id, labels2])
-    temp<- cbind(temp, df[df2$Participant==id, labels2])
-    full_df<- rbind(full_df, temp)
-  }  
-}
+   # temp<- merge(temp, sf, by='Participant')
+ #   temp<- cbind(temp, df2[df2$Participant==id, scales_s2])
+ # full_df<- rbind(full_df, temp)
+} 
 
-# Add prolific data
+full_df<- merge(temp, sf, by='Participant')
+full_df<- merge(full_df, sf2, by='Participant', all=T)
+
+
+# ---------------------------------------Add Demographic data
+demo<- df[,c("Participant","Age", "Sex", "Education")]
 prolific<- list.files(paste0(rawdata_folder, "session1/"), pattern='prolific')
+prolific2<- list.files(paste0(rawdata_folder, "session2/"), pattern='prolific')
 
 demo_df<- data.frame()
+
+# Session 1
 for (ppt in prolific){
-  data<-read.csv(paste0(paste0(rawdata_folder, "session1/"), ppt))
-  data<- tidyr::separate(data=data, col=Started.at, into=c('Date', 'Time'), sep='T')
-  
-  dat<-data.frame(
-    Participant = data$Participant.id,
-    Date = format(as.Date(data$Date), "%d/%m/%Y"),
-    Prolific_Time = gsub("\\..*","",data$Time),
-    Ethnicity = data$Ethnicity.simplified,
-    Nationality = data$Nationality,
-    BirthCountry = data$Country.of.birth    
-  )
-  demo_df<- rbind(demo_df, dat)
+  demo_df<- rbind(demo_df, get_prolific(file=paste0(paste0(rawdata_folder, "session1/"), ppt)))
 }
 
-# Reformat Data 
-full_df$Participant <- gsub("\\_.*", "", full_df$Participant)
+# Session 2
+for (ppt in prolific2){
+  demo_df<- rbind(demo_df, get_prolific(file=paste0(paste0(rawdata_folder, "session2/"), ppt)))
+}
 
-# Combine All Data
-full_df<- merge(full_df, demo_df, by=c('Participant', 'Date'))
+# Remove duplicates and Merge all demo info
+
+demo_df<-merge(demo, demo_df, by='Participant')
+demo_df<-demo_df[!duplicated(demo_df),]
+
+#-------------------------- Combine All Data--------------------------------------------
+# Reformat Data 
+
+
+full_df<- merge(full_df, demo_df, by='Participant', all=T)
 
 write.csv(full_df, "data/data.csv", row.names = FALSE)
 
