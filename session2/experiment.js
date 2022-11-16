@@ -595,7 +595,7 @@ var SPQ_dim = [
     "SocialAnxiety_19",
     "SocialAnxiety_20",
     "MagicalThinking_21",
-    "MAgicalThinking_22",
+    "MagicalThinking_22",
     "MagicalThinking_23",
     "MagicalThinking_24",
     "OddSpeech_25",
