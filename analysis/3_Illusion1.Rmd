@@ -1,0 +1,871 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Illusion Task (Session 1)"
+author: "Dominique Makowski et al."
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: paper
+    code_folding: hide
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+cache <- FALSE
+runModels <- FALSE
+bestModels <- TRUE
+fig.width <- see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.path = "./figures/3-Illusion-",
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+
+logmod <- function(x) sign(x) * log(1 + abs(x))
+sqrtmod <- function(x) sign(x) * sqrt(abs(x))
+cbrtmod <- function(x) sign(x) * (abs(x)**(1 / 3))
+
+df <- read.csv("../data/preprocessed_illusion1.csv") |>
+  mutate(
+    Block = as.factor(Block),
+    Illusion_Side = as.factor(Illusion_Side)
+  )
+```
+
+
+
+
+
+```{r make_GAMs, eval=runModels, message=FALSE, warning=FALSE}
+for(ill in c("Ebbinghaus", 
+             "VerticalHorizontal", 
+             "MullerLyer")) {
+  print(ill)
+  model <- brms::brm(
+    Error ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + (1 | Participant),
+    data = filter(df, Illusion_Type == ill),
+    family = "bernoulli",
+    algorithm="sampling"
+  )
+
+  name <- paste0("gam_", tolower(ill), "_err")
+  assign(name, model)  # Rename with string
+  save(list=name, file=paste0("models/", name, ".Rdata"))
+  
+  model <- brms::brm(
+    brms::bf(
+      RT ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + (1 | Participant)
+      # sigma ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant),
+      # beta ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant)
+    ),
+    data = filter(df, Illusion_Type == ill, Error == 0),
+    # family = "exgaussian",
+    # init=0,
+    algorithm="sampling"
+  )
+  
+  name <- paste0("gam_", tolower(ill), "_rt")
+  assign(name, model)  # Rename with string
+  save(list=name, file=paste0("models/", name, ".Rdata"))
+}
+```
+
+
+# Ebbinghaus
+
+## Error Rate
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "Ebbinghaus") 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_errors <- function(data) {
+  dat <- data |> 
+    mutate(Illusion_Difference = 
+      datawizard::categorize(Illusion_Difference,
+                             n_groups = 3, 
+                             split = "equal_length",
+                             label = "median"))
+  
+  col <- colorRampPalette(c("#F44336", "#FFC107", "#4CAF50"))(length(unique(dat$Illusion_Difference)))
+  
+  dat |> 
+    ggplot(aes(x = Illusion_Strength)) +
+    geom_histogram(data=filter(dat, Error == 1),
+                   aes(y=..count../sum(..count..), fill = Illusion_Difference),
+                   binwidth = diff(range(data$Illusion_Strength)) / 10,
+                   alpha = 1/3) +
+    geom_smooth(aes(y = Error, color = Illusion_Difference, fill=Illusion_Difference), 
+                method = 'gam', 
+                formula = y ~ s(x, bs = "cr"),
+                method.args = list(family = "binomial"), 
+                alpha = 1/3) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0), labels = scales::percent) +
+    scale_color_manual(values = col) +
+    scale_fill_manual(values = col) +
+    coord_cartesian(ylim = c(0, 1), xlim = range(dat$Illusion_Strength)) +
+    labs(x = "Illusion Strength", y = "Probability of Error") +
+    theme_modern() +
+    facet_grid(~Illusion_Side, labeller = "label_both")
+}
+
+plot_desc_errors(data)
+```
+
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models <- function(data, y = "RT") {
+  # TODO: add random effect
+  models <- list()
+  for(diff in c("Illusion_Difference", 
+             "logmod(Illusion_Difference)", 
+             "sqrtmod(Illusion_Difference)", 
+             "cbrtmod(Illusion_Difference)")) {
+    for(ill in c("abs(Illusion_Strength)",
+                 "logmod(abs(Illusion_Strength))",
+                 "sqrtmod(abs(Illusion_Strength))",
+                 "cbrtmod(abs(Illusion_Strength))")) {
+      m <- glmmTMB::glmmTMB(
+        as.formula(
+          paste0(y, 
+                 " ~ Illusion_Effect / (", 
+                 diff,
+                 " * ",
+                 ill,
+                 ") + (1|Participant)")),
+        data = data, 
+        family = ifelse(y == "RT", "gaussian", "binomial")
+          )
+      models[[paste(diff, "*", ill)]] <- m
+    }
+  }
+  performance::test_performance(models) |> 
+    data_select(-Model) |> 
+    arrange(desc(BF))
+}
+
+insight::display(test_models(data, "Error"))
+```
+
+
+### Model Specification
+
+
+```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
+formula <- brms::bf(
+  Error ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
+    (cbrtmod(Illusion_Difference) * abs(Illusion_Strength) | Participant),
+  family = "bernoulli"
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_ebbinghaus_err <- brms::brm(formula,
+  data = data,
+  refresh = 100
+)
+
+save(illusion1_ebbinghaus_err, file="models/illusion1_ebbinghaus_err.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_ebbinghaus_err.Rdata")
+load("models/gam_ebbinghaus_err.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+plot_model_errors <- function(data, model, gam) {
+  pred <- estimate_relation(model, length = c(3, 100))
+  
+  dat <- data |> 
+    mutate(Illusion_Difference = datawizard::categorize(
+      Illusion_Difference,
+      n_groups = 3, 
+      split = "equal_length",
+      label = "median"),
+      Illusion_Strength = as.character(Illusion_Strength)) |> 
+    group_by(Illusion_Strength, Illusion_Difference) |>
+    summarize(Error = sum(Error),
+              n = n()) |> 
+    group_by(Illusion_Strength) |> 
+    mutate(n = sum(n), 
+           Error = Error / n,
+           Illusion_Strength = as.numeric(Illusion_Strength)) |> 
+    ungroup()
+  
+  pred |> 
+    ggplot(aes(x = Illusion_Strength, y = Predicted)) +
+    geom_bar(data=dat, aes(y=Error, fill = Illusion_Difference), 
+             stat="identity", position=position_dodge2(reverse=TRUE), alpha = 0.2) +
+    scale_fill_manual(values = c("#F44336", "#FFC107", "#4CAF50"), guide = "none") +
+    ggnewscale::new_scale_fill() +
+    geom_ribbon(aes(ymin = CI_low, ymax = CI_high, 
+                    fill = Illusion_Difference, group = Illusion_Difference),
+                alpha = 0.2) +
+    geom_vline(xintercept = 0, linetype = "dashed") +
+    geom_hline(yintercept = c(0.5), linetype = "dotted", alpha = 0.5) +
+    geom_line(data = estimate_relation(gam, length = c(3, 100)),
+              aes(color = Illusion_Difference, group = Illusion_Difference),
+              linetype = "dotted") +
+    geom_line(aes(color = Illusion_Difference, group = Illusion_Difference)) +
+    scale_y_continuous(limits = c(0, 1), expand = c(0, 0), labels = scales::percent) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_color_gradientn(colours = c("#4CAF50", "#FFC107", "#F44336"), trans = 'reverse') +
+    scale_fill_gradientn(colours = c("#4CAF50", "#FFC107", "#F44336"), trans = 'reverse') +
+    theme_modern(axis.title.space = 5) +
+    guides(color = "none") +
+    labs(
+      color = "Difficulty",
+      fill = "Difficulty",
+      y = "Probability of Error",
+      x = "Illusion Strength"
+    ) +
+    theme(plot.title = element_text(face = "bold", hjust = 0.5))
+}
+
+p_ebbinghaus_err <- plot_model_errors(data, illusion1_ebbinghaus_err, gam_ebbinghaus_err)
+p_ebbinghaus_err
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_ebbinghaus_err, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+
+
+
+## Response Time
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "Ebbinghaus", Error == 0) 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_rt <- function(data) {
+  dat <- data |> 
+    mutate(Illusion_Difference = 
+      datawizard::categorize(Illusion_Difference,
+                             n_groups = 3, 
+                             split = "equal_length",
+                             label = "median")) 
+  
+  dat |> 
+    ggplot(aes(x = Illusion_Strength, y = RT)) +
+    geom_jitter2(aes(color = Illusion_Difference), width = diff(range(dat$Illusion_Strength)) / 50) +
+    geom_smooth(aes(y = RT, color = Illusion_Difference, fill=Illusion_Difference), 
+                method = 'gam', 
+                formula = y ~ s(x, bs = "cr"), 
+                alpha = 1/3) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_color_manual(values = c("#F44336", "#FFC107", "#4CAF50")) +
+    scale_fill_manual(values = c("#F44336", "#FFC107", "#4CAF50")) +
+    labs(x = "Illusion Strength", y = "Response Time") +
+    theme_modern() +
+    ggside::geom_ysidedensity(aes(fill = Illusion_Difference), color = NA, alpha = 0.3) +
+    ggside::theme_ggside_void() +
+    ggside::scale_ysidex_continuous(expand = c(0, 0)) +
+    ggside::ggside() +
+    facet_grid(~Illusion_Side, labeller = "label_both")
+}
+
+plot_desc_rt(data)
+```
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+insight::display(test_models(data, "RT"))
+```
+
+
+
+
+### Model Specification
+
+
+```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
+# TODO: shift to lognormal
+formula <- brms::bf(
+  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
+    (Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant)
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_ebbinghaus_rt <- brms::brm(formula,
+  data = data,
+  refresh = 0
+)
+
+save(illusion1_ebbinghaus_rt, file="models/illusion1_ebbinghaus_rt.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_ebbinghaus_rt.Rdata")
+load("models/gam_ebbinghaus_rt.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+plot_model_rt <- function(data, model, gam) {
+  pred <- estimate_relation(model, length = c(3, 100)) 
+  
+  dat <- data |> 
+    mutate(Illusion_Difference = datawizard::categorize(
+      Illusion_Difference,
+      n_groups = 3, 
+      split = "equal_length",
+      label = "median"))
+  
+  col <- colorRampPalette(c("#F44336", "#FFC107", "#4CAF50"))(length(unique(dat$Illusion_Difference)))
+  
+  pred |> 
+    ggplot(aes(x = Illusion_Strength, y = Predicted)) +
+    ggdist::stat_gradientinterval(
+      data=dat, 
+      aes(y = RT, fill = Illusion_Difference),
+      geom = "slab",
+      scale = 1,
+      width = diff(range(dat$Illusion_Strength)) / 20,
+      fill_type = "gradient",
+      position = "dodge"
+    ) +
+    scale_fill_manual(values = col, guide = "none") +
+    ggnewscale::new_scale_fill() +
+    geom_ribbon(aes(ymin = CI_low, ymax = CI_high, 
+                    fill = Illusion_Difference, group = Illusion_Difference),
+                alpha = 0.2) +
+    geom_vline(xintercept = 0, linetype = "dashed") +
+    geom_line(aes(color = Illusion_Difference, group = Illusion_Difference)) +
+    geom_line(data = estimate_relation(gam, length = c(3, 100)),
+              aes(color = Illusion_Difference, group = Illusion_Difference),
+              linetype = "dotted") +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_color_gradientn(colours = rev(col), trans = 'reverse') +
+    scale_fill_gradientn(colours = rev(col), trans = 'reverse') +
+    labs(x = "Illusion Strength", 
+         y = "Response Time (s)",
+         color = "Difficulty",
+         fill = "Difficulty") +
+    theme_modern(axis.title.space = 5) 
+    # ggnewscale::new_scale_fill() +
+    # scale_fill_manual(values = c("#F44336", "#FFC107", "#4CAF50"), guide = "none") +
+    # ggside::geom_ysidedensity(data=dat,
+    #                           aes(fill = Illusion_Difference, y = RT), color = NA, alpha = 0.3) +
+    # ggside::theme_ggside_void() +
+    # ggside::scale_ysidex_continuous(expand = c(0, 0)) +
+    # ggside::ggside()
+}
+
+p_ebbinghaus_rt <- plot_model_rt(data, illusion1_ebbinghaus_rt, gam_ebbinghaus_rt)
+p_ebbinghaus_rt
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_ebbinghaus_rt, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+## Visualization
+
+
+```{r message=FALSE, warning=FALSE}
+plot_all <- function(data, p_err, p_rt) {
+  illname <- unique(data$Illusion_Type)
+  # Get stimuli
+  dat <- data |>
+    filter(Error == 0) |>
+    filter(
+      Illusion_Type == illname,
+      Answer %in% c("left", "up")
+    ) |>
+    select(Stimulus, Illusion_Strength, Illusion_Difference)
+
+  dat <- rbind(
+    filter(dat, Illusion_Strength == min(Illusion_Strength)) |>
+      filter(Illusion_Difference %in% c(min(Illusion_Difference), max(Illusion_Difference))),
+    filter(dat, Illusion_Strength == max(Illusion_Strength)) |>
+      filter(Illusion_Difference %in% c(min(Illusion_Difference), max(Illusion_Difference))),
+    filter(dat, Illusion_Difference == min(Illusion_Difference)) |>
+      filter(Illusion_Strength %in% c(min(Illusion_Strength), max(Illusion_Strength))),
+    filter(dat, Illusion_Difference == max(Illusion_Difference)) |>
+      filter(Illusion_Strength %in% c(min(Illusion_Strength), max(Illusion_Strength)))
+  )
+
+
+  img_leftdown <- filter(dat, Illusion_Difference == max(Illusion_Difference)) |>
+    filter(Illusion_Strength == min(Illusion_Strength)) |>
+    pull(Stimulus) |>
+    unique()
+  img_rightdown <- filter(dat, Illusion_Difference == max(Illusion_Difference)) |>
+    filter(Illusion_Strength == max(Illusion_Strength)) |>
+    pull(Stimulus) |>
+    unique()
+  img_leftup <- filter(dat, Illusion_Strength == min(Illusion_Strength)) |>
+    filter(Illusion_Difference == min(Illusion_Difference)) |>
+    pull(Stimulus) |>
+    unique()
+  img_rightup <- filter(dat, Illusion_Strength == max(Illusion_Strength)) |>
+    filter(Illusion_Difference == min(Illusion_Difference)) |>
+    pull(Stimulus) |>
+    unique()
+
+
+  img_leftdown <- paste0("../session1/stimuli/", img_leftdown, ".png") |>
+    png::readPNG() |>
+    grid::rasterGrob(interpolate = TRUE) |>
+    patchwork::wrap_elements()
+  img_rightdown <- paste0("../session1/stimuli/", img_rightdown, ".png") |>
+    png::readPNG() |>
+    grid::rasterGrob(interpolate = TRUE) |>
+    patchwork::wrap_elements()
+  img_leftup <- paste0("../session1/stimuli/", img_leftup, ".png") |>
+    png::readPNG() |>
+    grid::rasterGrob(interpolate = TRUE) |>
+    patchwork::wrap_elements()
+  img_rightup <- paste0("../session1/stimuli/", img_rightup, ".png") |>
+    png::readPNG() |>
+    grid::rasterGrob(interpolate = TRUE) |>
+    patchwork::wrap_elements()
+
+  p <- ((p_err + theme(axis.title.x = element_blank(),
+                       plot.title = element_blank())) /
+          (p_rt + theme(plot.title = element_blank(), legend.position = "none"))) +
+    patchwork::plot_layout(guides = "collect")
+
+  wrap_elements(((img_leftup | patchwork::plot_spacer() | img_rightup) / p / (img_leftdown | patchwork::plot_spacer() | img_rightdown) +
+    patchwork::plot_layout(heights = c(0.5, 1.5, 0.5)) +
+    patchwork::plot_annotation(title = case_when(
+      illname == "MullerLyer" ~ "Müller-Lyer",
+      illname == "VerticalHorizontal" ~ "Vertical-Horizontal",
+      TRUE ~ "Ebbinghaus"
+      ),
+      theme = theme(plot.title = element_text(size=rel(1.75), face="bold", hjust=0.5)))))
+}
+
+p_ebbinghaus <- plot_all(data, p_ebbinghaus_err, p_ebbinghaus_rt)
+p_ebbinghaus
+```
+
+
+
+
+
+# Müller-Lyer
+
+## Error Rate
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "MullerLyer") 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_errors(data)
+```
+
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+insight::display(test_models(data, "Error"))
+```
+
+
+### Model Specification
+
+
+```{r m_err_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
+formula <- brms::bf(
+  Error ~ Illusion_Effect / (Illusion_Difference * logmod(abs(Illusion_Strength))) +
+     (Illusion_Difference * logmod(abs(Illusion_Strength)) | Participant),
+  family = "bernoulli"
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_mullerlyer_err <- brms::brm(formula,
+  data = data,
+  refresh = 100
+)
+
+save(illusion1_mullerlyer_err, file="models/illusion1_mullerlyer_err.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_mullerlyer_err.Rdata")
+load("models/gam_mullerlyer_err.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+p_mullerlyer_err <- plot_model_errors(data, illusion1_mullerlyer_err, gam_mullerlyer_err)
+p_mullerlyer_err
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_mullerlyer_err, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+
+
+
+## Response Time
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "MullerLyer", Error == 0) 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_rt(data)
+```
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+insight::display(test_models(data, "RT"))
+```
+
+
+
+
+### Model Specification
+
+
+```{r m_rt_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
+# TODO: shift to lognormal
+formula <- brms::bf(
+  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
+    (Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant)
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_mullerlyer_rt <- brms::brm(formula,
+  data = data,
+  refresh = 0
+)
+
+save(illusion1_mullerlyer_rt, file="models/illusion1_mullerlyer_rt.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_mullerlyer_rt.Rdata")
+load("models/gam_mullerlyer_rt.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+p_mullerlyer_rt <- plot_model_rt(data, illusion1_mullerlyer_rt, gam_mullerlyer_rt)
+p_mullerlyer_rt
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_mullerlyer_rt, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+## Visualization
+
+
+```{r message=FALSE, warning=FALSE}
+p_mullerlyer <- plot_all(data, p_mullerlyer_err, p_mullerlyer_rt)
+p_mullerlyer
+```
+
+
+
+
+
+# Vertical-Horizontal
+
+## Error Rate
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "VerticalHorizontal") 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_errors(data)
+```
+
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+insight::display(test_models(data, "Error"))
+```
+
+
+### Model Specification
+
+
+```{r m_err_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
+formula <- brms::bf(
+  Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+     (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
+  family = "bernoulli"
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_verticalhorizontal_err <- brms::brm(formula,
+  data = data,
+  refresh = 100
+)
+
+save(illusion1_verticalhorizontal_err, file="models/illusion1_verticalhorizontal_err.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_verticalhorizontal_err.Rdata")
+load("models/gam_verticalhorizontal_err.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+p_verticalhorizontal_err <- plot_model_errors(data, 
+                                              illusion1_verticalhorizontal_err, 
+                                              gam_verticalhorizontal_err)
+p_verticalhorizontal_err
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_verticalhorizontal_err, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+
+
+
+## Response Time
+
+```{r message=FALSE, warning=FALSE}
+data <- filter(df, Illusion_Type == "VerticalHorizontal", Error == 0) 
+```
+
+### Descriptive
+
+```{r message=FALSE, warning=FALSE}
+plot_desc_rt(data)
+```
+
+
+
+### Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+insight::display(test_models(data, "RT"))
+```
+
+
+
+
+### Model Specification
+
+
+```{r m_rt_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
+# TODO: shift to lognormal
+formula <- brms::bf(
+  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * cbrtmod(abs(Illusion_Strength))) +
+    (Illusion_Effect / (cbrtmod(Illusion_Difference) * cbrtmod(abs(Illusion_Strength))) | Participant)
+)
+
+# brms::get_prior(formula, data = data)
+# brms::validate_prior(formula)
+
+illusion1_verticalhorizontal_rt <- brms::brm(formula,
+  data = data,
+  refresh = 0
+)
+
+save(illusion1_verticalhorizontal_rt, file="models/illusion1_verticalhorizontal_rt.Rdata")
+```
+
+### Model Inspection
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE}
+load("models/illusion1_verticalhorizontal_rt.Rdata")
+load("models/gam_verticalhorizontal_rt.Rdata")
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+p_verticalhorizontal_rt <- plot_model_rt(data, 
+                                         illusion1_verticalhorizontal_rt, 
+                                         gam_verticalhorizontal_rt)
+p_verticalhorizontal_rt
+```
+
+### Model Performance
+
+```{r message=FALSE, warning=FALSE}
+performance::performance(illusion1_verticalhorizontal_rt, metrics = c("R2", "ICC")) |> 
+  display()
+```
+
+## Visualization
+
+
+```{r message=FALSE, warning=FALSE}
+p_verticalhorizontal <- plot_all(data, p_verticalhorizontal_err, p_verticalhorizontal_rt)
+p_verticalhorizontal
+```
+
+
+# Individual Scores 
+
+```{r mixedmodels, message=FALSE, warning=FALSE, fig.width=16, fig.height=10}
+p <- p_ebbinghaus | p_mullerlyer | p_verticalhorizontal 
+p
+# ggsave("figures/figure1.png", p, dpi=300, width=16, height=10)
+```
+
+```{r get_scores, message=FALSE, warning=FALSE}
+get_scores <- function(model, illusion="Ebbinghaus") {
+  family <- insight::find_response(model)
+  scores <- modelbased::estimate_grouplevel(model) |> 
+    data_filter(str_detect(Level, "Participant")) |> 
+    data_filter(!str_detect(Group, "Illusion_EffectCongruent|Intercept")) |> 
+    mutate(Group = str_remove_all(Group, ": Participant"),
+           Level = str_remove_all(Level, "Participant."),
+           Group = str_remove_all(Group, "Illusion_EffectIncongruent:"),
+           Group = str_remove_all(Group, "cbrtmod"),
+           Group = str_remove_all(Group, "sqrtmod"),
+           Group = str_remove_all(Group, "logmod"),
+           Group = str_remove_all(Group, "abs"),
+           Group = str_replace(Group, "Illusion_Difference:Illusion_Strength", "Interaction"),
+           Group = str_replace(Group, "Illusion_Difference", "Diff"),
+           Group = str_replace(Group, "Illusion_Strength", "Strength")) |>
+    data_filter(!str_detect(Group, "Illusion_EffectIncongruent"))
+  
+  p <- scores |> 
+    ggplot(aes(x = Median, y = Level)) +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group)) +
+    scale_color_flat_d() +
+    scale_fill_flat_d() +
+    labs(y = "Participants") +
+    theme_modern() +
+    theme(strip.placement = "oustide",
+          axis.title.x = element_blank(),
+          axis.text.y = element_blank()) +
+    ggside::geom_xsidedensity(aes(fill=Group, y = after_stat(scaled)), color = NA, alpha = 0.3) +
+    ggside::theme_ggside_void() +
+    ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+    ggside::ggside() +
+    facet_grid(~Group, switch = "both", scales = "free")  +
+    ggtitle(paste(illusion, "-", family))
+  
+  # Reshape
+  scores <- scores |> 
+    select(Group, Participant = Level, Median) |> 
+    pivot_wider(names_from = "Group", values_from = "Median") |> 
+    data_addprefix(paste0(illusion, "_"), select=-1) |> 
+    data_addsuffix(paste0("_", family), select=-1)
+  list(scores = scores, p = p)
+}
+```
+
+```{r message=FALSE, warning=FALSE}
+ebbinghaus_err <- get_scores(illusion1_ebbinghaus_err, illusion="Ebbinghaus")
+ebbinghaus_rt <- get_scores(illusion1_ebbinghaus_rt, illusion="Ebbinghaus")
+mullerlyer_err <- get_scores(illusion1_mullerlyer_err, illusion="MullerLyer")
+mullerlyer_rt <- get_scores(illusion1_mullerlyer_rt, illusion="MullerLyer")
+verticalhorizontal_err <- get_scores(illusion1_verticalhorizontal_err, illusion="VerticalHorizontal")
+verticalhorizontal_rt <- get_scores(illusion1_verticalhorizontal_rt, illusion="VerticalHorizontal")
+
+p <- (ebbinghaus_err$p + ebbinghaus_rt$p) /
+  (mullerlyer_err$p + mullerlyer_rt$p) /
+  (verticalhorizontal_err$p + verticalhorizontal_rt$p) +
+  plot_layout(guides = "collect") +
+  plot_annotation(title = "Inter- and Intra- Variability of Illusion Scores", theme = theme(plot.title = element_text(face = "bold", hjust = 0.5))) 
+p
+
+scores <- ebbinghaus_err$scores |> 
+  merge(ebbinghaus_rt$scores, by="Participant") |> 
+  merge(mullerlyer_err$scores, by="Participant") |> 
+  merge(mullerlyer_rt$scores, by="Participant") |> 
+  merge(verticalhorizontal_err$scores, by="Participant") |> 
+  merge(verticalhorizontal_rt$scores, by="Participant")
+
+write.csv(scores, "../data/scores_illusion1.csv", row.names = FALSE)
+```

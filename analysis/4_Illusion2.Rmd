@@ -1,0 +1,198 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Alternative Scores Computation"
+author: "Dominique Makowski et al."
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: paper
+    code_folding: hide
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+cache <- FALSE
+runModels <- FALSE
+bestModels <- TRUE
+fig.width <- see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.path = "./figures/",
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+# Session 2 Scores
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+
+logmod <- function(x) sign(x) * log(1 + abs(x))
+sqrtmod <- function(x) sign(x) * sqrt(abs(x))
+cbrtmod <- function(x) sign(x) * (abs(x)**(1 / 3))
+
+df <- read.csv("../data/preprocessed_illusion2.csv") |>
+  mutate(
+    Block = as.factor(Block),
+    Illusion_Side = as.factor(Illusion_Side)
+  )
+```
+
+```{r message=FALSE, warning=FALSE}
+# Retrieve get_scores() function
+knitr::read_chunk("3_Illusion1.Rmd", labels="get_scores", from=738, to=779)
+eval(parse(text = knitr::knit_code$get()$get_scores))
+
+load("models/illusion1_ebbinghaus_err.Rdata")
+load("models/illusion1_ebbinghaus_rt.Rdata")
+load("models/illusion1_mullerlyer_err.Rdata")
+load("models/illusion1_mullerlyer_rt.Rdata")
+load("models/illusion1_verticalhorizontal_err.Rdata")
+load("models/illusion1_verticalhorizontal_rt.Rdata")
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+
+# illusion2_ebbinghaus_err <- update(illusion1_ebbinghaus_err, 
+#                                    newdata=filter(df, Illusion_Type == "Ebbinghaus"))
+
+# get_scores()
+```
+
+
+
+# Individual models
+
+## Computation
+
+```{r message=FALSE, warning=FALSE}
+df <- read.csv("../data/preprocessed_illusion1.csv") |>
+  mutate(
+    Block = as.factor(Block),
+    Illusion_Side = as.factor(Illusion_Side)
+  )
+```
+
+
+```{r message=FALSE, warning=FALSE, eval=runModels}
+get_params <- function(model, data, prior_scale = 1) {
+  family <- insight::find_response(model)
+  f <- insight::find_formula(model)
+  priors <- bayestestR::model_to_priors(model, 
+                                        scale_multiply = prior_scale)
+  priors <- brms::validate_prior(priors[1:9, ], 
+                                 f$conditional, 
+                                 data=data)
+  s <- capture.output(suppressMessages(
+    m <- update(model, formula=f$conditional, newdata=data, prior=priors, refresh=0, silent=0)
+  ))
+  parameters::parameters(m) |> 
+    filter(str_detect(Parameter, "Illusion_EffectIncongruent:")) |> 
+    mutate(Parameter = case_when(
+      str_detect(Parameter, "Illusion_Difference:") ~ "Interaction",
+      str_detect(Parameter, "_Strength") ~ "Strength",
+      TRUE ~ "Diff"
+    )) |> 
+    select(Parameter, Median) |> 
+    pivot_wider(names_from = "Parameter", values_from = "Median") |> 
+    data_addsuffix(paste0("_", family))
+}
+
+
+out <- data.frame()
+for(sub in unique(df$Participant)) {
+  print(sub)
+  for(prior_scale in c(0.5, 1, 2, 4)) {
+    print(paste0("  ", prior_scale))
+    rez1 <- get_params(
+      illusion1_ebbinghaus_err,
+      data = filter(df, Illusion_Type == "Ebbinghaus", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_Ebbinghaus_")
+    rez2 <- get_params(
+      illusion1_ebbinghaus_rt,
+      data = filter(df, Illusion_Type == "Ebbinghaus", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_Ebbinghaus_")
+    rez3 <- get_params(
+      illusion1_mullerlyer_err,
+      data = filter(df, Illusion_Type == "MullerLyer", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_MullerLyer_")
+    rez4 <- get_params(
+      illusion1_mullerlyer_rt,
+      data = filter(df, Illusion_Type == "MullerLyer", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_MullerLyer_")
+    rez5 <- get_params(
+      illusion1_verticalhorizontal_err,
+      data = filter(df, Illusion_Type == "VerticalHorizontal", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_VerticalHorizontal_")
+    rez6 <- get_params(
+      illusion1_verticalhorizontal_rt,
+      data = filter(df, Illusion_Type == "VerticalHorizontal", Participant == sub),
+      prior_scale = prior_scale) |> 
+      data_addprefix("S2_VerticalHorizontal_")
+    
+    rez <- cbind(rez1, rez2, rez3, rez4, rez5, rez6)
+    rez$Participant <- sub
+    rez$PriorScale <- prior_scale
+    out <- rbind(out, rez)
+    write.csv(out, "../data/scores_individual.csv", row.names = FALSE)
+  }
+}
+```
+
+## Comparison
+
+```{r message=FALSE, warning=FALSE}
+df <- read.csv("../data/scores_individual.csv") |> 
+  standardize(exclude = c("Participant", "PriorScale")) |> 
+  pivot_longer(-one_of(c("Participant", "PriorScale")),
+               values_to = "IndividualModel",
+               names_to = "Score") |>
+  mutate(Score = str_remove(Score, "S2_")) |> 
+  merge(
+    read.csv("../data/scores_illusion1.csv") |> 
+      standardize() |> 
+      pivot_longer(-Participant, values_to = "MixedModel", names_to = "Score")) |> 
+  mutate(PriorScale = as.factor(PriorScale))
+   
+model <- lm(MixedModel ~ Score / (IndividualModel * PriorScale), data=df)
+slopes <- estimate_slopes(model, trend = "IndividualModel", at = c("Score", "PriorScale"))
+
+slopes |> 
+  cbind(
+    effectsize::t_to_r(slopes$t, slopes$df_error) |> 
+      datawizard::data_addprefix("r_", exclude = "r")) |> 
+  ggplot(aes(x = PriorScale, y = r)) +
+  geom_pointrange(aes(ymin = r_CI_low, ymax = r_CI_high, color = Score), 
+                  position = position_dodge(width = 0.2)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  theme_modern()
+```

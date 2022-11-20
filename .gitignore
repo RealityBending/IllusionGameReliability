@@ -2,4 +2,4 @@
 submission/.Rhistory
 *cache
 .Rhistory
-models/*
+analysis/models/*
