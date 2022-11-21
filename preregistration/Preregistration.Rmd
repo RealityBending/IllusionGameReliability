@@ -1,17 +1,17 @@
 ---
-title: "Pregistration"
+title: "Sensitivity to Visual Illusions: Relationship with Personality, Psychopathological traits, and Interoception"
 author: "*Dominique Makowski, An Shu Te, Stephanie Kirk, Ngoi Zi Liang, & S.H. Annabel Chen*"
 output: html_document
 bibliography: references.bib
 ---
 
+# Study Information
 
+<!-- # Abstract -->
 
-# Abstract
+<!-- Despite its long-standing history and importance in psychological research, the correlates of visual illusion sensitivity remain unclear. Previous studies provided evidence in favour of links with personality traits and psychopathological conditions, such as schizophrenia and autism. In this study, we aim to replicate the findings on personality and extend them to more theoretically targeted dispositional characteristics, such as schizotypal and autistic traits. -->
 
-Despite its long-standing history and importance in psychological research, the correlates of visual illusion sensitivity remain unclear. Previous studies provided evidence in favour of links with personality traits and psychopathological conditions, such as schizophrenia and autism. In this study, we aim to replicate the findings on personality and extend them to more theoretically targeted dispositional characteristics, such as schizotypal and autistic traits.
-
-# Introduction
+## Description
 
 Visual illusions are beguiling stimuli that reveal how the brain integrates prior beliefs with incoming sensory evidence to inform our perception of reality [@carbon2014understanding]. While early research theorized a common mechanism underlying people's sensitivity to illusions [@halpern1999interindividual; @thurstone1944factorial], recent empirical studies reported at best weak correlations between inter-individual resistance to distinct illusions [@grzeczkowski2017individual;  @grzeczkowski2018perception]. This is a significant issue, as the existence of a common factor is evidence in support of the theoretical proposition that the effects of illusions are not mere artefacts caused by our perceptual system, but potential markers of a more general property of our cognitive systems.
 
@@ -32,38 +32,55 @@ We grouped our hypotheses according to 3 levels of expectation strength (*replic
 #### Psychometry
 
 H1.  **Effect of Illusion Strength and Difficulty**
-    -   1.1 *On error rate*
-        -   1.1.1 Positive effect of illusion strength on error rate
-        -   1.1.2 Positive effect of task difficulty on error rate
-    -   1.2 *On RT*
-        -   1.2.1 Negative effect of illusion strength on response time
-        -   1.2.2 Negative effect of task difficulty on response time
-H2.  **General Factor *i***
-    -   2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions
+
+
+##### 1.1 *On error rate*
+
+
+-    1.1.1 Positive effect of illusion strength on error rate
+-    1.1.2 Positive effect of task difficulty on error rate
+
+
+##### 1.2 *On RT*
+
+
+-   1.2.1 Negative effect of illusion strength on response time
+-   1.2.2 Negative effect of task difficulty on response time
+        
+
+H2.  **General Factor *i* **
+
+
+-   2.1 Across different illusions, inter-individual illusion scores load onto a unique latent dimension that reflects a general sensitivity to illusions
 
 #### Inter-individual Correlates
 
 H3.  **Normal personality traits**
-    -   3.1 Positive correlation between illusion sensitivity and Agreableness
-    -   3.2 Positive correlation between illusion sensitivity and Honesty-Humility
+
+
+-   3.1 Positive correlation between illusion sensitivity and Agreableness
+-   3.2 Positive correlation between illusion sensitivity and Honesty-Humility
+
 H4.  **Maladaptive personality traits**
-    -   4.1 Negative correlation between illusion sensitivity and Antagonism
-    -   4.2 Negative correlation between illusion sensitivity and Disinhibition
-    -   4.3 Negative correlation between illusion sensitivity and Negative Affect
-    -   4.4 Negative correlation between illusion sensitivity and Psychoticism
+
+
+-   4.1 Negative correlation between illusion sensitivity and Antagonism
+-   4.2 Negative correlation between illusion sensitivity and Disinhibition
+-   4.3 Negative correlation between illusion sensitivity and Negative Affect
+-   4.4 Negative correlation between illusion sensitivity and Psychoticism
 
 ### Confirmation
 
 H5.  **Autism and Schizotypal traits**
 
-Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences (@notredame2014; @koethe2009binocular. Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with high systemizing tendencies (often associated with autism; @walter2009specific), as well as those with higher disorganized and positive schizotypal traits [@bressan2021most; @fradkin2022resistance].
+Under the predictive coding framework, illusion sensitivity has been theorized to be related to an underweighting of prior knowledge when making perceptual inferences [@notredame2014; @koethe2009binocular]. Indeed, this is consistent with findings in which susceptibility to different visual illusions was lower in individuals with a lower competence in contextual integrations, such as those with high systemizing tendencies (often associated with autism; @walter2009specific), as well as those with higher disorganized and positive schizotypal traits [@bressan2021most; @fradkin2022resistance].
 
 -   5.1 Negative correlation between illusion sensitivity and autistic traits, specifically in dimensions related to systemizing tendencies (measured with the *Patterns/Numbers* subscale)
 -   5.2 Negative correlation between illusion sensitivity and schizotypal personality traits, particularly in the positive (measured with the *Cognitive-Perceptual* subscale) and disorganized dimensions (measured with the *Disorganized* subscale)
 
 H6.  **Mood and Emotion Regulation**
 
-While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, research on the relationship between trait anxiety and illusion sensitivity have been mixed [@baroun2005; @passie2013impaired; @zhang2017personality]. Based on the predictive coding approach, anxiety has been linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating [@passie2013impaired; @hein2021state]. Moreover, the negative correlation between anxiety and illusion sensitivity have typically been observed in studies in which the Hollow Face illusion was implemented [@baroun2005; @passie2013impaired]. Since the use of such salient and feature-rich face stimuli could have biased participants' attention as well as cognitive processing [@devue2017faces; @sussman2016top], the relationship observed between illusion sensitivity and anxiety may be confounded. As such, in accordance with the Bayesian framework, we instead expect anxiety will correlate positively with illusion sensitivity. Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits [@flasbeck2020altered]. On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects [@koethe2009binocular; @passie2013impaired].
+While the literature regarding the links between emotion and mood dysregulation with illusion sensitivity is sparse, research on the relationship between trait anxiety and illusion sensitivity have been mixed [@baroun2005; @passie2013impaired; @zhang2017personality]. Based on the predictive coding approach, anxiety is linked to having hyper-precise prior beliefs and a decreased ability to consider contextual information, thereby resulting in individuals creating incoherent percepts that are resistant to belief updating [@passie2013impaired; @hein2021state]. Moreover, the negative correlation between anxiety and illusion sensitivity have typically been observed in studies in which the Hollow Face illusion was implemented [@baroun2005; @passie2013impaired]. Since the use of such salient and feature-rich face stimuli could have biased participants' attention as well as cognitive processing [@devue2017faces; @sussman2016top], the relationship observed between illusion sensitivity and anxiety may be confounded. As such, in accordance with the Bayesian framework, we instead expect anxiety will correlate positively with illusion sensitivity. Alternatively, we expect borderline personality traits to correlate negatively with illusion sensitivity due to its association with interoceptive deficits [@flasbeck2020altered]. On the other hand, research on visual illusion sensitivity related to depressive traits have typically not found any significant effects [@koethe2009binocular; @passie2013impaired].
 
 -   6.1 No correlation between illusion sensitivity and depression scores (measured with the *Depression* subscale in the PHQ-4)
 -   6.2 Positive correlation between illusion sensitivity and anxiety scores (measured with the *Anxiety* subscale in the PHQ-4)
@@ -74,19 +91,34 @@ While the literature regarding the links between emotion and mood dysregulation 
 #### Psychometry
 
 H7.  **Test-retest Reliability**
-    -   7.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
+
+
+-   7.1 Inter-individual illusion scores at time point 1 (*t2*) will correlate significantly with the scores at time point 2 (*t2*)
+
 H8.  **Case-level Estimation Reliability**
-    -   8.1 The individual illusion sensitivity scores derived from the population models will strongly correlate with scores estimated by individual models fitted on each participant.
+
+
+-   8.1 The individual illusion sensitivity scores derived from the population models will strongly correlate with scores estimated by individual models fitted on each participant.
+
+
 H9.  **Within-participants Stability**
-    -   9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants)
+
+
+-   9.1 The inter-individual scores are estimated with a lower uncertainty (95% CI width) than the range (95% ETI) of the point-estimates (i.e., larger between-participants variance than within-participants)
+
+
 H10.  **Perceptual independence**
-    -   10.1 None to weak correlation between illusion sensitivity and perceptual ability
+
+
+-   10.1 None to weak correlation between illusion sensitivity and perceptual ability
+
+
 
 #### Inter-individual Correlates
 
 H11. **Conspiracy Beliefs**
 
-Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [@van2018connecting] report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order of the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [@van2015perceptual], that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
+Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [@van2018connecting] report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order on the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [@van2015perceptual], that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
 -   11.1 Negative correlation between illusion sensitivity and tendency to believe in conspiracies
 
@@ -104,111 +136,208 @@ Given the positive relationship observed between illusion sensitivity and honest
 
 H14. **Primal beliefs**
 
-Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([@clifton2021brief], and thus be related to illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which negatively correlates with beliefs of a safe world; [@leone2019moral] and illusory pattern perception [@van2018connecting].
+Our basic beliefs about the world (i.e., primals) influence the way we interact with it. As such, having greater beliefs that the world is *Safe*, comprehensible (*Understandable*), does not stay static (*Changing*) and that there is an inherent underlying order (*Hierarchical*), may influence people's vigilance towards environmental cues ([@clifton2021brief], and thus be related to illusion sensitivity. This is in line with the negative link found between conspiracy beliefs (which negatively correlates with beliefs of a safe world [@leone2019moral]; and illusory pattern perception [@van2018connecting].
 
 -   14.1 Negative correlation between illusion sensitivity and the tendency to believe that the world is safe (measured with the *Safe* PI-18 subscale)
 -   14.2 Negative correlation between illusion sensitivity and the tendency to believe that the world is not static (measured with the *Changing* PI-18 subscale)
 -   14.3 Positive correlation between illusion sensitivity and the tendency to believe that the world inherently has an underlying order (measured with the *Hierarchical* PI-18 subscale)
 -   14.4 Positive correlation between illusion sensitivity and the tendency to believe that the world is comprehensible (measured with the *Understandable* PI-18 subscale)
 
-# Methods
+# Design Plan 
 
-## Ethics information
+### Study Type 
+This will be an online experiment hosted on Prolific.co, a popular crowdsourcing platform frequently used to run online studies for social and behavioural research. 
 
-This study was approved by the NTU Institutional Review Board (NTU IRB-2022-187) and all procedures performed were in accordance with the ethical standards of the institutional board and with the 1964 Helsinki Declaration. All participants provided their informed consent prior to participation and were incentivized after completing the study.
+### Blinding
+No blinding is involved. Prior to the start of the study, participants will be required to give their consent through an informed consent form where the study’s purpose will be stated. However, participants will not be explicitly informed of the independent variables measured (e.g., illusion strength) and/or the research hypotheses.
 
-## Pilot data
+### Is there any additional blinding in this study?
+NA.
 
-10 participants were recruited via the crowd-sourcing platform *Prolific*. The only inclusion criterion specified was a fluent proficiency in English to ensure that the task instructions were well-understood. Participants were rewarded \textsterling 7.50 for completing the task, which took about one hour to finish (session 1 + session 2).
+### Study Design 
+The study has a within-subjects design with repeated measures. The 3 illusions that were found to most strongly contribute to illusion sensitivity as per a previous study [@makowski2022illusion] will be included in this study. The 2 main IVs are, namely, the illusion strength (i.e., the degree to which the surrounding context biases the perception of the illusion) as well as the objective difference (i.e., the objective difference in the physical attributes between the targets). They will be modulated orthogonally by generating stimuli with parameter values of 8 and 8 equally-spaced points (resulting in a total of 8*8=64 stimuli). 
 
-## Procedure
+### Randomization
+This study consists of 2 sessions. The first session comprises an Illusion Task block, a Perceptual Task block and a series of questionnaires, the order of which will be randomized, that will be administered between the 2 aforementioned task blocks. To avoid order effects between the Illusion and the Perceptual Tasks, the presentation sequence of the tasks will be counterbalanced across participants. 
+
+The Illusion Task comprises 2 illusion-trial series, each comprising 3 blocks of 64 unique trials presented randomly. These illusion blocks are defined by a distinct type of visual illusion, of which the order of presentation will also be randomized. In total, each participant completes 384 illusion trials (2 X 64 X 3).
+
+To confirm that the illusion sensitivity measured by the illusion task is not simply a pure reflection of perceptual abilities, participants were administered a perception task that was largely similar to the Illusion Task, but in which targets were presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similar to the Illusion Task. In total, each participant completed 192 Perceptual Task trials (2 X 32 X 3)
+
+In Session 2, participants are invited to re-do the same Illusion task as that presented in Session 1, following which they will be presented with a distinct set of questionnaires, displayed in a randomized order.
 
 
-### Illusion Task
+# Sampling Plan
 
-Three illusions that were previously found to most strongly contribute to the general Factor *i* were included in this version of the task - namely, Ebbinghaus, Müller-Lyer, and Vertical-Horizontal. The manipulated experimental variables are the *illusion strength* (i.e., the extent to which the surrounding context of targets of each stimulus reinforces the illusion), and the *objective difference* (i.e., the degree of actual difference in physical attributes between the targets of a stimulus).
+### Existing Data
+10 pilot participants.
 
-The task started with 6 training trials per illusion type, followed by a first series of blocks of 64 illusion trials for each illusion type, in which the trial order was randomized. After this first series of illusion blocks has been presented, a different series is presented (with distinct items) a second time. In total, each participant completes 384 illusion trials (2 x 64 x 3), of which the goal was to answer "as fast as possible and without making errors" (an explicit double constraint on the speed-accuracy trade-off). Trials of the same block were separated by a fixation cross (presented for a random duration between 500 - 1000s), that was spatially jittered around the center of the screen (in a radius of a 1 cm), attenuating its usefulness as a potential reference point.
+### Explanation of existing data 
+We recruited pilot data from 10 participants to test the paradigm and write down the preprocessing script.
+
+### Data collection procedures
+Participants will be recruited online using the Prolific.co platform. The study is estimated to take approximately 1.15 hour to complete in total. Each participant will be paid \textsterling ~7 (per hour) upon completing the study. According to Prolific.co rules, additional payments to participants will be given if the median completion time exceeds the estimate given. Only individuals above the age of 21 and proficient in English will be eligible to participate in this study.
+
+The purpose of the study is briefly explained on the title page of the online study without explicitly stating the research hypotheses. Informed consent is then obtained before participants are allowed to begin the study. Participants are informed that the study is completely voluntary and that they can choose to discontinue the study at any time without any penalty. Confidentiality of the participants is upheld with complete anonymity as the IP address of each response will not be collected.
+
+#### Session 1
+Before the study begins, participants will be asked to answer a few personal demographic questions (e.g., age, sex, ethnicity, education level) to better characterize our population. In Session 1, participants will be administered the Illusion Task and Perceptual Task blocks, the order of which will be randomized. After completing the first task block, participants will be administered a series of questionnaires that will be randomly displayed. Participants end by completing the second task.
+
+**Illusion Task**
+
+In the Illusion task, participants will first be administered 6 practice trials, after which they will be presented with the first series of illusion blocks of 64 trials for each distinct illusion type, the order of which will be randomized. In total, each participant completes 384 illusion trials (2 x 64 x 3), of which the goal is to answer “as fast as possible and without making errors” (an explicit double constraint on the speed-accuracy trade-off). Trials of the same block will be separated by a fixation cross (presented for a random duration between 500 - 1000s), that will be spatially jittered around the centre of the screen (in a radius of a 1 cm), attenuating its usefulness as a potential reference point.
 
 For the purpose of "gamification" (making the task more interesting and generating intrinsic motivation to maximize speed and accuracy), we added a score ($100 - \mu_{RTcorrect} / P_{correct}$), expressed in percentage, at the end of each block.
 
-### Perceptual Task
+**Perceptual Task**
 
-To confirm that the illusion sensitivity measured by the illusion task is not simply a pure reflection of perceptual abilities, participants were administered a perception task that was largely similar to the Illusion Task, but in which targets were presented without the surrounding context (i.e., without illusions), differing only in terms of their objective difference. For instance, in the case of the Ebbinghaus illusion, 2 circles of different sizes were displayed side by side without the surrounding circles that create the illusion. Each of the 3 illusion types included 64 trials, presented in a randomized order and split into two series, similar to the Illusion Task. In total, each participant completed 192 Perceptual Task trials (2 x 32 x 3). To avoid order effects between the illusion and the perceptual tasks, the order of the tasks was counterbalanced across participants.
-
-### Questionnaires
-
-A series of questionnaires was administered in between the Illusion Task and the Perceptual Task, in a randomized order. We included one attention check item included within all of the questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items).
-
-<!-- All scales were presented as described in their validation study (but the Likert ), with the . Visual analog scales, instead of Likert scales with only 2 extreme anchors, were adapted for the MAIA, MSI-BPD, Mini-IPIP6 and IAS-R questionnaires to limit centrality bias. -->
+In the Perceptual Task, each of the 3 illusion types will be administered in blocks comprising 64 trials, presented in a randomized order and split into two series, similar to the Illusion Task. In total, each participant completes 192 Perceptual Task trials (2 x 32 x 3). 
 
 
-#### Personality
 
--   The **Mini IPIP6** (Mini International Personality Item Pool; @@sibley2011) measures 6 'normal' personality dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 analog scales.
--   The **PID-5-SF** (Personality Inventory for DSM-5 Short Form; @thimm2016personality) measures 5 maladaptive personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point Likert scales.
+#### Session 2
+About 2 weeks following their initial participation, participants will be invited to complete the Illusion Task again. After completing the task, participants will be presented with a series of questionnaires (distinct from session 1), the order of which will be randomized.
 
-#### Psychopathology
 
--   The **SPQ-BRU** (Schizotypal Personality Questionnaire - brief revised updated; @davidson2016schizotypal) measures 4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social anxiety) comprised of 9 secondary factors using 32 5-point Likert scales.
--   The **ASQ - Short** (Autism-Spectrum Quotient; @hoekstra2011construction) measures 5 autistic traits (social skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scales.
--   The **MSI-BPD** (Mclean Screening Instrument for Borderline Personality Disorder; @zanarini2003screening) measures borderline personality with 10 analog scales [@huczewska2019categorical].
--   The **PHQ-4** (Patient Health Questionnaire; @kroenke2009ultra) assesses anxiety and depression (2 items each) with 5-point Likert scales.
+### Sample size
+Our target sample size is 500 participants with complete data.
 
-#### Interoception
-
--   The **MAIA-2** (Multidimensional Assessment of Interoceptive Awareness Version 2; @mehling2018multidimensional) measures 8 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional Awareness, Self-Regulation, Body Listening and Trusting) with 37 analog scales.
--   The **IAS-R** (Interoceptive Accuracy Scale Revised; adapted from [@murphy2020testing], measures 5 factors of bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) with 18 analog scales.
-
-#### Beliefs and Misbeliefs
-
--   The **GCB** (Generic Conspiracist Beliefs scale; @brotherton2013measuring) measures 5 aspects related to conspiracy beliefs (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, control of information) using 15 5-point Likert scales.
--   The **PI-18** (Primals Inventory; @clifton2021brief) measures 6 primal beliefs (Safe, Enticing, Alive, Changing, Understandable, Hierarchical) using 32 6-point Likert scale items. The items from the 3 first dimensions can also be pooled to index the highest-order primal belief (Good).
--   The **LIE scale** (Lying Profile Questionnaire; @makowski2021structure) measures 4 dispositional lying dimensions (Ability, Negativity, Contextuality and Frequency) with 16 visual analog scales.
-
-### Session 2
-
-About 2 weeks following their initial participation, participants were invited to complete the Illusion Task again. To balance the duration of session 1, the MAIA-2, MSI-BPD and PI-18 questionnaires were administered during session 2, after the Illusion Task.
-
-## Design Plan
-
-This study has a mixed design with within-subjects repeated measures (for the experimental tasks) and between-subjects analyses. Data collection and analysis will not be performed blind to the conditions of the experiment. The materials and procedure of the experiment will be the same as that of the pilot study (see **Pilot Data** section).
-
-## Sampling plan
-
+### Sample Size rationale
 Although Bayesian analysis moves the focus away from null-hypothesis testing and towards evidence quantification (for instance, by means of Bayes factors), a frequentist power-analysis was run nonetheless (<https://sample-size.net/correlation-sample-size/>) to provide a lower bound estimate. Using α = .05, β = .2 and the average correlation reported by [@makowski2022illusion] of r = .17, the suggested minimum target sample size was 240 participants. To account for potential outliers, drop-outs and attrition rate (participants that did not participate in session 2), we aim at recruiting 500 participants.
 
-## Analysis Plan
+### Stopping Rule 
+NA
 
-The analysis script is available at [**https://github.com/RealityBending/IllusionGameReliability**]
+# Variables 
 
-Data of participants with outlying scores (in regard to the population distributions) will be further examined and potentially excluded if there is reason to suspect that they did not pay attention to the task (e.g., failing to make the appropriate response to attention check items embedded in questionnaires, the presence of a high number of errors in "easy" trials, as well as a very short total duration, might suggest that participants answered randomly to quickly finish the task). In this study, missing data will be prevented through the implementation of a forced-choice reaction-time behavioural task, in which the trial does not proceed to the next display until participants make a response.
+### Manipulated Variables
+Three illusions that were previously found to most strongly contribute to the general Factor *i* will be presented. Each illusion will be manipulated in 2 ways: namely in terms of their *illusion strength*, i.e., the extent to which the surrounding context (distractors) biases the perception of the illusion, as well as the *objective difference*, i.e., the actual difference in the physical attributes of the to-be-compared targets that make up the stimuli (e.g., length, size, angle of displacement etc.,). 
+
+The manipulation applied to each illusion are as follows:
+
+1. **Ebbinghaus Illusion**
+     * Illusion Strength: The size of the outer circle (distractor) relative to the inner circle (target). For instance, if illusion strength=1, it means that the outer circle will be 100% bigger, 
+       i.e., 2 times bigger than the inner circle.
+     
+     * Objective Difference: The objective size difference of the inner circles presented on the left and right sides of a screen. Specifically, the size of the left inner circle relative to the 
+       right. For instance, if difference=1, it means that the left inner circle will be 100% bigger, i.e., 2 times bigger than the right.
+
+     
+2. **Muller-Lyer Illusion**
+     * Illusion Strength: The displacement of angle of the arrow shapes/fins (distractors) in biasing the perception of horizontal lines  of unequal lengths (targets). Specifically, the angle of the
+       fins in degrees. For instance, illusion_strength = 20 represents a 20 degree tilt (away from vertical) of the fins.
+       
+     * Objective Difference: The objective length difference of the horizontal lines presented on the top and bottom of a screen. Specifically, the actual difference in length of the upper 
+       horizontal line relative to the lower horizontalline. For instance, if difference=1, the upper line will be 100% longer, i.e., 2 times longer than the lower line.
+       
+3. **Vertical-Horizontal Illusion**
+     * Illusion Strength: The change in orientation of the tilted vertical line (distractor) in biasing the overestimation of its length  relative to the horizontal line (target). Specifically, the 
+       displacement of orientation of the line in degrees, with 0 being vertical and values rotating anticlockwise if the left line is rotated and clockwise if the right  line is rotated.
+    
+     * Objective Difference: The objective length difference of the vertical and horizontal lines presented on the left and right sides of  the screen. Specifically, the actual difference of the 
+       left line relative to the right line. For instance, if difference=1, the left line will be 100% longer, i.e., 2 times longer than the right line.
 
 
-# Data Availability
+### Measured variables 
+
+
+* Response Time (in **ms**)
+* Accuracy (errors vs correct response)
+* Questionnaires
+
+  A series of questionnaires will be administered in between the Illusion Task and the Perceptual Task, in a randomized order. We included one attention check item included within all of the 
+  questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items).
+
+  1. **Personality**
+     - **Mini IPIP6** (Mini International Personality Item Pool; @sibley2011) measures 6 'normal' personality 
+     dimensions (Honesty-Humility, Neuroticism, Extraversion, Agreeableness, Conscientiousness, Openness) with 24 
+     analog scales.
+     - **PID-5-SF** (Personality Inventory for DSM-5 Short Form; @thimm2016personality) measures 5 maladaptive 
+     personality traits (disinhibition, antagonism, detachment, negative affect and psychoticism) with 25 4-point 
+     Likert scales.
+     
+  
+  2. **Psychopathology**
+     - **SPQ-BRU** (Schizotypal Personality Questionnaire - brief revised updated; @davidson2016schizotypal) measures 
+     4 primary schizotypy dimensions (cognitive-perceptual/positive, interpersonal/negative, disorganized and social 
+     anxiety) comprised of 9 secondary factors using 32 5-point Likert scales.
+     - **ASQ - Short** (Autism-Spectrum Quotient; @hoekstra2011construction) measures 5 autistic traits (social 
+     skills, routine, switching, imagination, numbers/patterns) using 28 4-point Likert scales.
+     - **MSI-BPD** (Mclean Screening Instrument for Borderline Personality Disorder; @zanarini2003screening) measures 
+     borderline personality with 10 analog scales [@huczewska2019categorical].
+     - **PHQ-4** (Patient Health Questionnaire; @kroenke2009ultra) assesses anxiety and depression (2 items each) with
+     5-point Likert scales.
+
+  3. **Interoception**
+     - **MAIA-2** (Multidimensional Assessment of Interoceptive Awareness Version 2; @mehling2018multidimensional) 
+     measures 8 facets of interoception (Noticing, Not Distancing, Not Worrying, Attention Regulation, Emotional 
+     Awareness, Self-Regulation, Body Listening and Trusting) with 37 analog scales.
+     - **IAS-R** (Interoceptive Accuracy Scale Revised; adapted from [@murphy2020testing], measures 5 factors of 
+     bodily perception (Interoception, Nociception, Expulsion, Elimination, Skin) with 18 analog scales.
+
+  4. **Beliefs and Misbeliefs**
+     - **GCB** (Generic Conspiracist Beliefs scale; @brotherton2013measuring) measures 5 aspects related to conspiracy
+     beliefs (Government malfeasance, malevolent global conspiracies, Extraterrestrial cover-up, personal well-being, 
+     control of information) using 15 5-point Likert scales.
+     - **PI-18** (Primals Inventory; @clifton2021brief) measures 6 primal beliefs (Safe, Enticing, Alive, Changing, 
+     Understandable, Hierarchical) using 32 6-point Likert scale items. The items from the 3 first dimensions can also
+     be pooled to index the highest-order primal belief (Good).
+     - **LIE scale** (Lying Profile Questionnaire; @makowski2021structure) measures 4 dispositional lying dimensions 
+     (Ability, Negativity, Contextuality and Frequency) with 16 visual analog scales.
+
+
+### Indices
+NA 
+
+# Analysis Plan 
+
+### Statistical Models
+The analysis will be similar to that of[@makowski2022illusion], which is available at [https://github.com/RealityBending/IllusionGameValidation](https://github.com/RealityBending/IllusionGameValidation).
+
+The main analysis (including the preprocessing steps and the scores' extraction method) has been pre-written and is available **INSERT LINK TO RELEASE**. 
+
+In brief, Bayesian mixed models are fitted to model the relationship between the parametric properties of the visual illusions (i.e., illusion strength and objective difference), and participants’ behavioural reactions i.e., their speed and accuracy in their responses. Individual scores will be extracted from these models and their factor structure will be assessed using structural equation modelling. Finally, Bayesian correlations will be used to investigate the relationship between illusion sensitivity scores and other dispositional characteristics.
+
+### Transformations 
+NA
+
+### Inference Criteria
+Standard guidelines for assessing the certainty, size and Bayesian significance of effects will be used (see @bayestestRArticle).
+
+### Data exclusion
+The preprocessing steps are available at [https://github.com/RealityBending/IllusionGameReliability/blob/main/analysis/1_Preprocessing.Rmd](https://github.com/RealityBending/IllusionGameReliability/blob/main/analysis/1_Preprocessing.Rmd) 
+
+Outliers will be detected and removed based on their average RT and error rate (if implausibly fast) as well as based on the attention checks items included in the questionnaires.
+
+### Missing Data 
+Missing data is prevented through the implementation of a forced-choice reaction-time behavioural task and questionnaires, in which the trial does not proceed to the next display until participants make a response.
+
+### Exploratory analysis 
+NA
+
+
+# Others
+
+### Data Availability
 
 Anonymized data is available at [**https://github.com/RealityBending/IllusionGameReliability**](https://github.com/RealityBending/IllusionGameReliability){.uri}
 
-# Code Availability
+### Code Availability
 
 The code for the experiment and the analysis is available at https://github.com/RealityBending/IllusionGameReliability
 
-
-# Acknowledgements
-
-This work was supported by the Presidential Postdoctoral Fellowship Grant (NTU-PPF-2020-10014) from Nanyang Technological University (awarded to DM). The funders have/had no role in study design, data collection and analysis, decision to publish or preparation of the manuscript.
-
-# Author Contributions
-
-The authors made the following contributions. DM: Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing -- original draft; AST: Project administration, Data curation, Resources, Software, Investigation, Writing -- original draft; SK: Project administration, Resources, Writing -- original draft; NZL: Project administration, Resources, Writing -- review & editing; AC: Project administration, Supervision, Writing -- review & editing.
-
-# Competing Interests
-
-The authors declare no competing interests.
-
 \newpage
 
-# References
+### References
 
 ::: {#refs custom-style="Bibliography"}
 :::
+
+<!-- # Author Contributions -->
+
+<!-- The authors made the following contributions. DM: Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing -- original draft; AST: Project administration, Data curation, Resources, Software, Investigation, Writing -- original draft; SK: Project administration, Resources, Writing -- original draft; NZL: Project administration, Resources, Writing -- review & editing; AC: Project administration, Supervision, Writing -- review & editing. -->
+
+<!-- ## Ethics information -->
+
+<!-- This study was approved by the NTU Institutional Review Board (NTU IRB-2022-187) and all procedures performed were in accordance with the ethical standards of the institutional board and with the 1964 Helsinki Declaration. All participants provided their informed consent prior to participation and were incentivized after completing the study. -->
+
