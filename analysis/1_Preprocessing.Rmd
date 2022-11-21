@@ -366,7 +366,7 @@ table <- sub |>
     Outlier_Tasks,
     AttentionCheck_Session1,
     IPIP6_RT, PID5_RT,
-    IPIP6_SD, PID5_SD,
+    IPIP6_SD, PID5_SD, PHQ4_SD,
     AttentionCheck_Session2,
     BPD_RT, MAIA_RT, PI_RT,
     BPD_SD, MAIA_SD, PI_SD
@@ -400,7 +400,7 @@ for (i in 2:ncol(table)) {
 
 t  |>
   kableExtra::row_spec(1, background = "grey") |> 
-  kableExtra::kable_styling(full_width = TRUE) |>
+  kableExtra::kable_styling(full_width = TRUE, font_size = 9) |>
   kableExtra::scroll_box(width = "100%", height = "500px")
 
 # Inspection: select(sub[sub$Participant == "S008", ], starts_with("Item_PID"))

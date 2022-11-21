@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dominique Makowski et al." />
 
-<meta name="date" content="2022-11-20" />
+<meta name="date" content="2022-11-21" />
 
 <title>Illusion Game Reliability</title>
 
@@ -702,7 +702,7 @@ pre code {
 <h1 class="title toc-ignore">Illusion Game Reliability</h1>
 <h3 class="subtitle">Preprocessing</h3>
 <h4 class="author">Dominique Makowski et al.</h4>
-<h4 class="date">2022-11-20</h4>
+<h4 class="date">2022-11-21</h4>
 
 </div>
 
@@ -1318,7 +1318,7 @@ of attention checks and time taken to complete each questionnaires.</p>
     Outlier_Tasks,
     AttentionCheck_Session1,
     IPIP6_RT, PID5_RT,
-    IPIP6_SD, PID5_SD,
+    IPIP6_SD, PID5_SD, PHQ4_SD,
     AttentionCheck_Session2,
     BPD_RT, MAIA_RT, PI_RT,
     BPD_SD, MAIA_SD, PI_SD
@@ -1348,10 +1348,10 @@ for (i in 2:ncol(table)) {
 
 t  |&gt;
   kableExtra::row_spec(1, background = &quot;grey&quot;) |&gt; 
-  kableExtra::kable_styling(full_width = TRUE) |&gt;
+  kableExtra::kable_styling(full_width = TRUE, font_size = 9) |&gt;
   kableExtra::scroll_box(width = &quot;100%&quot;, height = &quot;500px&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table" style="font-size: 9px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
@@ -1374,6 +1374,9 @@ IPIP6_SD
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 PID5_SD
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+PHQ4_SD
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 AttentionCheck_Session2
@@ -1422,6 +1425,9 @@ Average
 0.702
 </td>
 <td style="text-align:right;font-style: italic;color: white !important;background-color: white !important;background-color: grey !important;">
+0.354
+</td>
+<td style="text-align:right;font-style: italic;color: white !important;background-color: white !important;background-color: grey !important;">
 0.640
 </td>
 <td style="text-align:right;font-style: italic;color: white !important;background-color: white !important;background-color: grey !important;">
@@ -1465,6 +1471,9 @@ S008
 <td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: rgba(68, 1, 84, 1) !important;">
 0.000
 </td>
+<td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: rgba(68, 1, 84, 1) !important;">
+0.000
+</td>
 <td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: white !important;">
@@ -1501,6 +1510,9 @@ S003
 </td>
 <td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: rgba(59, 187, 117, 1) !important;">
 0.847
+</td>
+<td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: rgba(68, 1, 84, 1) !important;">
+0.000
 </td>
 <td style="text-align:right;background-color: #EF9A9A !important;color: white !important;background-color: rgba(253, 231, 37, 1) !important;">
 0.613
@@ -1546,6 +1558,9 @@ S001
 <td style="text-align:right;color: white !important;background-color: rgba(31, 151, 139, 1) !important;">
 0.659
 </td>
+<td style="text-align:right;color: white !important;background-color: rgba(253, 231, 37, 1) !important;">
+0.707
+</td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
@@ -1583,6 +1598,9 @@ S004
 <td style="text-align:right;color: white !important;background-color: rgba(31, 161, 135, 1) !important;">
 0.713
 </td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 1) !important;">
+0.354
+</td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
@@ -1619,6 +1637,9 @@ S002
 </td>
 <td style="text-align:right;color: white !important;background-color: rgba(36, 134, 142, 1) !important;">
 0.571
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 1) !important;">
+0.354
 </td>
 <td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 1) !important;">
 0.667
@@ -1664,6 +1685,9 @@ S007
 <td style="text-align:right;color: white !important;background-color: rgba(31, 160, 136, 1) !important;">
 0.702
 </td>
+<td style="text-align:right;color: white !important;background-color: rgba(253, 231, 37, 1) !important;">
+0.707
+</td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
@@ -1700,6 +1724,9 @@ S010
 </td>
 <td style="text-align:right;color: white !important;background-color: rgba(253, 231, 37, 1) !important;">
 1.243
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 1) !important;">
+0.000
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
@@ -1738,6 +1765,9 @@ S005
 <td style="text-align:right;color: white !important;background-color: rgba(36, 135, 142, 1) !important;">
 0.577
 </td>
+<td style="text-align:right;color: white !important;background-color: rgba(253, 231, 37, 1) !important;">
+0.707
+</td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
@@ -1774,6 +1804,9 @@ S009
 </td>
 <td style="text-align:right;color: white !important;background-color: rgba(32, 146, 140, 1) !important;">
 0.635
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 1) !important;">
+0.354
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
@@ -1812,6 +1845,9 @@ S006
 <td style="text-align:right;color: white !important;background-color: rgba(105, 205, 91, 1) !important;">
 0.960
 </td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 1) !important;">
+0.354
+</td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
@@ -1848,6 +1884,9 @@ S011
 </td>
 <td style="text-align:right;color: white !important;background-color: rgba(49, 181, 123, 1) !important;">
 0.814
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 1) !important;">
+0.354
 </td>
 <td style="text-align:right;color: white !important;background-color: white !important;">
 </td>
