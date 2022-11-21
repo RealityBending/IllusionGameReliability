@@ -27,7 +27,7 @@ Using a short version of the *Illusion Game* (made of 3 illusion types), the aim
 
 ## Hypotheses
 
-We grouped our hypotheses according to 3 levels of expectation strength (*replication* of @makowski2022illusion; *confirmation* of the findings reported by past studies; and *exploration* of potential hypotheses based on theoretical models and assumptions). The null hypothesis (H0) corresponds to no significant effect.
+We grouped our hypotheses according to 3 levels of expectation strength [*replication* of @makowski2022illusion; *confirmation* of the findings reported by past studies; and *exploration* of potential hypotheses based on theoretical models and assumptions]. The null hypothesis (H0) corresponds to no significant effect.
 
 ### Replication
 
