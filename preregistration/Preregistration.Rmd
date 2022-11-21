@@ -27,7 +27,7 @@ Using a short version of the *Illusion Game* (made of 3 illusion types), the aim
 
 ## Hypotheses
 
-We grouped our hypotheses according to 3 levels of expectation strength [*replication* of @makowski2022illusion]; *confirmation* of the findings reported by past studies; and *exploration* of potential hypotheses based on theoretical models and assumptions). The null hypothesis (H0) corresponds to no significant effect.
+We grouped our hypotheses according to 3 levels of expectation strength (*replication* of @makowski2022illusion; *confirmation* of the findings reported by past studies; and *exploration* of potential hypotheses based on theoretical models and assumptions). The null hypothesis (H0) corresponds to no significant effect.
 
 ### Replication
 
@@ -114,7 +114,7 @@ While the literature regarding the links between emotion and mood dysregulation 
 
 **H11. Conspiracy Beliefs**
 
-Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [@van2018connecting] report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order on the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with [@van2015perceptual], that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
+Although little attention has been conferred to investigating the links between conspiracy beliefs and illusion sensitivity, [@van2018connecting] report illusory pattern perception (misperception of meaningful patterns in random stimuli) to be positively linked to greater belief in conspiracy theories, suggesting that individuals with a greater conspiracy mindset may have a greater need to make sense of or impose order on the world and hence may be more aware of external cues, thus influencing their illusion sensitivity. This is in line with @van2015perceptual, that showed an association between conspiracy beliefs and a stronger local-to-global interference effect (i.e., a difficulty in ignoring irrelevant local visual information when making a decision about the global stimulus features).
 
 -   11.1 Negative correlation between illusion sensitivity and tendency to believe in conspiracies
 
@@ -244,7 +244,7 @@ The manipulation applied to each illusion are as follows:
 * Accuracy (errors vs correct response)
 * Questionnaires
 
-A series of questionnaires will be administered in between the Illusion Task and the Perceptual Task, in a randomized order. We included one attention check item included within all of the questionnaire (e.g., "example 1", "example 2"), with the exception of the PHQ-4 (which only consists of 4 items).
+A series of questionnaires will be administered in between the Illusion Task and the Perceptual Task, in a randomized order. We included one attention check item included within all of the questionnaire (e.g., "I am awake right now", "Select the maximum value to the right to show your attention"), with the exception of the PHQ-4 (which only consists of 4 items).
 
 **Personality**
 
