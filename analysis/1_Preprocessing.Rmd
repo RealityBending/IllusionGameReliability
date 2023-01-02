@@ -72,6 +72,8 @@ sub <- read.csv("../data/raw_questionnaires.csv")
 #   mutate(
 #     Education = fct_relevel(Education, "High School", "Bachelor", "Master", "Doctorate", "Other", "Prefer not to Say")
 #   )
+
+bayestestR::point_estimate(sub$Duration_Total)
 ```
 
 

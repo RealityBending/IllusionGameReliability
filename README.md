@@ -1,4 +1,4 @@
-# Relationship between Illusion Sensitivity and Inter-individual Characteristics: A Registered Report
+# Relationship between Illusion Sensitivity and Inter-individual Characteristics
 
 *Dominique Makowski, An Shu Te, Stephanie Kirk, Ngoi Zi Liang, & S.H. Annabel Chen*
 
@@ -8,6 +8,6 @@ Despite it being a popular stimuli used in psychological research, the mechanism
 
 ## Content
 
-- [**Registered Report**](https://realitybending.github.io/IllusionGameReliability/submission/RegisteredReport.html)
+- [**Preregistration**](https://osf.io/k4ntd) (see the [repo](https://github.com/RealityBending/IllusionGameReliability/tree/v0.1.0) at that state)
 - [**Try Experiment (session 1)**](https://realitybending.github.io/IllusionGameReliability/session1/index.html)
 - [**Try Experiment (session 2)**](https://realitybending.github.io/IllusionGameReliability/session2/index.html)
