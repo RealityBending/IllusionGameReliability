@@ -106,12 +106,15 @@ test_models <- function(data, y = "RT") {
           )
     models[[f]] <- m
   }
+  
   performance::test_performance(models) |> 
-    data_select(-Model) |> 
-    arrange(desc(BF))
+    select(-Model, -log_BF) |> 
+    datawizard::convert_na_to(select="BF", replacement = 1) |> 
+    arrange(desc(BF)) |> 
+    export_table(footer = "Each model is compared to 'Illusion_Difference'")
 }
 
-insight::display(test_models(data, "Error"))
+test_models(data, "Error")
 ```
 
 
@@ -217,7 +220,7 @@ plot_desc_rt(data)
 ### Model Selection
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
+test_models(data, "RT")
 ```
 
 
@@ -301,7 +304,7 @@ plot_desc_errors(data)
 ### Model Selection
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "Error"))
+test_models(data, "Error")
 ```
 
 
@@ -362,7 +365,7 @@ plot_desc_rt(data)
 ### Model Selection
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
+test_models(data, "RT")
 ```
 
 
@@ -427,7 +430,7 @@ plot_desc_errors(data)
 ### Model Selection
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "Error"))
+test_models(data, "Error")
 ```
 
 
@@ -488,7 +491,7 @@ plot_desc_rt(data)
 ### Model Selection
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
+test_models(data, "RT")
 ```
 
 

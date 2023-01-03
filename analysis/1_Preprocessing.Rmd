@@ -67,13 +67,14 @@ perceptual <- read.csv("../data/raw_perceptual.csv") |>
     Block = as.factor(Block)
   )
 
-sub <- read.csv("../data/raw_questionnaires.csv")
+sub <- read.csv("../data/raw_questionnaires.csv") |> 
+  mutate(
+    Education = fct_relevel(Education, "High School", "Bachelor", "Master", "Doctorate", "Other", "Prefer not to Say")
+  )
 
-#   mutate(
-#     Education = fct_relevel(Education, "High School", "Bachelor", "Master", "Doctorate", "Other", "Prefer not to Say")
-#   )
-
-bayestestR::point_estimate(sub$Duration_Total)
+# For prolific:
+# bayestestR::point_estimate(sub$Duration_Session1)
+# plot(bayestestR::estimate_density(sub$Duration_Session1))
 ```
 
 
@@ -142,14 +143,15 @@ data.frame(Participant = c("Average"), t(sapply(table[2:ncol(table)], mean, na.r
 ### Reaction Time Distribution
 
 
-```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
+```{r message=FALSE, warning=FALSE, cache=cache, eval=FALSE}
 p <- data |>
+  # filter(as.numeric(gsub("\\D", "", Participant)) >= 22) |>
   estimate_density(select = "RT", at = c("Participant", "Task", "Block")) |>
   group_by(Participant) |>
   normalize(select = "y") |>
   ungroup() |>
   mutate(
-    Participant = fct_relevel(Participant, as.character(table$Participant)),
+    # Participant = fct_relevel(Participant, as.character(table$Participant)),
     color = case_when(
       Participant %in% outliers_perceptual & Task == "Perceptual" ~ "red",
       Participant %in% outliers_illusion1 & Task == "Illusion_Session1" ~ "red",
@@ -169,16 +171,17 @@ p <- data |>
   scale_color_manual(values = c("red" = "#F44336", "orange" = "#FF9800", "blue" = "blue"), guide = "none") +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
-  coord_cartesian(xlim = c(0, 3)) +
+  coord_cartesian(xlim = c(0, 2)) +
   theme_modern() +
   theme(axis.text.y = element_blank()) +
   facet_grid(Participant ~ Task) +
   labs(y = "", x = "Reaction Time (s)")
 # p
-ggsave("figures/outliers_RT.png", p, width = 10, height = 5, dpi = 150)
+ggsave("figures/outliers_RT.png", p, width = 10, height = 0.5*nrow(sub), dpi = 150)
+```
+```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
 knitr::include_graphics("figures/outliers_RT.png")
 ```
-
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -347,6 +350,24 @@ perceptual <- out$data
 
 # Outlier Detection (Questionnaires)
 
+## Multivariate Detection
+
+We compute a multivariate outlier score.
+
+```{r message=FALSE, warning=FALSE}
+outliers <- sub |> 
+  select(AttentionCheck_Session1, 
+         IPIP6_RT, PID5_RT, GCBS_RT, ASQ_RT, LIE_RT, SPQ_RT, 
+         IPIP6_SD, PID5_SD, PHQ4_SD) |> 
+  standardize() |> 
+  performance::check_outliers(method = c("mahalanobis", "mahalanobis_robust", "mcd", "ics"))
+
+sub$Potential_Outliers <- as.data.frame(outliers)$Outlier
+outliers
+```
+
+## Manual Check
+
 ```{r message=FALSE, warning=FALSE}
 outliers_questionnaires <- c(
   "S003", "S008"
@@ -366,15 +387,17 @@ table <- sub |>
   select(
     Participant,
     Outlier_Tasks,
+    Potential_Outliers,
     AttentionCheck_Session1,
-    IPIP6_RT, PID5_RT,
+    IPIP6_RT, PID5_RT, ASQ_RT, SPQ_RT,
     IPIP6_SD, PID5_SD, PHQ4_SD,
     AttentionCheck_Session2,
     BPD_RT, MAIA_RT, PI_RT,
     BPD_SD, MAIA_SD, PI_SD
-  ) |>
+  ) |> 
   # mutate(across(ends_with("IPIP6_RT") | ends_with("IPIP6_SD"), standardize)) |> 
-  arrange(desc(Outlier_Tasks), AttentionCheck_Session1)
+  # arrange(desc(Outlier_Tasks), AttentionCheck_Session1) 
+  arrange(desc(Participant))
 ```
 
 
@@ -393,7 +416,7 @@ for (i in 2:ncol(table)) {
       c(NA, table[[i]]),
       option = "D",
       alpha = 1,
-      direction = ifelse(str_detect(names(table)[i], "_SD|Outlier_Tasks"), 1, -1),
+      # direction = ifelse(str_detect(names(table)[i], "_SD|Outlier"), 1, -1),
       na_color = "white",
     )
   )
@@ -424,6 +447,7 @@ sub[
 
 # Final Sample
 
+We collected data from `r nrow(sub)` participants.
 
 ```{r message=FALSE, warning=FALSE}
 illusion1 <- illusion1[!illusion1$Participant %in% outliers_illusion1, ]
@@ -458,12 +482,11 @@ estimate_density(sub$Age) |>
   geom_area(fill = "#607D8B") +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
-  labs(title = "Age", color = NULL) +
-  theme_modern() +
+  labs(title = "Age", y = "Distribution", color = NULL) +
+  theme_modern(axis.title.space = 10) +
   theme(
     plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5),
     plot.subtitle = element_text(face = "italic", hjust = 0.5),
-    axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     axis.text.x = element_text(size = rel(0.8)),
     axis.title.x = element_blank()
@@ -490,7 +513,7 @@ plot_waffle <- function(sub, what = "Nationality", title = what, rows = 8, size 
 }
 
 plot_waffle(sub, "Ethnicity", rows = 10, size = 5) +
-  scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Other" = "#795548"))
+  scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Asian" = "#FFC107", "Other" = "#795548"))
 ```
 
 
@@ -500,14 +523,14 @@ plot_waffle(sub, "Ethnicity", rows = 10, size = 5) +
 sub |>
   ggplot(aes(x = Education)) +
   geom_bar(aes(fill = Education)) +
-  scale_y_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
   scale_fill_viridis_d(guide = "none") +
   labs(title = "Education", y = "Number of Participants") +
-  theme_modern() +
+  theme_modern(axis.title.space = 15) +
   theme(
     plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5),
     plot.subtitle = element_text(face = "italic", hjust = 0.5),
-    axis.text.y = element_blank(),
+    axis.text.y = element_text(size = rel(0.8)),
     axis.text.x = element_text(size = rel(0.8)),
     axis.title.x = element_blank()
   )
