@@ -81,12 +81,12 @@ for(ill in c("Ebbinghaus",
   model <- brms::brm(
     brms::bf(
       RT ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + (1 | Participant)
-      # sigma ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant),
-      # beta ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant)
+      sigma ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant),
+      beta ~ t2(Illusion_Difference, Illusion_Strength, k=8, bs="cr") + poly(ISI, 2) + (1 | Participant)
     ),
     data = filter(df, Illusion_Type == ill, Error == 0),
-    # family = "exgaussian",
-    # init=0,
+    family = "exgaussian",
+    init=0,
     algorithm="sampling"
   )
   
@@ -98,6 +98,55 @@ for(ill in c("Ebbinghaus",
 
 
 # Ebbinghaus
+
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models <- function(data) {
+  # TODO: add random effect
+  models_err <- list()
+  models_rt <- list()
+  for(diff in c("Illusion_Difference", 
+             "logmod(Illusion_Difference)", 
+             "sqrtmod(Illusion_Difference)", 
+             "cbrtmod(Illusion_Difference)")) {
+    for(ill in c("abs(Illusion_Strength)",
+                 "logmod(abs(Illusion_Strength))",
+                 "sqrtmod(abs(Illusion_Strength))",
+                 "cbrtmod(abs(Illusion_Strength))")) {
+      err <- glmmTMB::glmmTMB(
+        as.formula(
+          paste0("Error ~ Illusion_Effect / (", 
+                 diff,
+                 " * ",
+                 ill,
+                 ") + (1|Participant)")),
+        data = data, 
+        family = "binomial")
+      models_err[[paste(diff, "*", ill)]] <- err
+      
+      rt <- glmmTMB::glmmTMB(
+        as.formula(
+          paste0("RT ~ Illusion_Effect / (", 
+                 diff,
+                 " * ",
+                 ill,
+                 ") + (1|Participant)")),
+        data = data)
+      models_rt[[paste(diff, "*", ill)]] <- rt
+    }
+  }
+  mutate(performance::test_performance(models_err), Outcome = "Error") |> 
+    rbind(mutate(performance::test_performance(models_rt), Outcome = "RT")) |> 
+    select(-Model, -log_BF) |> 
+    datawizard::convert_na_to(select="BF", replacement = 1) |> 
+    arrange(Outcome, desc(BF)) |> 
+    export_table(footer = "Each model is compared to 'Illusion_Difference'")
+}
+
+test_models(filter(df, Illusion_Type == "Ebbinghaus") )
+```
+
 
 ## Error Rate
 
@@ -114,20 +163,23 @@ plot_desc_errors <- function(data) {
       datawizard::categorize(Illusion_Difference,
                              n_groups = 3, 
                              split = "equal_length",
-                             label = "median"))
+                             label = "median"),
+      bins = datawizard::categorize(Illusion_Strength, split="equal_length", n_groups = 20))
   
   col <- colorRampPalette(c("#F44336", "#FFC107", "#4CAF50"))(length(unique(dat$Illusion_Difference)))
   
-  dat |> 
+  dat |>  
     ggplot(aes(x = Illusion_Strength)) +
-    geom_histogram(data=filter(dat, Error == 1),
-                   aes(y=..count../sum(..count..), fill = Illusion_Difference),
-                   binwidth = diff(range(data$Illusion_Strength)) / 10,
-                   alpha = 1/3) +
-    geom_smooth(aes(y = Error, color = Illusion_Difference, fill=Illusion_Difference), 
-                method = 'gam', 
+    geom_bar(data = dat |> 
+               group_by(Illusion_Difference, bins) |> 
+               summarize(Illusion_Strength = mean(Illusion_Strength),
+                               Error = sum(Error) / n()),
+                     aes(y=Error, fill = Illusion_Difference),
+                   alpha = 1/3, position = "dodge", stat = "identity", width = diff(range(dat$Illusion_Strength)) / 10) +
+    geom_smooth(aes(y = Error, color = Illusion_Difference, fill=Illusion_Difference),
+                method = 'gam',
                 formula = y ~ s(x, bs = "cr"),
-                method.args = list(family = "binomial"), 
+                method.args = list(family = "binomial"),
                 alpha = 1/3) +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0), labels = scales::percent) +
@@ -142,44 +194,6 @@ plot_desc_errors <- function(data) {
 plot_desc_errors(data)
 ```
 
-
-
-
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models <- function(data, y = "RT") {
-  # TODO: add random effect
-  models <- list()
-  for(diff in c("Illusion_Difference", 
-             "logmod(Illusion_Difference)", 
-             "sqrtmod(Illusion_Difference)", 
-             "cbrtmod(Illusion_Difference)")) {
-    for(ill in c("abs(Illusion_Strength)",
-                 "logmod(abs(Illusion_Strength))",
-                 "sqrtmod(abs(Illusion_Strength))",
-                 "cbrtmod(abs(Illusion_Strength))")) {
-      m <- glmmTMB::glmmTMB(
-        as.formula(
-          paste0(y, 
-                 " ~ Illusion_Effect / (", 
-                 diff,
-                 " * ",
-                 ill,
-                 ") + (1|Participant)")),
-        data = data, 
-        family = ifelse(y == "RT", "gaussian", "binomial")
-          )
-      models[[paste(diff, "*", ill)]] <- m
-    }
-  }
-  performance::test_performance(models) |> 
-    data_select(-Model) |> 
-    arrange(desc(BF))
-}
-
-insight::display(test_models(data, "Error"))
-```
 
 
 ### Model Specification
@@ -317,12 +331,6 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
-```
-
 
 
 
@@ -341,7 +349,8 @@ formula <- brms::bf(
 
 illusion1_ebbinghaus_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(illusion1_ebbinghaus_rt, file="models/illusion1_ebbinghaus_rt.Rdata")
@@ -505,6 +514,15 @@ p_ebbinghaus
 
 # Müller-Lyer
 
+
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models(filter(df, Illusion_Type == "MullerLyer") )
+```
+
+
+
 ## Error Rate
 
 ```{r message=FALSE, warning=FALSE}
@@ -519,12 +537,6 @@ plot_desc_errors(data)
 
 
 
-
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "Error"))
-```
 
 
 ### Model Specification
@@ -585,11 +597,6 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
-```
 
 
 
@@ -609,7 +616,8 @@ formula <- brms::bf(
 
 illusion1_mullerlyer_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(illusion1_mullerlyer_rt, file="models/illusion1_mullerlyer_rt.Rdata")
@@ -649,6 +657,14 @@ p_mullerlyer
 
 # Vertical-Horizontal
 
+
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models(filter(df, Illusion_Type == "VerticalHorizontal") )
+```
+
+
 ## Error Rate
 
 ```{r message=FALSE, warning=FALSE}
@@ -663,12 +679,6 @@ plot_desc_errors(data)
 
 
 
-
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "Error"))
-```
 
 
 ### Model Specification
@@ -731,12 +741,6 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-insight::display(test_models(data, "RT"))
-```
-
 
 
 
@@ -755,7 +759,8 @@ formula <- brms::bf(
 
 illusion1_verticalhorizontal_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(illusion1_verticalhorizontal_rt, file="models/illusion1_verticalhorizontal_rt.Rdata")

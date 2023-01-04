@@ -88,7 +88,7 @@ test_models <- function(data) {
     export_table(footer = "Each model is compared to 'Illusion_Difference'")
 }
 
-test_models(filter(perceptual, Illusion_Type == "Ebbinghaus") )
+test_models(filter(perceptual, Illusion_Type == "Ebbinghaus"))
 ```
 
 
@@ -130,8 +130,8 @@ plot_desc_errors(data)
 
 ```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ logmod(Illusion_Difference) +
-    (1 + logmod(Illusion_Difference) | Participant),
+  Error ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
   family = "bernoulli"
 )
 
@@ -231,12 +231,12 @@ plot_desc_rt(data)
 ```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 # TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ logmod(Illusion_Difference) +
-    (1 + logmod(Illusion_Difference )| Participant),
-  sigma ~ logmod(Illusion_Difference) +
-    (1 + logmod(Illusion_Difference )| Participant),
-  beta ~ logmod(Illusion_Difference) +
-    (1 + logmod(Illusion_Difference )| Participant),
+  RT ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference )| Participant),
+  sigma ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference )| Participant),
+  beta ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference )| Participant),
   family = "exgaussian"
 )
 
