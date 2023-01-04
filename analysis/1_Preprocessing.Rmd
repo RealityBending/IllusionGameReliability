@@ -69,8 +69,11 @@ perceptual <- read.csv("../data/raw_perceptual.csv") |>
 
 sub <- read.csv("../data/raw_questionnaires.csv") |> 
   mutate(
-    Education = fct_relevel(Education, "High School", "Bachelor", "Master", "Doctorate", "Other", "Prefer not to Say")
+    Education = fct_relevel(Education, 
+                            # "Prefer not to Say", 
+                            "High school", "Bachelor", "Master", "Doctorate", "Other")
   )
+
 
 # For prolific:
 # bayestestR::point_estimate(sub$Duration_Session1)
@@ -79,7 +82,7 @@ sub <- read.csv("../data/raw_questionnaires.csv") |>
 
 
 
-# Outlier Detection (Tasks)
+# Outlier Detection (Tasks) {.tabset}
 
 
 
@@ -145,7 +148,7 @@ data.frame(Participant = c("Average"), t(sapply(table[2:ncol(table)], mean, na.r
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=FALSE}
 p <- data |>
-  # filter(as.numeric(gsub("\\D", "", Participant)) >= 22) |>
+  filter((as.numeric(gsub("\\D", "", Participant)) <= 11) | (as.numeric(gsub("\\D", "", Participant)) >= 61)) |>
   estimate_density(select = "RT", at = c("Participant", "Task", "Block")) |>
   group_by(Participant) |>
   normalize(select = "y") |>
@@ -166,8 +169,8 @@ p <- data |>
   ) |>
   ggplot(aes(x = x, y = y)) +
   geom_area(data = normalize(estimate_density(data, select = "RT"), select = "y"), alpha = 0.2) +
-  geom_line(aes(color = color, group = interaction(Participant, Block), linetype = Block), size = 1) +
-  geom_vline(xintercept = 0.125, linetype = "dashed", color = "red") +
+  geom_line(aes(color = color, group = interaction(Participant, Block), linetype = Block), size = 0.5) +
+  geom_vline(xintercept = 0.125, linetype = "dashed", color = "red", size = 0.5) +
   scale_color_manual(values = c("red" = "#F44336", "orange" = "#FF9800", "blue" = "blue"), guide = "none") +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
@@ -177,7 +180,7 @@ p <- data |>
   facet_grid(Participant ~ Task) +
   labs(y = "", x = "Reaction Time (s)")
 # p
-ggsave("figures/outliers_RT.png", p, width = 10, height = 0.5*nrow(sub), dpi = 150)
+ggsave("figures/outliers_RT.png", p, width = 8, height = 24, dpi = 100)
 ```
 ```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
 knitr::include_graphics("figures/outliers_RT.png")
@@ -370,7 +373,7 @@ outliers
 
 ```{r message=FALSE, warning=FALSE}
 outliers_questionnaires <- c(
-  "S003", "S008"
+  "S003", "S008", "S068"
 )
 ```
 
@@ -478,8 +481,11 @@ select(sub, region = Nationality) |>
 
 ```{r message=FALSE, warning=FALSE}
 estimate_density(sub$Age) |>
+  normalize(select = y) |> 
   ggplot(aes(x = x, y = y)) +
   geom_area(fill = "#607D8B") +
+  geom_vline(xintercept = mean(sub$Age), color = "red") +
+  geom_label(data = data.frame(x = mean(sub$Age) * 1.1, y = 0.95), color = "red", label = paste0("Mean = ", format_value(mean(sub$Age)))) +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
   labs(title = "Age", y = "Distribution", color = NULL) +

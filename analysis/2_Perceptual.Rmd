@@ -60,11 +60,44 @@ perceptual <- read.csv("../data/preprocessed_perceptual.csv") |>
 
 # Ebbinghaus
 
+
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models <- function(data) {
+  # TODO: add random effect
+  models_err <- list()
+  models_rt <- list()
+  for(f in c("Illusion_Difference", 
+             "logmod(Illusion_Difference)", 
+             "sqrtmod(Illusion_Difference)", 
+             "cbrtmod(Illusion_Difference)")) {
+    err <- glmmTMB::glmmTMB(as.formula(paste0("Error ~ ", f, "+ (1|Participant)")),
+                            data = data, family = "binomial")
+    models_err[[f]] <- err
+    rt <- glmmTMB::glmmTMB(as.formula(paste0("RT ~ ", f, "+ (1|Participant)")),
+                           data = filter(data, Error == 0))
+    models_rt[[f]] <- rt
+  }
+  
+  mutate(performance::test_performance(models_err), Outcome = "Error") |> 
+    rbind(mutate(performance::test_performance(models_rt), Outcome = "RT")) |> 
+    select(-Model, -log_BF) |> 
+    datawizard::convert_na_to(select="BF", replacement = 1) |> 
+    arrange(Outcome, desc(BF)) |> 
+    export_table(footer = "Each model is compared to 'Illusion_Difference'")
+}
+
+test_models(filter(perceptual, Illusion_Type == "Ebbinghaus") )
+```
+
+
 ## Error Rate
 
 ```{r message=FALSE, warning=FALSE}
 data <- filter(perceptual, Illusion_Type == "Ebbinghaus") 
 ```
+
 
 ### Descriptive
 
@@ -91,40 +124,14 @@ plot_desc_errors <- function(data) {
 plot_desc_errors(data)
 ```
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models <- function(data, y = "RT") {
-  # TODO: add random effect
-  models <- list()
-  for(f in c("Illusion_Difference", 
-             "logmod(Illusion_Difference)", 
-             "sqrtmod(Illusion_Difference)", 
-             "cbrtmod(Illusion_Difference)")) {
-    m <- glmmTMB::glmmTMB(as.formula(paste0(y, " ~ ", f, "+ (1|Participant)")),
-            data = data, family = ifelse(y == "RT", "gaussian", "binomial")
-          )
-    models[[f]] <- m
-  }
-  
-  performance::test_performance(models) |> 
-    select(-Model, -log_BF) |> 
-    datawizard::convert_na_to(select="BF", replacement = 1) |> 
-    arrange(desc(BF)) |> 
-    export_table(footer = "Each model is compared to 'Illusion_Difference'")
-}
-
-test_models(data, "Error")
-```
-
 
 ### Model Specification
 
 
 ```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Difference +
-    (1 + Illusion_Difference | Participant),
+  Error ~ logmod(Illusion_Difference) +
+    (1 + logmod(Illusion_Difference) | Participant),
   family = "bernoulli"
 )
 
@@ -217,23 +224,20 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models(data, "RT")
-```
-
-
-
 
 ### Model Specification
 
 
 ```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
-# TODO: shift to lognormal
+# TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ Illusion_Difference +
-    (1 + Illusion_Difference | Participant)
+  RT ~ logmod(Illusion_Difference) +
+    (1 + logmod(Illusion_Difference )| Participant),
+  sigma ~ logmod(Illusion_Difference) +
+    (1 + logmod(Illusion_Difference )| Participant),
+  beta ~ logmod(Illusion_Difference) +
+    (1 + logmod(Illusion_Difference )| Participant),
+  family = "exgaussian"
 )
 
 # brms::get_prior(formula, data = data)
@@ -241,7 +245,8 @@ formula <- brms::bf(
 
 perceptual_ebbinghaus_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(perceptual_ebbinghaus_rt, file="models/perceptual_ebbinghaus_rt.Rdata")
@@ -289,6 +294,13 @@ performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
 
 # Müller-Lyer
 
+
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models(filter(perceptual, Illusion_Type == "MullerLyer") )
+```
+
 ## Error Rate
 
 ```{r message=FALSE, warning=FALSE}
@@ -301,20 +313,14 @@ data <- filter(perceptual, Illusion_Type == "MullerLyer")
 plot_desc_errors(data)
 ```
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models(data, "Error")
-```
-
 
 ### Model Specification
 
 
 ```{r m_err_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Difference +
-    (1 + Illusion_Difference | Participant),
+  Error ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
   family = "bernoulli"
 )
 
@@ -362,23 +368,20 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models(data, "RT")
-```
-
-
-
 
 ### Model Specification
 
 
 ```{r m_rt_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
-# TODO: shift to lognormal
+# TODO: Add random to parameters
 formula <- brms::bf(
   RT ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference) | Participant)
+    (1 + cbrtmod(Illusion_Difference ) | Participant),
+  sigma ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference ) | Participant),
+  beta ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference ) | Participant),
+  family = "exgaussian"
 )
 
 # brms::get_prior(formula, data = data)
@@ -386,7 +389,8 @@ formula <- brms::bf(
 
 perceptual_mullerlyer_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(perceptual_mullerlyer_rt, file="models/perceptual_mullerlyer_rt.Rdata")
@@ -415,6 +419,13 @@ performance::performance(perceptual_mullerlyer_rt, metrics = c("R2", "ICC")) |>
 
 # Vertical-Horizontal
 
+## Model Selection
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+test_models(filter(perceptual, Illusion_Type == "VerticalHorizontal") )
+```
+
+
 ## Error Rate
 
 ```{r message=FALSE, warning=FALSE}
@@ -427,11 +438,6 @@ data <- filter(perceptual, Illusion_Type == "VerticalHorizontal")
 plot_desc_errors(data)
 ```
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models(data, "Error")
-```
 
 
 ### Model Specification
@@ -439,8 +445,8 @@ test_models(data, "Error")
 
 ```{r m_err_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Difference +
-    (1 + Illusion_Difference | Participant),
+  Error ~ sqrtmod(Illusion_Difference) +
+    (1 + sqrtmod(Illusion_Difference) | Participant),
   family = "bernoulli"
 )
 
@@ -488,12 +494,6 @@ plot_desc_rt(data)
 
 
 
-### Model Selection
-
-```{r message=FALSE, warning=FALSE, results='asis'}
-test_models(data, "RT")
-```
-
 
 
 
@@ -501,10 +501,15 @@ test_models(data, "RT")
 
 
 ```{r m_rt_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
-# TODO: shift to lognormal
+# TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ Illusion_Difference +
-    (1 + Illusion_Difference | Participant)
+  RT ~ sqrtmod(Illusion_Difference) +
+    (1 + sqrtmod(Illusion_Difference ) | Participant),
+  sigma ~ sqrtmod(Illusion_Difference) +
+    (1 + sqrtmod(Illusion_Difference ) | Participant),
+  beta ~ sqrtmod(Illusion_Difference) +
+    (1 + sqrtmod(Illusion_Difference ) | Participant),
+  family = "exgaussian"
 )
 
 # brms::get_prior(formula, data = data)
@@ -512,7 +517,8 @@ formula <- brms::bf(
 
 perceptual_verticalhorizontal_rt <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  init = 0
 )
 
 save(perceptual_verticalhorizontal_rt, file="models/perceptual_verticalhorizontal_rt.Rdata")
@@ -545,11 +551,17 @@ get_scores <- function(model, illusion="Ebbinghaus") {
     data_filter(str_detect(Level, "Participant")) |> 
     mutate(Group = str_remove(Group, ": Participant"),
            Level = str_remove(Level, "Participant."),
+           Level = str_remove(Level, "_beta."),
+           Level = str_remove(Level, "_sigma."),
            Group = str_remove_all(Group, "cbrtmod"),
            Group = str_remove_all(Group, "sqrtmod"),
            Group = str_remove_all(Group, "logmod"),
            Group = str_remove_all(Group, "abs"),
-           Group = str_replace(Group, "Illusion_Difference", "Diff")) 
+           Group = str_replace(Group, "Illusion_Difference", "Diff"),
+           Group = str_replace(Group, "Intercept__sigma", "InterceptSigma"),
+           Group = str_replace(Group, "Intercept__beta", "InterceptBeta"),
+           Group = str_replace(Group, "Diff__sigma", "DiffSigma"),
+           Group = str_replace(Group, "Diff__beta", "DiffBeta")) 
   
   p <- scores |> 
     ggplot(aes(x = Median, y = Level)) +
@@ -573,8 +585,16 @@ get_scores <- function(model, illusion="Ebbinghaus") {
     pivot_wider(names_from = "Group", values_from = "Median") |> 
     data_rename("Diff", 
                 paste0("Perception_", illusion, "_Difficulty_", family)) |> 
+    data_rename("DiffSigma", 
+                paste0("Perception_", illusion, "_Difficulty_SigmaRT")) |> 
+    data_rename("DiffBeta", 
+                paste0("Perception_", illusion, "_Difficulty_BetaRT")) |> 
     data_rename("Intercept", 
-                paste0("Perception_", illusion, "_Intercept_", family)) 
+                paste0("Perception_", illusion, "_Intercept_", family)) |> 
+    data_rename("InterceptSigma", 
+                paste0("Perception_", illusion, "_Intercept_SigmaRT")) |> 
+    data_rename("InterceptBeta", 
+                paste0("Perception_", illusion, "_Intercept_BetaRT")) 
   list(scores = scores, p = p)
   
 }
