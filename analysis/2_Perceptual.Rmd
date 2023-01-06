@@ -23,7 +23,7 @@ options(
   knitr.kable.NA = ""
 )
 
-cache <- FALSE
+cache <- TRUE
 runModels <- TRUE
 bestModels <- TRUE
 fig.width <- see::golden_ratio(7)
@@ -63,7 +63,7 @@ perceptual <- read.csv("../data/preprocessed_perceptual.csv") |>
 
 ## Model Selection
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, warning=FALSE, cache=cache, eval=bestModels}
 test_models <- function(data) {
   # TODO: add random effect
   models_err <- list()
@@ -297,7 +297,7 @@ performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
 
 ## Model Selection
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, warning=FALSE, cache=cache, eval=bestModels}
 test_models(filter(perceptual, Illusion_Type == "MullerLyer") )
 ```
 
@@ -421,7 +421,7 @@ performance::performance(perceptual_mullerlyer_rt, metrics = c("R2", "ICC")) |>
 
 ## Model Selection
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, warning=FALSE, cache=cache, eval=bestModels}
 test_models(filter(perceptual, Illusion_Type == "VerticalHorizontal") )
 ```
 
@@ -544,7 +544,7 @@ performance::performance(perceptual_verticalhorizontal_rt, metrics = c("R2", "IC
 
 # Individual Scores 
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, fig.width=fig.width*2, fig.height=fig.height*2}
 get_scores <- function(model, illusion="Ebbinghaus") {
   family <- insight::find_response(model)
   scores <- modelbased::estimate_grouplevel(model) |> 

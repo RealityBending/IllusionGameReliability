@@ -32,7 +32,7 @@ fig.height <- 7
 knitr::opts_chunk$set(
   collapse = TRUE,
   dpi = 450,
-  fig.path = "./figures/",
+  fig.path = "./figures/4-Illusion2-",
   fig.width = fig.width,
   fig.height = fig.height
 )
@@ -74,9 +74,6 @@ load("models/illusion1_verticalhorizontal_rt.Rdata")
 
 
 ```{r message=FALSE, warning=FALSE}
-
-
-
 # illusion2_ebbinghaus_err <- update(illusion1_ebbinghaus_err, 
 #                                    newdata=filter(df, Illusion_Type == "Ebbinghaus"))
 

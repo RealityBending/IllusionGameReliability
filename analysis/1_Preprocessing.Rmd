@@ -69,9 +69,7 @@ perceptual <- read.csv("../data/raw_perceptual.csv") |>
 
 sub <- read.csv("../data/raw_questionnaires.csv") |> 
   mutate(
-    Education = fct_relevel(Education, 
-                            # "Prefer not to Say", 
-                            "High school", "Bachelor", "Master", "Doctorate", "Other")
+    Education = fct_relevel(Education, "Other", "High school", "Bachelor", "Master", "Doctorate", "Prefer not to Say")
   )
 
 
@@ -95,11 +93,16 @@ outliers_perceptual <- c(
   "S003",
   "S008"
 )
+outliers_perceptual_block2 <- c(
+  "S226"
+)
 outliers_illusion1 <- c(
-  "S008"
+  "S008",
+  "S278"
   )
 outliers_illusion1_block2 <- c(
-  "S153"
+  "S153",
+  "S226"
   )
 outliers_illusion2 <- c(
   "S003"
@@ -140,7 +143,7 @@ data.frame(Participant = c("Average"), t(sapply(table[2:ncol(table)], mean, na.r
   knitr::kable() |>
   kableExtra::row_spec(1, italic = TRUE, background = "grey", color = "white") |>
   kableExtra::row_spec(which(table$Participant %in% c(outliers_perceptual, outliers_illusion1, outliers_illusion2)) + 1, background = "#EF9A9A") |>
-  kableExtra::row_spec(which(table$Participant %in% c(outliers_illusion1_block2)) + 1, background = "orange") |>
+  kableExtra::row_spec(which(table$Participant %in% c(outliers_illusion1_block2, outliers_perceptual_block2)) + 1, background = "orange") |>
   # kableExtra::column_spec(2, color="white",
   #                         background = kableExtra::spec_color(c(NA, table$Error_Illusion_Session1))) |>
   kableExtra::kable_styling(full_width = TRUE) |>
@@ -163,6 +166,7 @@ plot_distribution <- function(data) {
         Participant %in% outliers_perceptual & Task == "Perceptual" ~ "red",
         Participant %in% outliers_illusion1 & Task == "Illusion_Session1" ~ "red",
         Participant %in% outliers_illusion2 & Task == "Illusion_Session2" ~ "red",
+        Participant %in% outliers_perceptual_block2 & Task == "Perceptual" ~ "orange",
         Participant %in% outliers_illusion1_block2 & Task == "Illusion_Session1" ~ "orange",
         TRUE ~ "blue"
       ),
@@ -192,9 +196,9 @@ plot_distribution <- function(data) {
 #   filter((as.numeric(gsub("\\D", "", Participant)) > 51 & (as.numeric(gsub("\\D", "", Participant)) <= 101) | (as.numeric(gsub("\\D", "", Participant)) == 1)) |>
 #   plot_distribution()
 p3 <- data |> 
-  filter((as.numeric(gsub("\\D", "", Participant)) > 140) | (as.numeric(gsub("\\D", "", Participant)) == 1)) |>
+  filter((as.numeric(gsub("\\D", "", Participant)) >= 300) | (as.numeric(gsub("\\D", "", Participant)) <= 2)) |>
   plot_distribution() 
-p3
+# p3
 ggsave("figures/00_outliers_RT.png", p3, width = 8, height = 24, dpi = 100)
 ```
 ```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
@@ -207,6 +211,7 @@ illusion1 <- filter(illusion1, !Participant %in% outliers_illusion1)
 illusion1 <- filter(illusion1, !(Participant %in% outliers_illusion1_block2 & Block == 2))
 illusion2 <- filter(illusion2, !Participant %in% outliers_illusion2)
 perceptual <- filter(perceptual, !Participant %in% outliers_perceptual)
+perceptual <- filter(perceptual, !(Participant %in% outliers_perceptual_block2 & Block == 2))
 ```
 
 
@@ -384,7 +389,7 @@ outliers <- sub |>
   standardize() |> 
   performance::check_outliers(method = c("mahalanobis", "mahalanobis_robust", "mcd", "ics"))
 
-sub$Potential_Outliers <- as.data.frame(outliers)$Outlier
+sub$Outlier_Questionnaire <- as.data.frame(outliers)$Outlier
 # outliers
 ```
 
@@ -392,7 +397,7 @@ sub$Potential_Outliers <- as.data.frame(outliers)$Outlier
 
 ```{r message=FALSE, warning=FALSE}
 outliers_questionnaires <- c(
-  "S003", "S008", "S068", "S110", "S127"
+  "S003", "S008", "S068", "S110", "S127", "S151", "S189", "S266"
 )
 ```
 
@@ -402,14 +407,18 @@ We removed the questionnaire data from `r length(outliers_questionnaires)` parti
 table <- sub |>
   mutate(
     Outlier_Task1 = Participant %in% outliers_illusion1,
+    Outlier_Task1b = Participant %in% outliers_illusion1_block2 / 2,
     Outlier_Task2 = Participant %in% outliers_illusion2,
     Outlier_Task3 = Participant %in% outliers_perceptual,
-    Outlier_Tasks = Outlier_Task1 + Outlier_Task2 + Outlier_Task3
+    Outlier_Task3b = Participant %in% outliers_perceptual_block2 / 2,
+    Outlier_Tasks = Outlier_Task1 + Outlier_Task1b + 
+      Outlier_Task2 + 
+      Outlier_Task3 + Outlier_Task3b
   ) |>
   select(
     Participant,
     Outlier_Tasks,
-    Potential_Outliers,
+    Outlier_Questionnaire,
     AttentionCheck_Session1,
     IPIP6_RT, PID5_RT, ASQ_RT, SPQ_RT,
     IPIP6_SD, PID5_SD, PHQ4_SD,
@@ -450,7 +459,7 @@ t  |>
   kableExtra::kable_styling(full_width = TRUE, font_size = 9) |>
   kableExtra::scroll_box(width = "100%", height = "500px")
 
-# Inspection: select(sub[sub$Participant == "S008", ], starts_with("Item_PID"))
+# Inspection: select(sub[sub$Participant == "S199", ], starts_with("AttentionCheck"))
 ```
 
 
