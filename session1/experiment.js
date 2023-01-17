@@ -637,65 +637,65 @@ var SPQ_dim = [
 
 // Autism-Spectrum Quotient Short (18 items)
 var AQ = [
-    "<b>I prefer to do things with others rather than on my own</b><br>",
+    "<b>I prefer to do things with others rather than on my own</b><br>",  //
     "<b>I prefer to do things the same way over and over again</b><br>",
-    "<b>Trying to imagine something, I find it easy to create a picture in my mind</b><br>",
+    "<b>Trying to imagine something, I find it easy to create a picture in my mind</b><br>",  //
     "<b>I frequently get strongly absorbed in one thing</b><br>",
     "<b>I usually notice car number plates or similar strings of information</b><br>",
-    "<b>Reading a story, I can easily imagine what the characters might look like</b><br>",
+    "<b>Reading a story, I can easily imagine what the characters might look like</b><br>",  //
     "<b>I am fascinated by dates</b><br>",
-    "<b>I can easily keep track of several different people's conversations</b><br>",
-    "<b>I find social situations easy</b><br>",
+    "<b>I can easily keep track of several different people's conversations</b><br>",  //
+    "<b>I find social situations easy</b><br>",  //
     "<b>I would rather go to a library than to a party</b><br>",
-    "<b>I find making up stories easy</b><br>",
-    "<b>I find myself drawn more strongly to people than to things</b><br>",
+    "<b>I find making up stories easy</b><br>", //
+    "<b>I find myself drawn more strongly to people than to things</b><br>", //
     "<b>I am fascinated by numbers</b><br>",
     "<b>Reading a story, I find it difficult to work out the character's intentions</b><br>",
     "<b>I find it hard to make new friends</b><br>",
     "<b>I notice patterns in things all the time</b><br>",
-    "<b>It does not upset me if my daily routine is disturbed</b><br>",
-    "<b>I find it easy to do more than one thing at once</b><br>",
-    "<b>I enjoy doing things spontaneously</b><br>",
-    "<b>I find it easy to work out what someone is thinking or feeling</b><br>",
-    "<b>If there is an interruption, I can switch back very quickly</b><br>",
+    "<b>It does not upset me if my daily routine is disturbed</b><br>",  //
+    "<b>I find it easy to do more than one thing at once</b><br>",  //
+    "<b>I enjoy doing things spontaneously</b><br>",  //
+    "<b>I find it easy to work out what someone is thinking or feeling</b><br>",  //
+    "<b>If there is an interruption, I can switch back very quickly</b><br>",  //
     "<b>I like to collect information about categories of things</b><br>",
     "<b>I find it difficult to imagine what it would be like to be someone else</b><br>",
-    "<b>I enjoy social occasions</b><br>",
+    "<b>I enjoy social occasions</b><br>",  //
     "<b>I find it difficult to work out people's intentions</b><br>",
     "<b>New situations make me anxious</b><br>",
-    "<b>I enjoy meeting new people</b><br>",
-    "<b>I find it easy to play games with children that involve pretending</b><br>",
+    "<b>I enjoy meeting new people</b><br>",  //
+    "<b>I find it easy to play games with children that involve pretending</b><br>",  //
 ]
 
 var AQ_dim = [
-    "SocialSkills_1",
+    "SocialSkills_1",  //Reverse
     "Routine_2",
-    "Imagination_3",
+    "Imagination_3", //Reverse
     "Switching_4",
     "Patterns_5",
-    "Imagination_6",
+    "Imagination_6", //Reverse
     "Patterns_7",
-    "Switching_8",
-    "SocialSkills_9",
+    "Switching_8",  //Reverse
+    "SocialSkills_9",  //Reverse
     "SocialSkills_10",
-    "Imagination_11",
-    "SocialSkills_12",
+    "Imagination_11", //Reverse
+    "SocialSkills_12",  //Reverse
     "Patterns_13",
     "Imagination_14",
     "SocialSkills_15",
     "Patterns_16",
-    "Routine_17",
-    "Switching_18",
-    "Routine_19",
-    "Imagination_20",
-    "Switching_21",
+    "Routine_17",  //Reverse
+    "Switching_18", //Reverse
+    "Routine_19",  //Reverse
+    "Imagination_20",  //Reverse
+    "Switching_21",  //Reverse
     "Patterns_22",
     "Imagination_23",
-    "SocialSkills_24",
+    "SocialSkills_24",  //Reverse
     "Imagination_25",
     "Routine_26",
-    "SocialSkills_27",
-    "Imagination_28",
+    "SocialSkills_27",  //Reverse
+    "Imagination_28",  //Reverse
 ]
 
 // Cognitive Flexibility Inventory
