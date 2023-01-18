@@ -24,8 +24,8 @@ options(
 )
 
 cache <- TRUE
-runModels <- TRUE
-bestModels <- TRUE
+runModels <- FALSE
+bestModels <- FALSE
 fig.width <- see::golden_ratio(7)
 fig.height <- 7
 
@@ -58,6 +58,49 @@ perceptual <- read.csv("../data/preprocessed_perceptual.csv") |>
   )
 ```
 
+# Additional Parameters
+
+## ISI
+
+```{r message=FALSE, warning=FALSE, eval=runModels, cache=cache}
+# Test ISI
+dat <- data.frame()
+for(i in c("Ebbinghaus", "MullerLyer", "VerticalHorizontal")) {
+  dat <- rbind(
+    mgcv::gamm(RT ~ s(ISI),
+               random = list(Participant = ~1),
+               data=filter(perceptual, Illusion_Type == i, Error==0)) |> 
+      modelbased::estimate_relation(length=30) |> 
+      mutate(Illusion_Type = i, Outcome = "RT", type="GAM"),
+    glmmTMB::glmmTMB(RT ~ poly(ISI, 2) + (1|Participant),
+                     data =filter(perceptual, Illusion_Type == i, Error==0)) |> 
+      modelbased::estimate_relation(length=30) |> 
+      select(-Participant) |> 
+      mutate(Illusion_Type = i, Outcome = "RT", type="poly"),
+    mgcv::gamm(Error ~ s(ISI),
+               random = list(Participant = ~1),
+               data=filter(perceptual, Illusion_Type == i),
+               family = "binomial") |> 
+      modelbased::estimate_relation(length=30) |> 
+      mutate(Illusion_Type = i, Outcome = "Error", type="GAM"),
+    glmmTMB::glmmTMB(Error ~ poly(ISI, 2) + (1|Participant),
+                     data =filter(perceptual, Illusion_Type == i),
+                     family = "binomial") |> 
+      modelbased::estimate_relation(length=30) |> 
+      select(-Participant) |> 
+      mutate(Illusion_Type = i, Outcome = "Error", type="poly")
+  ) |> 
+    rbind(dat)
+}
+
+dat |> 
+  ggplot(aes(y = Predicted, x=ISI)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill = type), alpha=0.3) +
+  geom_line(aes(color = type)) +
+  facet_wrap(Outcome ~ Illusion_Type, scales = "free")
+```
+
+
 # Ebbinghaus
 
 
@@ -75,7 +118,7 @@ test_models <- function(data) {
     err <- glmmTMB::glmmTMB(as.formula(paste0("Error ~ ", f, "+ (1|Participant)")),
                             data = data, family = "binomial")
     models_err[[f]] <- err
-    rt <- glmmTMB::glmmTMB(as.formula(paste0("RT ~ ", f, "+ (1|Participant)")),
+    rt <- glmmTMB::glmmTMB(as.formula(paste0("RT ~ ", f, " + poly(ISI, 2) + (1|Participant)")),
                            data = filter(data, Error == 0))
     models_rt[[f]] <- rt
   }
@@ -130,9 +173,10 @@ plot_desc_errors(data)
 
 ```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference) | Participant),
-  family = "bernoulli"
+  Error ~ sqrtmod(Illusion_Difference) +
+    (1 + sqrtmod(Illusion_Difference) | Participant),
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -140,7 +184,8 @@ formula <- brms::bf(
 
 perceptual_ebbinghaus_err <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  normalize = FALSE
 )
 
 save(perceptual_ebbinghaus_err, file="models/perceptual_ebbinghaus_err.Rdata")
@@ -153,9 +198,9 @@ save(perceptual_ebbinghaus_err, file="models/perceptual_ebbinghaus_err.Rdata")
 load("models/perceptual_ebbinghaus_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_errors <- function(data, model) {
-  pred <- estimate_relation(model, length = 100)
+  pred <- estimate_relation(model, at="Illusion_Difference", length = 100)
   
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
@@ -212,6 +257,7 @@ plot_desc_rt <- function(data) {
     scale_x_discrete(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0)) +
     labs(x = "Task Difficulty", y = "Response Time (s)") +
+    coord_cartesian(ylim = c(0, 2.5)) +
     theme_modern() +
     ggside::geom_ysidedensity(aes(fill = Illusion_Side), color = NA, alpha = 0.3) +
     ggside::theme_ggside_void() +
@@ -231,13 +277,14 @@ plot_desc_rt(data)
 ```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 # TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference )| Participant),
-  sigma ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference )| Participant),
-  beta ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference )| Participant),
-  family = "exgaussian"
+  RT ~ sqrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + sqrtmod(Illusion_Difference)| Participant),
+  sigma ~ sqrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + sqrtmod(Illusion_Difference)| Participant),
+  beta ~ sqrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + sqrtmod(Illusion_Difference)| Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -246,7 +293,8 @@ formula <- brms::bf(
 perceptual_ebbinghaus_rt <- brms::brm(formula,
   data = data,
   refresh = 0,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(perceptual_ebbinghaus_rt, file="models/perceptual_ebbinghaus_rt.Rdata")
@@ -259,9 +307,9 @@ save(perceptual_ebbinghaus_rt, file="models/perceptual_ebbinghaus_rt.Rdata")
 load("models/perceptual_ebbinghaus_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_rt <- function(data, model) {
-  pred <- estimate_relation(model, length = 100)
+  pred <- estimate_relation(model, at="Illusion_Difference", length = 100)
   
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
@@ -277,6 +325,7 @@ plot_model_rt <- function(data, model) {
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0)) +
     labs(x = "Task Difficulty", y = "Response Time (s)") +
+    coord_cartesian(ylim = c(0, 2.5)) +
     theme_modern()
 }
 
@@ -290,7 +339,33 @@ performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck <- function(model) {
+  pred <- modelbased::estimate_prediction(model, keep_iterations = 50) |>
+    bayestestR::reshape_iterations() |>
+    mutate(iter_group = as.factor(iter_group)) |>
+    estimate_density(select = "iter_value", at = "iter_group")
+  
+  estimate_density(insight::get_data(model)$RT) |>
+    ggplot(aes(x = x, y = y)) +
+    geom_area(fill = "#9E9E9E") +
+    geom_line(
+      data = pred,
+      aes(group = iter_group), color = "#FF5722", size = 0.1, alpha = 0.5
+    ) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_continuous(expand = c(0, 0)) +
+    coord_cartesian(xlim = c(0, 2)) +
+    theme_modern() +
+    labs(x = "Reaction Time (ms)", y = "", title = "Posterior Predictive Check") +
+    theme(
+      plot.title = element_text(face = "bold", hjust = 0.5),
+      axis.text.y = element_blank()
+    )
+}
 
+plot_ppcheck(perceptual_ebbinghaus_rt)
+```
 
 # Müller-Lyer
 
@@ -321,7 +396,8 @@ plot_desc_errors(data)
 formula <- brms::bf(
   Error ~ cbrtmod(Illusion_Difference) +
     (1 + cbrtmod(Illusion_Difference) | Participant),
-  family = "bernoulli"
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -329,7 +405,8 @@ formula <- brms::bf(
 
 perceptual_mullerlyer_err <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  normalize = FALSE
 )
 
 save(perceptual_mullerlyer_err, file="models/perceptual_mullerlyer_err.Rdata")
@@ -342,7 +419,7 @@ save(perceptual_mullerlyer_err, file="models/perceptual_mullerlyer_err.Rdata")
 load("models/perceptual_mullerlyer_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_errors(data, perceptual_mullerlyer_err)
 ```
 
@@ -375,13 +452,14 @@ plot_desc_rt(data)
 ```{r m_rt_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 # TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference ) | Participant),
-  sigma ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference ) | Participant),
-  beta ~ cbrtmod(Illusion_Difference) +
-    (1 + cbrtmod(Illusion_Difference ) | Participant),
-  family = "exgaussian"
+  RT ~ cbrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
+  sigma ~ cbrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
+  beta ~ cbrtmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -390,7 +468,8 @@ formula <- brms::bf(
 perceptual_mullerlyer_rt <- brms::brm(formula,
   data = data,
   refresh = 0,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(perceptual_mullerlyer_rt, file="models/perceptual_mullerlyer_rt.Rdata")
@@ -403,7 +482,7 @@ save(perceptual_mullerlyer_rt, file="models/perceptual_mullerlyer_rt.Rdata")
 load("models/perceptual_mullerlyer_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_rt(data, perceptual_mullerlyer_rt)
 ```
 
@@ -414,7 +493,9 @@ performance::performance(perceptual_mullerlyer_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
-
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck(perceptual_mullerlyer_rt)
+```
 
 
 # Vertical-Horizontal
@@ -445,9 +526,10 @@ plot_desc_errors(data)
 
 ```{r m_err_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ sqrtmod(Illusion_Difference) +
-    (1 + sqrtmod(Illusion_Difference) | Participant),
-  family = "bernoulli"
+  Error ~ cbrtmod(Illusion_Difference) +
+    (1 + cbrtmod(Illusion_Difference) | Participant),
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -455,7 +537,8 @@ formula <- brms::bf(
 
 perceptual_verticalhorizontal_err <- brms::brm(formula,
   data = data,
-  refresh = 0
+  refresh = 0,
+  normalize = FALSE
 )
 
 save(perceptual_verticalhorizontal_err, file="models/perceptual_verticalhorizontal_err.Rdata")
@@ -468,7 +551,7 @@ save(perceptual_verticalhorizontal_err, file="models/perceptual_verticalhorizont
 load("models/perceptual_verticalhorizontal_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_errors(data, perceptual_verticalhorizontal_err)
 ```
 
@@ -503,13 +586,14 @@ plot_desc_rt(data)
 ```{r m_rt_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 # TODO: Add random to parameters
 formula <- brms::bf(
-  RT ~ sqrtmod(Illusion_Difference) +
-    (1 + sqrtmod(Illusion_Difference ) | Participant),
-  sigma ~ sqrtmod(Illusion_Difference) +
-    (1 + sqrtmod(Illusion_Difference ) | Participant),
-  beta ~ sqrtmod(Illusion_Difference) +
-    (1 + sqrtmod(Illusion_Difference ) | Participant),
-  family = "exgaussian"
+  RT ~ logmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + logmod(Illusion_Difference) | Participant),
+  sigma ~ logmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + logmod(Illusion_Difference) | Participant),
+  beta ~ logmod(Illusion_Difference) + poly(ISI, 2) +
+    (1 + logmod(Illusion_Difference) | Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -518,7 +602,8 @@ formula <- brms::bf(
 perceptual_verticalhorizontal_rt <- brms::brm(formula,
   data = data,
   refresh = 0,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(perceptual_verticalhorizontal_rt, file="models/perceptual_verticalhorizontal_rt.Rdata")
@@ -531,7 +616,7 @@ save(perceptual_verticalhorizontal_rt, file="models/perceptual_verticalhorizonta
 load("models/perceptual_verticalhorizontal_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE}
 plot_model_rt(data, perceptual_verticalhorizontal_rt)
 ```
 
@@ -542,9 +627,14 @@ performance::performance(perceptual_verticalhorizontal_rt, metrics = c("R2", "IC
   display()
 ```
 
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck(perceptual_verticalhorizontal_rt)
+```
+
+
 # Individual Scores 
 
-```{r message=FALSE, warning=FALSE, fig.width=fig.width*2, fig.height=fig.height*2}
+```{r message=FALSE, warning=FALSE, fig.width=fig.width*2, fig.height=fig.height*3}
 get_scores <- function(model, illusion="Ebbinghaus") {
   family <- insight::find_response(model)
   scores <- modelbased::estimate_grouplevel(model) |> 
@@ -555,6 +645,7 @@ get_scores <- function(model, illusion="Ebbinghaus") {
            Level = str_remove(Level, "_sigma."),
            Group = str_remove_all(Group, "cbrtmod"),
            Group = str_remove_all(Group, "sqrtmod"),
+           Group = str_remove_all(Group, "sqrt"),
            Group = str_remove_all(Group, "logmod"),
            Group = str_remove_all(Group, "abs"),
            Group = str_replace(Group, "Illusion_Difference", "Diff"),
@@ -565,9 +656,9 @@ get_scores <- function(model, illusion="Ebbinghaus") {
   
   p <- scores |> 
     ggplot(aes(x = Median, y = Level)) +
-    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group)) +
-    scale_color_flat_d() +
-    scale_fill_flat_d() +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), size=0.5) +
+    scale_color_flat_d(guide = "none") +
+    scale_fill_flat_d(guide = "none") +
     labs(y = "Participants") +
     theme_modern() +
     theme(strip.placement = "oustide",

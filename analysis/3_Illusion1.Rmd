@@ -25,7 +25,7 @@ options(
 
 cache <- TRUE
 runModels <- TRUE
-bestModels <- FALSE
+bestModels <- TRUE
 fig.width <- see::golden_ratio(7)
 fig.height <- 7
 
@@ -55,7 +55,7 @@ df <- read.csv("../data/preprocessed_illusion1.csv") |>
   mutate(
     Block = as.factor(Block),
     Illusion_Side = as.factor(Illusion_Side)
-  )
+  ) 
 ```
 
 
@@ -122,6 +122,7 @@ test_models <- function(data) {
       "sqrtmod(abs(Illusion_Strength))",
       "cbrtmod(abs(Illusion_Strength))"
     )) {
+      print(paste(diff, "x", ill))
       err <- glmmTMB::glmmTMB(
         as.formula(
           paste0(
@@ -144,7 +145,7 @@ test_models <- function(data) {
             diff,
             " * ",
             ill,
-            ") + (1|Participant)"
+            ") + poly(ISI, 2) + (1|Participant)"
           )
         ),
         data = data
@@ -182,9 +183,7 @@ plot_desc_errors_obs <- function(data) {
         label = "median"
       ),
       bins = datawizard::categorize(Illusion_Strength, split = "equal_length", n_groups = 20)
-    ) 
-  
-  |>
+    ) |>
     group_by(Illusion_Difference, bins) |>
     summarize(
       Illusion_Strength = mean(Illusion_Strength),
@@ -239,9 +238,10 @@ plot_desc_errors(data)
 
 ```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (cbrtmod(Illusion_Difference) * abs(Illusion_Strength) | Participant),
-  family = "bernoulli"
+  Error ~ Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) +
+    (logmod(Illusion_Difference) * abs(Illusion_Strength) | Participant),
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -249,7 +249,8 @@ formula <- brms::bf(
 
 illusion1_ebbinghaus_err <- brms::brm(formula,
   data = data,
-  refresh = 100
+  refresh = 100,
+  normalize = FALSE
 )
 
 save(illusion1_ebbinghaus_err, file = "models/illusion1_ebbinghaus_err.Rdata")
@@ -394,13 +395,14 @@ plot_desc_rt(data)
 
 ```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
-  sigma ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (1 | Participant),
-  beta ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (1 | Participant),
-  family = "exgaussian"
+  RT ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) | Participant),
+  sigma ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  beta ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -409,7 +411,8 @@ formula <- brms::bf(
 illusion1_ebbinghaus_rt <- brms::brm(formula,
   data = data,
   refresh = 100,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(illusion1_ebbinghaus_rt, file = "models/illusion1_ebbinghaus_rt.Rdata")
@@ -425,8 +428,8 @@ load("models/gam_ebbinghaus_rt.Rdata")
 
 ```{r message=FALSE, warning=FALSE, cache=cache}
 plot_model_rt <- function(data, model, gam) {
-  pred <- estimate_relation(model, length = c(3, 100))
-
+  pred <- estimate_relation(model, at = c("Illusion_Effect", "Illusion_Difference", "Illusion_Strength"), length = c(3, 100))
+  
   dat <- data |>
     mutate(Illusion_Difference = datawizard::categorize(
       Illusion_Difference,
@@ -494,6 +497,46 @@ p_ebbinghaus_rt
 performance::performance(illusion1_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
+
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck <- function(model, gam) {
+
+  pred <- modelbased::estimate_prediction(model, keep_iterations = 50) |>
+    bayestestR::reshape_iterations() |>
+    mutate(iter_group = as.factor(iter_group)) |>
+    estimate_density(select = "iter_value", at = "iter_group")
+
+  predgam <- modelbased::estimate_prediction(gam, keep_iterations = 50) |>
+    bayestestR::reshape_iterations() |>
+    mutate(iter_group = as.factor(iter_group)) |>
+    estimate_density(select = "iter_value", at = "iter_group")
+
+  estimate_density(insight::get_data(model)$RT) |>
+    ggplot(aes(x = x, y = y)) +
+    geom_area(fill = "#9E9E9E") +
+    geom_line(
+      data = predgam,
+      aes(group = iter_group), color = "#2196F3", size = 0.1, alpha = 0.5
+    ) +
+    geom_line(
+      data = pred,
+      aes(group = iter_group), color = "#FF5722", size = 0.1, alpha = 0.5
+    ) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_continuous(expand = c(0, 0)) +
+    coord_cartesian(xlim = c(0, 2)) +
+    theme_modern() +
+    labs(x = "Reaction Time (ms)", y = "", title = "Posterior Predictive Check") +
+    theme(
+      plot.title = element_text(face = "bold", hjust = 0.5),
+      axis.text.y = element_blank()
+    )
+}
+
+plot_ppcheck(illusion1_ebbinghaus_rt, gam_ebbinghaus_rt)
+```
+
+
 
 ## Visualization
 
@@ -618,9 +661,10 @@ plot_desc_errors(data)
 
 ```{r m_err_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
-  family = "bernoulli"
+  Error ~ Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+    (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -628,7 +672,8 @@ formula <- brms::bf(
 
 illusion1_mullerlyer_err <- brms::brm(formula,
   data = data,
-  refresh = 100
+  refresh = 100,
+  normalize = FALSE
 )
 
 save(illusion1_mullerlyer_err, file = "models/illusion1_mullerlyer_err.Rdata")
@@ -680,13 +725,14 @@ plot_desc_rt(data)
 
 ```{r m_rt_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  RT ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
-  sigma ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 | Participant),
-  beta ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 | Participant),
-  family = "exgaussian"
+  RT ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
+  sigma ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  beta ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -695,7 +741,8 @@ formula <- brms::bf(
 illusion1_mullerlyer_rt <- brms::brm(formula,
   data = data,
   refresh = 100,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(illusion1_mullerlyer_rt, file = "models/illusion1_mullerlyer_rt.Rdata")
@@ -721,6 +768,12 @@ performance::performance(illusion1_mullerlyer_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck(p_mullerlyer_rt, gam_mullerlyer_rt)
+```
+
+
+
 ## Visualization
 
 
@@ -732,13 +785,12 @@ p_mullerlyer
 
 
 
-
 # Vertical-Horizontal
 
 
 ## Model Selection
 
-```{r message=FALSE, warning=FALSE, cache=cache}
+```{r message=FALSE, warning=FALSE, cache=cache, eval=bestModels}
 test_models(filter(df, Illusion_Type == "VerticalHorizontal"))
 ```
 
@@ -764,9 +816,10 @@ plot_desc_errors(data)
 
 ```{r m_err_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  Error ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
-  family = "bernoulli"
+  Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+    (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
+  family = "bernoulli",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -774,7 +827,8 @@ formula <- brms::bf(
 
 illusion1_verticalhorizontal_err <- brms::brm(formula,
   data = data,
-  refresh = 100
+  refresh = 100,
+  normalize = FALSE
 )
 
 save(illusion1_verticalhorizontal_err, file = "models/illusion1_verticalhorizontal_err.Rdata")
@@ -829,13 +883,14 @@ plot_desc_rt(data)
 
 ```{r m_rt_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
-  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+  RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
     (Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
-  sigma ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 | Participant),
-  beta ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 | Participant),
-  family = "exgaussian"
+  sigma ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  beta ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
+    (Illusion_Effect | Participant),
+  family = "exgaussian",
+  decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -844,7 +899,8 @@ formula <- brms::bf(
 illusion1_verticalhorizontal_rt <- brms::brm(formula,
   data = data,
   refresh = 100,
-  init = 0
+  init = 0,
+  normalize = FALSE
 )
 
 save(illusion1_verticalhorizontal_rt, file = "models/illusion1_verticalhorizontal_rt.Rdata")
@@ -874,6 +930,11 @@ performance::performance(illusion1_verticalhorizontal_rt, metrics = c("R2", "ICC
   display()
 ```
 
+```{r message=FALSE, warning=FALSE}
+plot_ppcheck(illusion1_verticalhorizontal_rt, gam_verticalhorizontal_rt)
+```
+
+
 ## Visualization
 
 
@@ -900,6 +961,8 @@ get_scores <- function(model, illusion = "Ebbinghaus") {
     mutate(
       Group = str_remove_all(Group, ": Participant"),
       Level = str_remove_all(Level, "Participant."),
+      Level = str_remove(Level, "_beta."),
+      Level = str_remove(Level, "_sigma."),
       Group = str_remove_all(Group, "Illusion_EffectIncongruent:"),
       Group = str_remove_all(Group, "cbrtmod"),
       Group = str_remove_all(Group, "sqrtmod"),
@@ -907,15 +970,20 @@ get_scores <- function(model, illusion = "Ebbinghaus") {
       Group = str_remove_all(Group, "abs"),
       Group = str_replace(Group, "Illusion_Difference:Illusion_Strength", "Interaction"),
       Group = str_replace(Group, "Illusion_Difference", "Diff"),
-      Group = str_replace(Group, "Illusion_Strength", "Strength")
+      Group = str_replace(Group, "Illusion_Strength", "Strength"),
+      Group = str_replace(Group, "Intercept__sigma", "InterceptSigma"),
+      Group = str_replace(Group, "Intercept__beta", "InterceptBeta")
+      # Group = str_replace(Group, "Diff__sigma", "DiffSigma"),
+      # Group = str_replace(Group, "Diff__beta", "DiffBeta")
     ) |>
     data_filter(!str_detect(Group, "Illusion_EffectIncongruent"))
 
+  # unique(scores$Group)
   p <- scores |>
     ggplot(aes(x = Median, y = Level)) +
-    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group)) +
-    scale_color_flat_d() +
-    scale_fill_flat_d() +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), size=0.5) +
+    # scale_color_flat_d(guide = "none") +
+    # scale_fill_flat_d(guide = "none") +
     labs(y = "Participants") +
     theme_modern() +
     theme(
@@ -941,6 +1009,12 @@ get_scores <- function(model, illusion = "Ebbinghaus") {
 ```
 
 ```{r message=FALSE, warning=FALSE}
+for(m in c("ebbinghaus", "mullerlyer", "verticalhorizontal")) {
+  for(i in c("err", "rt")) {
+    load(paste0("models/illusion1_", m, "_", i, ".Rdata"))
+  }
+}
+
 ebbinghaus_err <- get_scores(illusion1_ebbinghaus_err, illusion = "Ebbinghaus")
 ebbinghaus_rt <- get_scores(illusion1_ebbinghaus_rt, illusion = "Ebbinghaus")
 mullerlyer_err <- get_scores(illusion1_mullerlyer_err, illusion = "MullerLyer")

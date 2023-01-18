@@ -1,0 +1,442 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Factor Structure"
+author: "Dominique Makowski et al."
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: paper
+    code_folding: hide
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+cache <- TRUE
+runModels <- TRUE
+bestModels <- TRUE
+fig.width <- see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.path = "./figures/5_Structure-",
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+library(lavaan)
+library(ggraph)
+library(tidySEM)
+```
+
+# Perceptual Task
+
+```{r message=FALSE, warning=FALSE}
+perceptual <- read.csv("../data/scores_perceptual.csv") |> 
+  data_remove(select="Beta", regex = TRUE) |>
+  data_remove(select="Sigma", regex = TRUE) 
+
+for(i in names(perceptual)[names(perceptual) != "Participant"]) {
+  perceptual[check_outliers(perceptual[[i]], method = "zscore_robust", threshold = 5), i] <- NA 
+}
+
+perceptual <- standardize(perceptual) |> 
+   mutate(across(where(is.numeric), as.numeric))
+```
+
+## Distribution
+
+```{r message=FALSE, warning=FALSE}
+perceptual |> 
+  estimate_density(method = "kernSmooth") |> 
+  separate(Parameter, into = c("Task", "Type", "Parameter", "Model")) |> 
+  ggplot(aes(x=x, y=y, color=Type, linetype = Parameter)) +
+  geom_line() +
+  facet_grid(~Model)
+```
+
+## Correlation
+
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+cor <- correlation::correlation(perceptual, redundant = TRUE, p_adjust = "none")
+
+p_data <- cor |>
+  correlation::cor_sort(hclust_method = "ward.D2") |>
+  cor_lower() |>
+  mutate(
+    Text = insight::format_value(r, zap_small = TRUE, digits = 3),
+    Text = str_replace(str_remove(Text, "^0+"), "^-0+", "-"),
+    Text = paste0(Text, insight::format_p(p, stars_only = TRUE)),
+    Parameter2 = fct_rev(Parameter2)
+  )
+
+
+p_data |>
+  ggplot(aes(x = Parameter2, y = Parameter1)) +
+  geom_tile(aes(fill = r)) +
+  geom_text(aes(label = Text), size = rel(2), alpha=2/3) +
+  scale_fill_gradient2(low = "#2196F3", mid = "white", high = "#F44336", midpoint = 0, limit = c(-1, 1), space = "Lab", name = "Correlation", guide = "legend") +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(title = "Correlation Matrix", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+# heatmap(as.matrix(cor))
+# ggcorrplot::ggcorrplot(correlation::cor_sort(as.matrix(cor)), type = "lower", lab=TRUE)
+# estimate_density(p_data$r, at=as.character(sign(p_data$r))) |> 
+#   ggplot(aes(x=x, y=y, color=Group)) +
+#   geom_line()
+```
+
+```{r message=FALSE, warning=FALSE}
+perceptual <- data_remove(perceptual, select = "Intercept", regex=TRUE)
+```
+
+## Factor Analysis
+
+### First Level
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+rez <- parameters::n_factors(perceptual, n_max=15)
+rez
+plot(rez)
+
+fa <- parameters::factor_analysis(select(perceptual, -Participant),
+  # cor = as.matrix(cor),
+  n = 2,
+  rotation = "oblimin",
+  fm = "mle",
+  sort = TRUE
+)
+
+insight::print_md(fa)
+
+plot(fa) +
+  theme_minimal()
+# psych::omega(data, fm = "mle", nfactors=7)
+# fa <- psych::fa.multi(as.matrix(cor), nfactors = 3, nfact2 = 1, n.obs = nrow(random))
+# psych::fa.multi.diagram(fa)
+```
+
+### Second Level
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+data <- predict(fa)
+
+# rez <- parameters::n_factors(data, rotation = "varimax")
+# plot(rez)
+
+fa2 <- parameters::factor_analysis(data,
+  n = 1,
+  rotation = "varimax",
+  fm = "mle",
+  sort = TRUE
+)
+
+insight::print_md(fa2)
+```
+
+
+
+## Sructural Equation Model
+
+### Level 1
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+fit_sem <- function(model, data) {
+  sem(model = model,
+      data  = data,
+      bounds = "standard",
+      estimator = "ML",
+      control=list(iter.max=200000, eval.max = 20000)) 
+}
+
+
+names <- names(select(perceptual, -Participant))
+data <- setNames(as.data.frame(str_split_fixed(names, "_", 4)), c("Task", "Illusion_Type", "Parameter", "Outcome"))
+data$Name <- names
+
+
+
+# Model 1 - by Model
+by_model <-  paste(sort(paste0("p_", data$Outcome, " =~ ", data$Name)), collapse = "\n")
+# cat(by_model)
+m1 <- fit_sem(by_model, data=perceptual)
+
+# Model 2 - by Type
+by_type <-  paste(paste(paste0(data$Illusion_Type), "=~", data$Name), collapse = "\n")
+m2 <- fit_sem(by_type, data=perceptual)
+
+anova(m1, m2)
+
+# performance::compare_performance(m1, m2, metrics = c("BIC", "RMSEA", "NFI", "NNFI"))
+```
+
+### Common Factor
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+# One factor
+m3 <- fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=perceptual)
+m4 <- fit_sem(paste0(by_model, "\np =~ p_RT + p_Error"), data=perceptual)
+
+anova(m1, m3, m4)
+```
+
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+summary(m4, standardize = TRUE, fit.measures = TRUE)
+graph_sem(m4, layout = get_layout(m4, layout_algorithm = "layout_with_lgl"))
+```
+
+### Scores Extraction
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+scores <- mutate(as.data.frame(predict(m4)), Participant = perceptual$Participant[complete.cases(perceptual)])
+```
+
+
+# Illusion Task
+
+```{r message=FALSE, warning=FALSE}
+illusion <- read.csv("../data/scores_illusion1.csv") |> 
+  data_remove(select="Diff", regex=TRUE) 
+
+for(i in names(illusion)[names(illusion) != "Participant"]) {
+  illusion[check_outliers(illusion[[i]], method = "zscore_robust", threshold = 5), i] <- NA 
+}
+
+illusion <- standardize(illusion) |> 
+   mutate(across(where(is.numeric), as.numeric))
+```
+
+## Distribution
+
+```{r message=FALSE, warning=FALSE}
+illusion |> 
+  estimate_density(method = "kernSmooth") |> 
+  separate(Parameter, into = c("Type", "Parameter", "Model")) |> 
+  ggplot(aes(x=x, y=y, color=Type, linetype = Parameter)) +
+  geom_line() +
+  facet_grid(~Model)
+```
+
+## Correlation
+
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+cor <- correlation::correlation(illusion, redundant = TRUE, p_adjust = "none")
+
+p_data <- cor |>
+  # mutate(
+  #   Parameter1 = prettify_parameterName(Parameter1),
+  #   Parameter2 = prettify_parameterName(Parameter2)
+  # ) |>
+  correlation::cor_sort(hclust_method = "ward.D2") |>
+  cor_lower() |>
+  mutate(
+    Text = insight::format_value(r, zap_small = TRUE, digits = 3),
+    Text = str_replace(str_remove(Text, "^0+"), "^-0+", "-"),
+    Text = paste0(Text, insight::format_p(p, stars_only = TRUE)),
+    Parameter2 = fct_rev(Parameter2)
+  )
+
+
+p_data |>
+  ggplot(aes(x = Parameter2, y = Parameter1)) +
+  geom_tile(aes(fill = r)) +
+  geom_text(aes(label = Text), size = rel(2), alpha=2/3) +
+  scale_fill_gradient2(low = "#2196F3", mid = "white", high = "#F44336", midpoint = 0, limit = c(-1, 1), space = "Lab", name = "Correlation", guide = "legend") +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(title = "Correlation Matrix", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+# heatmap(as.matrix(cor))
+```
+
+## Factor Analysis
+
+### First Level
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+rez <- parameters::n_factors(illusion, n_max=15)
+rez
+plot(rez)
+
+fa <- parameters::factor_analysis(select(illusion, -Participant),
+  # cor = as.matrix(cor),
+  n = 5,
+  rotation = "oblimin",
+  fm = "mle",
+  sort = TRUE
+)
+
+insight::print_md(fa)
+
+plot(fa) +
+  theme_minimal()
+# psych::omega(data, fm = "mle", nfactors=7)
+# fa <- psych::fa.multi(as.matrix(cor), nfactors = 3, nfact2 = 1, n.obs = nrow(random))
+# psych::fa.multi.diagram(fa)
+```
+
+### Second Level
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+data <- predict(fa)
+
+rez <- parameters::n_factors(data, rotation = "varimax")
+plot(rez)
+
+fa2 <- parameters::factor_analysis(data,
+  n = 1,
+  rotation = "varimax",
+  fm = "mle",
+  sort = TRUE
+)
+
+insight::print_md(fa2)
+```
+
+
+## Sructural Equation Model
+
+### Level 1
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+names <- names(select(illusion, -Participant))
+data <- setNames(as.data.frame(str_split_fixed(names, "_", 3)), c("Illusion_Type", "Parameter", "Outcome"))
+data$Name <- names
+
+
+# Model 1 - EFA
+by_efa <- efa_to_cfa(fa, threshold = "max", names = c("RT1", "VerticalHorizontal", "Ebbinghaus", "RT2", "MullerLyer"))
+m1 <- fit_sem(by_efa, data=illusion)
+
+# Model 2 - by Model
+by_model <-  paste(sort(paste(data$Outcome, "=~", data$Name)), collapse = "\n")
+# cat(by_model)
+m2 <- fit_sem(by_model, data=illusion)
+
+# Model 3 - by Type
+by_type <-  paste(paste(paste0(data$Illusion_Type), "=~", data$Name), collapse = "\n")
+m3 <- fit_sem(by_type, data=illusion)
+
+anova(m1, m2, m3)
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+m4 <- "
+RT_Strength =~ MullerLyer_Strength_RT + Ebbinghaus_Strength_RT + VerticalHorizontal_Strength_RT
+RT_Interaction =~ MullerLyer_Interaction_RT + Ebbinghaus_Interaction_RT + VerticalHorizontal_Interaction_RT
+VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
+Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
+MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
+" |> 
+   fit_sem(data=illusion)
+
+m5 <- "
+RT =~ MullerLyer_Strength_RT + Ebbinghaus_Strength_RT + VerticalHorizontal_Strength_RT + MullerLyer_Interaction_RT + Ebbinghaus_Interaction_RT + VerticalHorizontal_Interaction_RT
+VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
+Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
+MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
+" |> 
+   fit_sem(data=illusion)
+
+per_modeltype <- "
+RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
+RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT 
+RT_VerticalHorizontal =~ VerticalHorizontal_Strength_RT + VerticalHorizontal_Interaction_RT
+VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
+Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
+MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
+" 
+m6 <- fit_sem(per_modeltype, data=illusion)
+
+anova(m1, m4, m5, m6)
+summary(m6, standardize = TRUE, fit.measures = TRUE)
+```
+
+
+### Common Factor
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+# One factor
+m7 <- fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=illusion)
+m8 <- fit_sem(paste0(per_modeltype, "i =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal + VerticalHorizontal + Ebbinghaus + MullerLyer"), data=illusion)
+
+anova(m6, m7, m8)
+
+m9 <- fit_sem(paste0(
+  per_modeltype, 
+  "RT =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal",
+  "\nError =~ VerticalHorizontal + Ebbinghaus + MullerLyer"), data=illusion)
+
+m10 <- fit_sem(paste0(
+  per_modeltype, 
+  "RT =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal",
+  "\nError =~ VerticalHorizontal + Ebbinghaus + MullerLyer",
+  "\ni =~ RT + Error"), data=illusion)
+
+anova(m6, m8, m9, m10)
+anova(m6, m9)
+
+compare_performance(m6, m9, metrics = c("RMSEA", "NFI", "CFI"))
+```
+
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+m1 <- "
+VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
+Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
+MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error
+RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
+RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT
+RT_VerticalHorizontal =~ VerticalHorizontal_Strength_RT + VerticalHorizontal_Interaction_RT
+" |> fit_sem(data=illusion)
+
+m2 <- "
+VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
+Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
+MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error
+RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
+RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT
+RT_VerticalHorizontal_Strength =~ VerticalHorizontal_Strength_RT 
+RT_VerticalHorizontal_Interaction =~ VerticalHorizontal_Interaction_RT 
+" |> fit_sem(data=illusion)
+```

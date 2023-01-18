@@ -69,9 +69,8 @@ perceptual <- read.csv("../data/raw_perceptual.csv") |>
 
 sub <- read.csv("../data/raw_questionnaires.csv") |> 
   mutate(
-    Education = fct_relevel(Education, "Other", "High school", "Bachelor", "Master", "Doctorate", "Prefer not to Say")
+    Education = fct_relevel(Education, "Prefer not to say", "Other", "High school", "Bachelor", "Master", "Doctorate")
   )
-
 
 # For prolific:
 # bayestestR::point_estimate(sub$Duration_Session1)
@@ -94,15 +93,18 @@ outliers_perceptual <- c(
   "S008"
 )
 outliers_perceptual_block2 <- c(
-  "S226"
+  "S226",
+  "S350"
 )
 outliers_illusion1 <- c(
   "S008",
-  "S278"
+  "S278",
+  "S389"
   )
 outliers_illusion1_block2 <- c(
   "S153",
-  "S226"
+  "S226",
+  "S350"
   )
 outliers_illusion2 <- c(
   "S003"
@@ -133,6 +135,7 @@ table <- data |>
   arrange(desc(Error)) |>
   tidyr::pivot_wider(names_from = "Task", values_from = c("Error", "RT"), names_vary = "slowest") |>
   datawizard::data_relocate(ends_with("Session2"), after = -1) |>
+  datawizard::data_relocate(ends_with("Session1"), after = 1) |>
   arrange(desc(Error_Illusion_Session1))
 ```
 
@@ -172,37 +175,37 @@ plot_distribution <- function(data) {
       ),
       Task = fct_recode(Task,
         "Illusion task (session 1)" = "Illusion_Session1",
-        "Illusion task (session 2)" = "Illusion_Session2",
+        # "Illusion task (session 2)" = "Illusion_Session2",
         "Perceptual task" = "Perceptual"
       )
     ) |>
     ggplot(aes(x = x, y = y)) +
     geom_area(data = normalize(estimate_density(data, select = "RT"), select = "y"), alpha = 0.2) +
     geom_line(aes(color = color, group = interaction(Participant, Block), linetype = Block), size = 0.5) +
-    geom_vline(xintercept = 0.125, linetype = "dashed", color = "red", size = 0.5) +
+    # geom_vline(xintercept = 0.125, linetype = "dashed", color = "red", size = 0.5) +
     scale_color_manual(values = c("red" = "#F44336", "orange" = "#FF9800", "blue" = "blue"), guide = "none") +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0)) +
     coord_cartesian(xlim = c(0, 2)) +
     theme_modern() +
-    theme(axis.text.y = element_blank()) +
+    theme(axis.text.y = element_blank(),
+          axis.line.y = element_blank(),
+          strip.text.y = element_text(size = rel(0.6))) +
     facet_grid(Participant ~ Task) +
     labs(y = "", x = "Reaction Time (s)")
 }
-# p1 <- data |> 
-#   filter(as.numeric(gsub("\\D", "", Participant)) <= 51) |>
-#   plot_distribution()
-# p2 <- data |> 
-#   filter((as.numeric(gsub("\\D", "", Participant)) > 51 & (as.numeric(gsub("\\D", "", Participant)) <= 101) | (as.numeric(gsub("\\D", "", Participant)) == 1)) |>
-#   plot_distribution()
-p3 <- data |> 
-  filter((as.numeric(gsub("\\D", "", Participant)) >= 300) | (as.numeric(gsub("\\D", "", Participant)) <= 2)) |>
-  plot_distribution() 
-# p3
-ggsave("figures/00_outliers_RT.png", p3, width = 8, height = 24, dpi = 100)
+
+p <- list()
+for(i in 1:5) {
+  p[[i]] <- data |>
+  filter((as.numeric(gsub("\\D", "", Participant)) > (i - 1) * 100) & (as.numeric(gsub("\\D", "", Participant)) <= 100 * i)) |>
+  plot_distribution()
+}
+p <- patchwork::wrap_plots(p, ncol=5, nrow=1) + plot_layout(guides = "collect")
+ggsave("figures/1_Preprocessing-outliers_RT.png", p, width = 7*5, height = 24, dpi = 150)
 ```
-```{r outliers_RT, message=FALSE, warning=FALSE, fig.width=10, fig.height=5, dpi=150, cache=cache, out.width="100%"}
-knitr::include_graphics("figures/outliers_RT.png")
+```{r message=FALSE, warning=FALSE, cache=cache, out.width="100%"}
+knitr::include_graphics("figures/1_Preprocessing-outliers_RT.png")
 ```
 
 
@@ -396,8 +399,9 @@ sub$Outlier_Questionnaire <- as.data.frame(outliers)$Outlier
 ## Manual Check
 
 ```{r message=FALSE, warning=FALSE}
+# < 0.80 to the average attention check and 1 in outlier score
 outliers_questionnaires <- c(
-  "S003", "S008", "S068", "S110", "S127", "S151", "S189", "S266"
+  "S003", "S008", "S047", "S068", "S110", "S127", "S151", "S189", "S261", "S266", "S390", "S489", "S494"
 )
 ```
 
@@ -487,8 +491,6 @@ perceptual <- perceptual[!perceptual$Participant %in% outliers_illusion1, ]
 sub <- sub[!sub$Participant %in% outliers_illusion1, ]
 ```
 
-
-
 The final sample included `r report::report_participants(sub, age="Age", sex="Sex")`, from which `r sum(!is.na(sub$Interval))` (`r insight::format_percent(sum(!is.na(sub$Interval)) / nrow(sub))`) completed session 2.
 
 ## Country of Origin
@@ -500,7 +502,8 @@ select(sub, region = Nationality) |>
   right_join(map_data("world"), by = "region") |>
   ggplot(aes(long, lat, group = group)) +
   geom_polygon(aes(fill = n)) +
-  scale_fill_gradientn(colors = c("#FFEB3B", "red")) +
+  scale_fill_gradientn(colors = c("#FFEB3B", "red", "purple")) +
+  labs(fill = "Number") +
   theme_void() +
   ggtitle("Number of participants by country of origin")
 ```
@@ -546,7 +549,7 @@ plot_waffle <- function(sub, what = "Nationality", title = what, rows = 8, size 
     )
 }
 
-plot_waffle(sub, "Ethnicity", rows = 10, size = 5) +
+plot_waffle(sub, "Ethnicity", rows = 20, size = 5) +
   scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Asian" = "#FFC107", "Other" = "#795548"))
 ```
 
