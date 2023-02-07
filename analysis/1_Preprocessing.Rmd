@@ -107,7 +107,11 @@ outliers_illusion1_block2 <- c(
   "S350"
   )
 outliers_illusion2 <- c(
-  "S003"
+  "S003",
+  "S123",
+  "S224",
+  "S226",
+  "S229"
 )
 ```
 

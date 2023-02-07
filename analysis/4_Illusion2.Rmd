@@ -76,7 +76,7 @@ load("models/illusion1_verticalhorizontal_err.Rdata")
 load("models/illusion1_verticalhorizontal_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, eval=runModels}
+```{r message=FALSE, warning=FALSE, eval=FALSE}
 get_params <- function(model, data, prior_scale = 1) {
   family <- insight::find_response(model)
   f <- insight::find_formula(model)
