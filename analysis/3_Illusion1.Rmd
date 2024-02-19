@@ -23,10 +23,10 @@ options(
   knitr.kable.NA = ""
 )
 
-cache <- TRUE
-runModels <- TRUE
-bestModels <- TRUE
-fig.width <- see::golden_ratio(7)
+cache <- FALSE
+runModels <- FALSE
+bestModels <- FALSE
+fig.width <- 7 * sqrt(2)  # see::golden_ratio(7)
 fig.height <- 7
 
 knitr::opts_chunk$set(
@@ -70,7 +70,7 @@ for (ill in c(
 )) {
   print(ill)
   model <- brms::brm(
-    Error ~ t2(Illusion_Difference, Illusion_Strength, k = 8, bs = "cr") + (1 | Participant),
+    Error ~ t2(Illusion_Difference, Illusion_Strength, bs = "tp") + (1 | Participant),
     data = filter(df, Illusion_Type == ill),
     family = "bernoulli",
     algorithm = "sampling",
@@ -83,9 +83,9 @@ for (ill in c(
 
   model <- brms::brm(
     brms::bf(
-      RT ~ t2(Illusion_Difference, Illusion_Strength, k = 8, bs = "cr") + poly(ISI, 2) + (1 | Participant),
-      sigma ~ t2(Illusion_Difference, Illusion_Strength, k = 8, bs = "cr") + poly(ISI, 2) + (1 | Participant),
-      beta ~ t2(Illusion_Difference, Illusion_Strength, k = 8, bs = "cr") + poly(ISI, 2) + (1 | Participant)
+      RT ~ t2(Illusion_Difference, Illusion_Strength, bs = "tp") + poly(ISI, 2) + (1 | Participant),
+      sigma ~ t2(Illusion_Difference, Illusion_Strength, bs = "tp") + poly(ISI, 2) + (1 | Participant),
+      beta ~ t2(Illusion_Difference, Illusion_Strength, bs = "tp") + poly(ISI, 2) + (1 | Participant)
     ),
     data = filter(df, Illusion_Type == ill, Error == 0),
     family = "exgaussian",
@@ -158,7 +158,7 @@ test_models <- function(data) {
     select(-Model, -log_BF) |>
     datawizard::convert_na_to(select = "BF", replacement = 1) |>
     arrange(Outcome, desc(BF)) |>
-    export_table(footer = "Each model is compared to 'Illusion_Difference'")
+    display(footer = "Each model is compared to 'Illusion_Difference'")
 }
 
 test_models(filter(df, Illusion_Type == "Ebbinghaus"))
@@ -174,11 +174,11 @@ data <- filter(df, Illusion_Type == "Ebbinghaus")
 ### Descriptive
 
 ```{r message=FALSE, warning=FALSE}
-plot_desc_errors_obs <- function(data) {
+plot_desc_errors_obs <- function(data, n_groups=5) {
   data |>
     mutate(
       Illusion_Difference = datawizard::categorize(Illusion_Difference,
-        n_groups = 3,
+        n_groups = n_groups,
         split = "equal_length",
         label = "median"
       ),
@@ -197,12 +197,12 @@ plot_desc_errors_obs <- function(data) {
 
 
 plot_desc_errors <- function(data) {
-  
+
   dat <- data |>
     mutate(
       Illusion_Difference =
         datawizard::categorize(Illusion_Difference,
-          n_groups = 3,
+          n_groups = 5,
           split = "equal_length",
           label = "median"
         )
@@ -214,7 +214,7 @@ plot_desc_errors <- function(data) {
     geom_smooth(data=dat,
                 aes(y = Error, color = Illusion_Difference, fill = Illusion_Difference),
       method = "gam",
-      formula = y ~ s(x, bs = "cr"),
+      formula = y ~ s(x, bs = "cr", k=8),
       method.args = list(family = "binomial"),
       alpha = 1 / 3
     ) +
@@ -239,7 +239,7 @@ plot_desc_errors(data)
 ```{r m_err_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   Error ~ Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (logmod(Illusion_Difference) * abs(Illusion_Strength) | Participant),
+    (1 + Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
   family = "bernoulli",
   decomp = "QR"
 )
@@ -289,9 +289,9 @@ plot_model_errors <- function(data, model, gam) {
       Error = Error / n,
       Illusion_Strength = as.numeric(Illusion_Strength)
     ) |>
-    ungroup() 
-  
-  plot_desc_errors_obs(data) +
+    ungroup()
+
+  plot_desc_errors_obs(data, n_groups = 3) +
     scale_fill_manual(values = c("#F44336", "#FFC107", "#4CAF50"), guide = "none") +
     ggnewscale::new_scale_fill() +
     geom_ribbon(data=pred, aes(
@@ -351,11 +351,13 @@ plot_desc_rt <- function(data) {
     mutate(
       Illusion_Difference =
         datawizard::categorize(Illusion_Difference,
-          n_groups = 3,
+          n_groups = 5,
           split = "equal_length",
           label = "median"
         )
     )
+  
+  col <- colorRampPalette(c("#F44336", "#FFC107", "#4CAF50"))(length(unique(dat$Illusion_Difference)))
 
   dat |>
     ggplot(aes(x = Illusion_Strength, y = RT)) +
@@ -365,13 +367,13 @@ plot_desc_rt <- function(data) {
     ) +
     geom_smooth(aes(y = RT, color = Illusion_Difference, fill = Illusion_Difference),
       method = "gam",
-      formula = y ~ s(x, bs = "cr"),
+      formula = y ~ s(x, bs = "cr", k=8),
       alpha = 1 / 10
     ) +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0)) +
-    scale_color_manual(values = c("#F44336", "#FFC107", "#4CAF50")) +
-    scale_fill_manual(values = c("#F44336", "#FFC107", "#4CAF50")) +
+    scale_color_manual(values = col) +
+    scale_fill_manual(values = col) +
     coord_cartesian(ylim = c(0, 2)) +
     labs(x = "Illusion Strength", y = "Response Time") +
     theme_modern() +
@@ -396,11 +398,11 @@ plot_desc_rt(data)
 ```{r m_rt_ebbinghaus, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   RT ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) | Participant),
+    (1 + Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) | Participant),
   sigma ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   beta ~ Illusion_Effect / (Illusion_Difference * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   family = "exgaussian",
   decomp = "QR"
 )
@@ -429,7 +431,7 @@ load("models/gam_ebbinghaus_rt.Rdata")
 ```{r message=FALSE, warning=FALSE, cache=cache}
 plot_model_rt <- function(data, model, gam) {
   pred <- estimate_relation(model, at = c("Illusion_Effect", "Illusion_Difference", "Illusion_Strength"), length = c(3, 100))
-  
+
   dat <- data |>
     mutate(Illusion_Difference = datawizard::categorize(
       Illusion_Difference,
@@ -498,7 +500,7 @@ performance::performance(illusion1_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, cache=cache}
 plot_ppcheck <- function(model, gam) {
 
   pred <- modelbased::estimate_prediction(model, keep_iterations = 50) |>
@@ -662,7 +664,7 @@ plot_desc_errors(data)
 ```{r m_err_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   Error ~ Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
+    (1 + Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
   family = "bernoulli",
   decomp = "QR"
 )
@@ -726,11 +728,11 @@ plot_desc_rt(data)
 ```{r m_rt_mullerlyer, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   RT ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
+    (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
   sigma ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   beta ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   family = "exgaussian",
   decomp = "QR"
 )
@@ -768,8 +770,8 @@ performance::performance(illusion1_mullerlyer_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
-plot_ppcheck(p_mullerlyer_rt, gam_mullerlyer_rt)
+```{r message=FALSE, warning=FALSE, cache=cache}
+plot_ppcheck(illusion1_mullerlyer_rt, gam_mullerlyer_rt)
 ```
 
 
@@ -817,7 +819,7 @@ plot_desc_errors(data)
 ```{r m_err_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength)) | Participant),
+    (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
   family = "bernoulli",
   decomp = "QR"
 )
@@ -884,11 +886,11 @@ plot_desc_rt(data)
 ```{r m_rt_verticalhorizontal, message=FALSE, warning=FALSE, eval=runModels}
 formula <- brms::bf(
   RT ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
-    (Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
+    (1 + Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
   sigma ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   beta ~ Illusion_Effect / (cbrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) + poly(ISI, 2) +
-    (Illusion_Effect | Participant),
+    (1 | Participant),
   family = "exgaussian",
   decomp = "QR"
 )
@@ -930,7 +932,7 @@ performance::performance(illusion1_verticalhorizontal_rt, metrics = c("R2", "ICC
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, cache=cache}
 plot_ppcheck(illusion1_verticalhorizontal_rt, gam_verticalhorizontal_rt)
 ```
 
@@ -949,7 +951,7 @@ p_verticalhorizontal
 ```{r mixedmodels, message=FALSE, warning=FALSE, fig.width=16, fig.height=10}
 p <- p_ebbinghaus | p_mullerlyer | p_verticalhorizontal
 p
-# ggsave("figures/figure1.png", p, dpi=300, width=16, height=10)
+ggsave("figures/figure1.png", p, dpi=300, width=16, height=10)
 ```
 
 ```{r get_scores, message=FALSE, warning=FALSE}
@@ -957,33 +959,42 @@ get_scores <- function(model, illusion = "Ebbinghaus") {
   family <- insight::find_response(model)
   scores <- modelbased::estimate_grouplevel(model) |>
     data_filter(str_detect(Level, "Participant")) |>
-    data_filter(!str_detect(Group, "Illusion_EffectCongruent|Intercept")) |>
+    data_filter(str_detect(Parameter, "Illusion_EffectIncongruent")) |>
     mutate(
-      Group = str_remove_all(Group, ": Participant"),
       Level = str_remove_all(Level, "Participant."),
-      Level = str_remove(Level, "_beta."),
-      Level = str_remove(Level, "_sigma."),
-      Group = str_remove_all(Group, "Illusion_EffectIncongruent:"),
-      Group = str_remove_all(Group, "cbrtmod"),
-      Group = str_remove_all(Group, "sqrtmod"),
-      Group = str_remove_all(Group, "logmod"),
-      Group = str_remove_all(Group, "abs"),
-      Group = str_replace(Group, "Illusion_Difference:Illusion_Strength", "Interaction"),
-      Group = str_replace(Group, "Illusion_Difference", "Diff"),
-      Group = str_replace(Group, "Illusion_Strength", "Strength"),
-      Group = str_replace(Group, "Intercept__sigma", "InterceptSigma"),
-      Group = str_replace(Group, "Intercept__beta", "InterceptBeta")
-      # Group = str_replace(Group, "Diff__sigma", "DiffSigma"),
-      # Group = str_replace(Group, "Diff__beta", "DiffBeta")
-    ) |>
-    data_filter(!str_detect(Group, "Illusion_EffectIncongruent"))
-
+      Level = str_remove_all(Level, "_sigma."),
+      Level = str_remove_all(Level, "_beta."),
+      Parameter = str_remove_all(Parameter, "Illusion_EffectIncongruent:"),
+      Parameter = str_remove_all(Parameter, "cbrtmod"),
+      Parameter = str_remove_all(Parameter, "sqrtmod"),
+      Parameter = str_remove_all(Parameter, "logmod"),
+      Parameter = str_remove_all(Parameter, "abs"),
+      Parameter = case_when(str_detect(Parameter, "Illusion_Difference:Illusion_Strength") ~ "Interaction",
+                            str_detect(Parameter, "Illusion_Strength") ~ "Strength",
+                            str_detect(Parameter, "Illusion_Difference") ~ "Diff",
+                            str_detect(Parameter, "Illusion_EffectIncongruent") ~ "Incongruent", # Temporary
+                            TRUE ~ Parameter),
+      Parameter = case_when(str_detect(Group, "_sigma") ~ paste0(Parameter, "Sigma"),
+                            str_detect(Group, "_beta") ~ paste0(Parameter, "Beta"),
+                            TRUE ~ Parameter)
+    ) |> 
+    data_filter(Parameter != "Incongruent")
+  
   # unique(scores$Group)
+  # unique(scores$Level)
+  # unique(scores$Parameter)
+  # head(scores, 15)
+
+  colors <- c("Diff" = "#2196F3", "Strength" = "#9C27B0", "Interaction" = "#FF5722",
+              "IncongruentBeta" = "#f9cb35", "IncongruentSigma" = "#f98e09",  # Temporary
+              "DiffBeta" = "#57106e", "InterceptBeta" = "#f98e09",
+              "DiffSigma" = "#8a226a", "InterceptSigma" = "#f9cb35")
+
   p <- scores |>
     ggplot(aes(x = Median, y = Level)) +
-    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), size=0.5) +
-    # scale_color_flat_d(guide = "none") +
-    # scale_fill_flat_d(guide = "none") +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth=0.2, size=0.25) +
+    scale_color_manual(values = colors, guide = "none") +
+    scale_fill_manual(values = colors, guide = "none") +
     labs(y = "Participants") +
     theme_modern() +
     theme(
@@ -991,17 +1002,17 @@ get_scores <- function(model, illusion = "Ebbinghaus") {
       axis.title.x = element_blank(),
       axis.text.y = element_blank()
     ) +
-    ggside::geom_xsidedensity(aes(fill = Group, y = after_stat(scaled)), color = NA, alpha = 0.3) +
+    ggside::geom_xsidedensity(aes(fill = Parameter, y = after_stat(scaled)), color = NA, alpha = 0.7) +
     ggside::theme_ggside_void() +
     ggside::scale_xsidey_continuous(expand = c(0, 0)) +
     ggside::ggside() +
-    facet_grid(~Group, switch = "both", scales = "free") +
+    facet_grid(~Parameter, switch = "both", scales = "free") +
     ggtitle(paste(illusion, "-", family))
 
   # Reshape
   scores <- scores |>
-    select(Group, Participant = Level, Median) |>
-    pivot_wider(names_from = "Group", values_from = "Median") |>
+    select(Parameter, Participant = Level, Median) |>
+    pivot_wider(names_from = "Parameter", values_from = "Median") |>
     data_addprefix(paste0(illusion, "_"), select = -1) |>
     data_addsuffix(paste0("_", family), select = -1)
   list(scores = scores, p = p)

@@ -55,8 +55,12 @@ library(tidySEM)
 
 ```{r message=FALSE, warning=FALSE}
 perceptual <- read.csv("../data/scores_perceptual.csv") |> 
-  data_remove(select="Beta", regex = TRUE) |>
-  data_remove(select="Sigma", regex = TRUE) 
+  select(-contains("Sigma")) |> 
+  select(-contains("Beta")) |> 
+  # mutate(across(ends_with("_Error"), \(x) -1*x)) |>  # So that higher score = More errors
+  mutate(across(ends_with("Intercept_Error"), \(x) -1*x)) |>  # Not the intercept (re-reverse)
+  mutate(across(ends_with("_RT"), \(x) -1*x)) |>  # So that higher score = Longer RTs
+  mutate(across(ends_with("Intercept_RT"), \(x) -1*x))  # Not the intercept (re-reverse)
 
 for(i in names(perceptual)[names(perceptual) != "Participant"]) {
   perceptual[check_outliers(perceptual[[i]], method = "zscore_robust", threshold = 5), i] <- NA 
@@ -73,8 +77,8 @@ perceptual |>
   estimate_density(method = "kernSmooth") |> 
   separate(Parameter, into = c("Task", "Type", "Parameter", "Model")) |> 
   ggplot(aes(x=x, y=y, color=Type, linetype = Parameter)) +
-  geom_line() +
-  facet_grid(~Model)
+  geom_line(linetype = 2) +
+  facet_grid(Parameter~Model)
 ```
 
 ## Correlation
@@ -84,6 +88,8 @@ perceptual |>
 cor <- correlation::correlation(perceptual, redundant = TRUE, p_adjust = "none")
 
 p_data <- cor |>
+  mutate(Parameter1 = str_replace_all(str_remove(Parameter1, "Perception_"), "_", " "),
+         Parameter2 = str_replace_all(str_remove(Parameter2, "Perception_"), "_", " ")) |>
   correlation::cor_sort(hclust_method = "ward.D2") |>
   cor_lower() |>
   mutate(
@@ -94,14 +100,14 @@ p_data <- cor |>
   )
 
 
-p_data |>
+p_data |> 
   ggplot(aes(x = Parameter2, y = Parameter1)) +
   geom_tile(aes(fill = r)) +
   geom_text(aes(label = Text), size = rel(2), alpha=2/3) +
   scale_fill_gradient2(low = "#2196F3", mid = "white", high = "#F44336", midpoint = 0, limit = c(-1, 1), space = "Lab", name = "Correlation", guide = "legend") +
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
-  labs(title = "Correlation Matrix", x = NULL, y = NULL) +
+  labs(title = "Correlation Matrix of Perceptual Task Scores", x = NULL, y = NULL) +
   theme_minimal() +
   theme(
     axis.text.x = element_text(angle = 90, hjust = 1),
@@ -111,28 +117,21 @@ p_data |>
   )
 
 # heatmap(as.matrix(cor))
-# ggcorrplot::ggcorrplot(correlation::cor_sort(as.matrix(cor)), type = "lower", lab=TRUE)
-# estimate_density(p_data$r, at=as.character(sign(p_data$r))) |> 
-#   ggplot(aes(x=x, y=y, color=Group)) +
-#   geom_line()
 ```
 
-```{r message=FALSE, warning=FALSE}
-perceptual <- data_remove(perceptual, select = "Intercept", regex=TRUE)
-```
 
 ## Factor Analysis
 
 ### First Level
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-rez <- parameters::n_factors(perceptual, n_max=15)
+rez <- parameters::n_factors(select(perceptual, -Participant), n_max=15)
 rez
 plot(rez)
 
 fa <- parameters::factor_analysis(select(perceptual, -Participant),
   # cor = as.matrix(cor),
-  n = 2,
+  n = 3,
   rotation = "oblimin",
   fm = "mle",
   sort = TRUE
@@ -172,12 +171,14 @@ insight::print_md(fa2)
 ### Level 1
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-fit_sem <- function(model, data) {
+fit_sem <- function(model, data, ...) {
   sem(model = model,
-      data  = data,
+      data  = data[complete.cases(data), ],
       bounds = "standard",
       estimator = "ML",
-      control=list(iter.max=200000, eval.max = 20000)) 
+      auto.fix.first=TRUE, 
+      control=list(iter.max=200000, eval.max = 20000), 
+      ...) 
 }
 
 
@@ -185,50 +186,112 @@ names <- names(select(perceptual, -Participant))
 data <- setNames(as.data.frame(str_split_fixed(names, "_", 4)), c("Task", "Illusion_Type", "Parameter", "Outcome"))
 data$Name <- names
 
-
+# Model 0 - by EFA
+by_efa <-  efa_to_cfa(fa, threshold = "max")
+# cat(by_model)
+m0 <- fit_sem(by_efa, data=perceptual)
 
 # Model 1 - by Model
-by_model <-  paste(sort(paste0("p_", data$Outcome, " =~ ", data$Name)), collapse = "\n")
+by_model <-  paste(sort(paste0("p_", ifelse(str_detect(data$Outcome, "RT"), "RT", "Error"), " =~ ", data$Name)), collapse = "\n")
 # cat(by_model)
 m1 <- fit_sem(by_model, data=perceptual)
 
-# Model 2 - by Type
+# Model 2 - by Component
+by_component <-  paste(sort(paste0("p_", data$Outcome, " =~ ", data$Name)), collapse = "\n")
+# cat(by_component)
+m2 <- fit_sem(by_component, data=perceptual)
+
+# Model 3 - by Type
 by_type <-  paste(paste(paste0(data$Illusion_Type), "=~", data$Name), collapse = "\n")
-m2 <- fit_sem(by_type, data=perceptual)
+# cat(by_type)
+m3 <- fit_sem(by_type, data=perceptual)
 
-anova(m1, m2)
+# Model 4 - by Parameter
+by_param <-  paste(paste(paste0(data$Parameter), "=~", data$Name), collapse = "\n")
+# cat(by_param)
+m4 <- fit_sem(by_param, data=perceptual)
 
-# performance::compare_performance(m1, m2, metrics = c("BIC", "RMSEA", "NFI", "NNFI"))
+# Model 4 - Unique
+m5 <-  fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=perceptual)
+
+
+anova(m2, m0, m1, m3, m4, m5)
+test_bf(m2, m0, m1, m3, m4, m5)
 ```
+
+<!-- ### Improvements -->
+
+<!-- ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE} -->
+<!-- by_model2 <- paste(sort(paste0("p_", case_when( -->
+<!--   str_detect(data$Outcome, "BetaRT") ~ "BetaRT", -->
+<!--   str_detect(data$Outcome, "RT") ~ "RT", -->
+<!--   TRUE ~ "Error" -->
+<!--   ), " =~ ", data$Name)), collapse = "\n")  -->
+
+<!-- m0mod <- fit_sem(by_model2, data=perceptual) -->
+
+<!-- anova(m0, m0mod) -->
+<!-- test_bf(m0, m0mod) -->
+<!-- ``` -->
 
 ### Common Factor
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
 # One factor
-m3 <- fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=perceptual)
-m4 <- fit_sem(paste0(by_model, "\np =~ p_RT + p_Error"), data=perceptual)
+m2b <- fit_sem(paste0(by_component, "\np =~ p_RT + p_Error"), data=perceptual)
 
-anova(m1, m3, m4)
+anova(m2, m2b)
+test_bf(m2, m2b)
+compare_performance(m2, m2b, metrics = c("RMSEA", "NFI", "CFI"))
 ```
 
+### Inspection
 
-```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-summary(m4, standardize = TRUE, fit.measures = TRUE)
-graph_sem(m4, layout = get_layout(m4, layout_algorithm = "layout_with_lgl"))
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE, fig.width=20, fig.height=20}
+summary(m2, standardize = TRUE, fit.measures = TRUE)
+graph_sem(m2, layout = get_layout(m2, layout_algorithm = "layout_with_lgl")) 
 ```
 
 ### Scores Extraction
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-scores <- mutate(as.data.frame(predict(m4)), Participant = perceptual$Participant[complete.cases(perceptual)])
+scores_p <- mutate(as.data.frame(predict(m2)), Participant = perceptual$Participant[complete.cases(perceptual)])
 ```
 
+
+### Empirical Scores
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+empirical <- read.csv("../data/preprocessed_perceptual.csv")
+
+empirical <- empirical |> 
+  group_by(Participant, Illusion_Type) |> 
+  summarize(Empirical_Errors = as.numeric(sum(Error, na.rm=TRUE))) |> 
+  full_join(
+    empirical |> 
+      filter(Error == 0) |> 
+      group_by(Participant, Illusion_Type) |> 
+      summarize(Empirical_MeanRT = mean(RT, na.rm=TRUE)), by = c("Participant", "Illusion_Type")) |> 
+  ungroup() |> 
+  pivot_wider(names_from = "Illusion_Type", values_from = c("Empirical_Errors", "Empirical_MeanRT")) |> 
+  left_join(scores_p, by = "Participant") |> 
+  left_join(perceptual, by = "Participant")
+
+correlation::correlation(select(empirical, starts_with("Empirical")), select(empirical, -Participant, -starts_with("Empirical"))) |> 
+  summary() |> 
+  plot() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
 
 # Illusion Task
 
 ```{r message=FALSE, warning=FALSE}
 illusion <- read.csv("../data/scores_illusion1.csv") |> 
-  data_remove(select="Diff", regex=TRUE) 
+  select(-contains("Diff")) |> 
+  select(-contains("Interaction")) |>
+  select(-contains("Sigma")) |> 
+  select(-contains("Beta")) 
+  # mutate(across(ends_with("_Error"), \(x) -1*x))  # So that higher score = More errors
 
 for(i in names(illusion)[names(illusion) != "Participant"]) {
   illusion[check_outliers(illusion[[i]], method = "zscore_robust", threshold = 5), i] <- NA 
@@ -243,10 +306,10 @@ illusion <- standardize(illusion) |>
 ```{r message=FALSE, warning=FALSE}
 illusion |> 
   estimate_density(method = "kernSmooth") |> 
-  separate(Parameter, into = c("Type", "Parameter", "Model")) |> 
-  ggplot(aes(x=x, y=y, color=Type, linetype = Parameter)) +
-  geom_line() +
-  facet_grid(~Model)
+  separate(Parameter, into = c("Type", "Parameter", "Model")) |>
+  ggplot(aes(x=x, y=y, color=Type)) +
+  geom_line(linewidth=1) +
+  facet_grid(Model ~ Parameter, scales = "free") 
 ```
 
 ## Correlation
@@ -256,10 +319,6 @@ illusion |>
 cor <- correlation::correlation(illusion, redundant = TRUE, p_adjust = "none")
 
 p_data <- cor |>
-  # mutate(
-  #   Parameter1 = prettify_parameterName(Parameter1),
-  #   Parameter2 = prettify_parameterName(Parameter2)
-  # ) |>
   correlation::cor_sort(hclust_method = "ward.D2") |>
   cor_lower() |>
   mutate(
@@ -273,7 +332,7 @@ p_data <- cor |>
 p_data |>
   ggplot(aes(x = Parameter2, y = Parameter1)) +
   geom_tile(aes(fill = r)) +
-  geom_text(aes(label = Text), size = rel(2), alpha=2/3) +
+  geom_text(aes(label = Text), size = rel(4), alpha=3/3) +
   scale_fill_gradient2(low = "#2196F3", mid = "white", high = "#F44336", midpoint = 0, limit = c(-1, 1), space = "Lab", name = "Correlation", guide = "legend") +
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
@@ -294,13 +353,13 @@ p_data |>
 ### First Level
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-rez <- parameters::n_factors(illusion, n_max=15)
+rez <- parameters::n_factors(select(illusion, -Participant), n_max=9)
 rez
 plot(rez)
 
 fa <- parameters::factor_analysis(select(illusion, -Participant),
   # cor = as.matrix(cor),
-  n = 5,
+  n = 2,
   rotation = "oblimin",
   fm = "mle",
   sort = TRUE
@@ -318,19 +377,19 @@ plot(fa) +
 ### Second Level
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-data <- predict(fa)
-
-rez <- parameters::n_factors(data, rotation = "varimax")
-plot(rez)
-
-fa2 <- parameters::factor_analysis(data,
-  n = 1,
-  rotation = "varimax",
-  fm = "mle",
-  sort = TRUE
-)
-
-insight::print_md(fa2)
+# data <- predict(fa)
+# 
+# rez <- parameters::n_factors(na.omit(data), rotation = "oblimin")
+# plot(rez)
+# 
+# fa2 <- parameters::factor_analysis(data,
+#   n = 2,
+#   rotation = "oblimin",
+#   fm = "mle",
+#   sort = TRUE
+# )
+# 
+# insight::print_md(fa2)
 ```
 
 
@@ -343,9 +402,8 @@ names <- names(select(illusion, -Participant))
 data <- setNames(as.data.frame(str_split_fixed(names, "_", 3)), c("Illusion_Type", "Parameter", "Outcome"))
 data$Name <- names
 
-
 # Model 1 - EFA
-by_efa <- efa_to_cfa(fa, threshold = "max", names = c("RT1", "VerticalHorizontal", "Ebbinghaus", "RT2", "MullerLyer"))
+by_efa <- efa_to_cfa(fa, threshold = "max")
 m1 <- fit_sem(by_efa, data=illusion)
 
 # Model 2 - by Model
@@ -355,88 +413,156 @@ m2 <- fit_sem(by_model, data=illusion)
 
 # Model 3 - by Type
 by_type <-  paste(paste(paste0(data$Illusion_Type), "=~", data$Name), collapse = "\n")
+# cat(by_type)
 m3 <- fit_sem(by_type, data=illusion)
 
-anova(m1, m2, m3)
+# Model 4 - Unique
+m4 <-  fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=illusion)
+
+anova(m1, m2, m3, m4)
+test_bf(m1, m2, m3, m4)
 ```
-
-```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-m4 <- "
-RT_Strength =~ MullerLyer_Strength_RT + Ebbinghaus_Strength_RT + VerticalHorizontal_Strength_RT
-RT_Interaction =~ MullerLyer_Interaction_RT + Ebbinghaus_Interaction_RT + VerticalHorizontal_Interaction_RT
-VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
-Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
-MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
-" |> 
-   fit_sem(data=illusion)
-
-m5 <- "
-RT =~ MullerLyer_Strength_RT + Ebbinghaus_Strength_RT + VerticalHorizontal_Strength_RT + MullerLyer_Interaction_RT + Ebbinghaus_Interaction_RT + VerticalHorizontal_Interaction_RT
-VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
-Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
-MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
-" |> 
-   fit_sem(data=illusion)
-
-per_modeltype <- "
-RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
-RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT 
-RT_VerticalHorizontal =~ VerticalHorizontal_Strength_RT + VerticalHorizontal_Interaction_RT
-VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
-Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
-MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error 
-" 
-m6 <- fit_sem(per_modeltype, data=illusion)
-
-anova(m1, m4, m5, m6)
-summary(m6, standardize = TRUE, fit.measures = TRUE)
-```
-
 
 ### Common Factor
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-# One factor
-m7 <- fit_sem(paste0("p =~ ", paste(names, collapse = " + ")), data=illusion)
-m8 <- fit_sem(paste0(per_modeltype, "i =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal + VerticalHorizontal + Ebbinghaus + MullerLyer"), data=illusion)
+m5 <- fit_sem(paste0(by_type, "\ni =~ Ebbinghaus + MullerLyer + VerticalHorizontal"), data=illusion)
 
-anova(m6, m7, m8)
-
-m9 <- fit_sem(paste0(
-  per_modeltype, 
-  "RT =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal",
-  "\nError =~ VerticalHorizontal + Ebbinghaus + MullerLyer"), data=illusion)
-
-m10 <- fit_sem(paste0(
-  per_modeltype, 
-  "RT =~ RT_MullerLyer + RT_Ebbinghaus + RT_VerticalHorizontal",
-  "\nError =~ VerticalHorizontal + Ebbinghaus + MullerLyer",
-  "\ni =~ RT + Error"), data=illusion)
-
-anova(m6, m8, m9, m10)
-anova(m6, m9)
-
-compare_performance(m6, m9, metrics = c("RMSEA", "NFI", "CFI"))
+anova(m1, m5)
+test_bf(m1, m5)
+compare_performance(m1, m5, metrics = c("RMSEA", "NFI", "CFI"))
 ```
 
+### Inspection
 
 ```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
-m1 <- "
-VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
-Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
-MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error
-RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
-RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT
-RT_VerticalHorizontal =~ VerticalHorizontal_Strength_RT + VerticalHorizontal_Interaction_RT
-" |> fit_sem(data=illusion)
-
-m2 <- "
-VerticalHorizontal =~ VerticalHorizontal_Strength_Error + VerticalHorizontal_Interaction_Error
-Ebbinghaus =~ Ebbinghaus_Strength_Error + Ebbinghaus_Interaction_Error
-MullerLyer =~ MullerLyer_Strength_Error + MullerLyer_Interaction_Error
-RT_MullerLyer =~ MullerLyer_Strength_RT + MullerLyer_Interaction_RT 
-RT_Ebbinghaus =~ Ebbinghaus_Strength_RT + Ebbinghaus_Interaction_RT
-RT_VerticalHorizontal_Strength =~ VerticalHorizontal_Strength_RT 
-RT_VerticalHorizontal_Interaction =~ VerticalHorizontal_Interaction_RT 
-" |> fit_sem(data=illusion)
+display(performance(m5))
+summary(m5, standardize = TRUE, fit.measures = TRUE)
+# graph_sem(m5, layout = get_layout(m5, layout_algorithm = "layout_with_lgl")) 
 ```
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE, fig.width=15, fig.height=15}
+colors <- c("i" = "#9C27B0", 
+            "Ebbinghaus"="#3F51B5",
+            "VerticalHorizontal"="#FF5722",
+            "MullerLyer" = "#4CAF50",
+            "black"="black")
+
+edges <- tidySEM::get_edges(m5) |> 
+  mutate(color = ifelse(sign(as.numeric(est_std)) >= 0, "1", "-1"),
+         width = abs(as.numeric(est_std)),
+         type = ifelse(from == "i", "curved", "straight"),
+         text = paste(est_std, confint_std)) |> 
+  filter(lhs != rhs)
+
+nodes <- tidySEM::get_nodes(m5) |> 
+  mutate(angle = ifelse(grepl("_", name), 90, 0),
+         hjust = case_when(
+           grepl("_", name) ~ 1.5,
+           name == "i" ~ 0.5,
+           TRUE ~ 0.5),
+         size = case_when(
+           grepl("_", name) ~ 1,
+           name == "i" ~ 7,
+           TRUE ~ 6),
+         textsize = case_when(
+           grepl("_", name) ~ 1,
+           name == "i" ~ 3,
+           TRUE ~ 1.1),
+         face = case_when(
+           grepl("_", name) ~ "italic",
+           name == "i" ~ "bold.italic",
+           TRUE ~ "plain"),
+         color = str_remove_all(label, " - .*"),
+         textcolor = ifelse(grepl("_", name), "black", "white"),
+         label = case_when(
+           label == "MullerLyer" ~ "Müller-Lyer",
+           label == "VerticalHorizontal" ~ "Vertical-\nHorizontal",
+           str_detect(label, "_Error") ~ "Error",
+           str_detect(label, "_RT") ~ "RT ",
+           TRUE ~ label
+         ),
+         family = ifelse(name == "i", "serif", "sans"))
+
+
+p_sem <- tidygraph::tbl_graph(nodes = nodes, edges = edges) |> 
+  ggraph(layout = "sugiyama") +
+  geom_edge_arc(aes(filter=type!="straight",
+                    edge_width = width,
+                    color = color,
+                    label=est_std),
+                strength = 0.03 * c(-1, 1, 1),
+                angle_calc="along",
+                label_dodge=unit(-0.017, "npc"),
+                label_size = rel(8)) +
+  geom_edge_link(aes(filter=type=="straight",
+                     edge_width = width, 
+                     color = color,
+                     label=est_std), 
+                 angle_calc="along", 
+                 label_dodge=unit(-0.017, "npc"),
+                 label_size = rel(8)) +
+  geom_node_point(aes(shape = shape, color=color, size=size)) +
+  geom_node_text(aes(label = label, angle = angle, hjust=hjust),
+                 color=nodes$textcolor, 
+                 fontface=nodes$face,
+                 size = rel(nodes$textsize*10),
+                 family=nodes$family) +
+  scale_y_continuous(expand = expansion(add=c(0.5, 0.5))) +
+  scale_edge_width_continuous(range=c(0.3, 6)) +
+  scale_edge_color_manual(values=c("1"="#263238", "-1"="#B71C1C")) +
+  scale_color_manual(values=colors, guide="none") +
+  scale_shape_manual(values=c("oval"="circle", "rect"="square"), guide="none") +
+  scale_size_continuous(range = c(10, 95), guide="none") +
+  guides(edge_colour = "none", edge_width = "none") + 
+  labs(title = "Structural Equation Model")  +
+  theme_graph() +
+  theme(plot.title = element_text(hjust=0.5))
+
+p_sem
+ggsave("figures/figure_sem.png", p_sem, width=15, height=15)
+# save(p_sem, file="models/p_sem.Rdata")
+```
+
+
+### Scores Extraction
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+scores_i <- mutate(as.data.frame(predict(m5)), Participant = illusion$Participant[complete.cases(illusion)]) 
+```
+
+
+### Empirical Scores
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+empirical <- read.csv("../data/preprocessed_illusion1.csv")
+
+empirical <- empirical |>  
+  filter(Illusion_Effect == "Incongruent") |> 
+  group_by(Participant, Illusion_Type) |> 
+  summarize(Empirical_Errors = as.numeric(sum(Error, na.rm=TRUE))) |> 
+  full_join(
+    empirical |> 
+      filter(Illusion_Effect == "Incongruent", Error == 0) |> 
+      group_by(Participant, Illusion_Type) |> 
+      summarize(Empirical_MeanRT = mean(RT, na.rm=TRUE)), by = c("Participant", "Illusion_Type")) |> 
+  ungroup() |> 
+  pivot_wider(names_from = "Illusion_Type", values_from = c("Empirical_Errors", "Empirical_MeanRT")) |> 
+  left_join(scores_i, by = "Participant") |> 
+  left_join(illusion, by = "Participant")
+
+correlation::correlation(select(empirical, starts_with("Empirical")), select(empirical, -Participant, -starts_with("Empirical"))) |> 
+  summary() |> 
+  plot() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+write.csv(full_join(left_join(scores_i, read.csv("../data/scores_illusion1.csv"), by = "Participant"), scores_p, by = "Participant"), "../data/scores_sem.csv", row.names = FALSE)
+```
+
+
+## Validation on New Set
+
+<!-- Validation on session 2  -->
+

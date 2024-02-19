@@ -26,7 +26,7 @@ options(
 cache <- TRUE
 runModels <- FALSE
 bestModels <- FALSE
-fig.width <- see::golden_ratio(7)
+fig.width <- 7 * sqrt(2)  # see::golden_ratio(7)
 fig.height <- 7
 
 knitr::opts_chunk$set(
@@ -144,7 +144,7 @@ data <- filter(perceptual, Illusion_Type == "Ebbinghaus")
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_ebbinghaus_error_desc, message=FALSE, warning=FALSE}
 plot_desc_errors <- function(data) {
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
@@ -198,7 +198,7 @@ save(perceptual_ebbinghaus_err, file="models/perceptual_ebbinghaus_err.Rdata")
 load("models/perceptual_ebbinghaus_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_ebbinghaus_error, message=FALSE, warning=FALSE}
 plot_model_errors <- function(data, model) {
   pred <- estimate_relation(model, at="Illusion_Difference", length = 100)
   
@@ -239,7 +239,7 @@ data <- filter(perceptual, Illusion_Type == "Ebbinghaus", Error == 0)
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_ebbinghaus_rt_desc, message=FALSE, warning=FALSE}
 plot_desc_rt <- function(data) {
   data |> 
     ggplot(aes(x = Illusion_Difference, y = RT)) +
@@ -307,7 +307,7 @@ save(perceptual_ebbinghaus_rt, file="models/perceptual_ebbinghaus_rt.Rdata")
 load("models/perceptual_ebbinghaus_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_ebbinghaus_rt, message=FALSE, warning=FALSE}
 plot_model_rt <- function(data, model) {
   pred <- estimate_relation(model, at="Illusion_Difference", length = 100)
   
@@ -339,7 +339,7 @@ performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_ebbinghaus_rt_ppcheck, message=FALSE, warning=FALSE}
 plot_ppcheck <- function(model) {
   pred <- modelbased::estimate_prediction(model, keep_iterations = 50) |>
     bayestestR::reshape_iterations() |>
@@ -384,7 +384,7 @@ data <- filter(perceptual, Illusion_Type == "MullerLyer")
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_mullerlyer_error_desc, message=FALSE, warning=FALSE}
 plot_desc_errors(data)
 ```
 
@@ -419,7 +419,7 @@ save(perceptual_mullerlyer_err, file="models/perceptual_mullerlyer_err.Rdata")
 load("models/perceptual_mullerlyer_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_mullerlyer_error, message=FALSE, warning=FALSE}
 plot_model_errors(data, perceptual_mullerlyer_err)
 ```
 
@@ -439,7 +439,7 @@ data <- filter(perceptual, Illusion_Type == "MullerLyer", Error == 0)
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_mullerlyer_rt_desc, message=FALSE, warning=FALSE}
 plot_desc_rt(data)
 ```
 
@@ -482,7 +482,7 @@ save(perceptual_mullerlyer_rt, file="models/perceptual_mullerlyer_rt.Rdata")
 load("models/perceptual_mullerlyer_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_mullerlyer_rt, message=FALSE, warning=FALSE}
 plot_model_rt(data, perceptual_mullerlyer_rt)
 ```
 
@@ -493,7 +493,7 @@ performance::performance(perceptual_mullerlyer_rt, metrics = c("R2", "ICC")) |>
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_mullerlyer_rt_ppcheck, message=FALSE, warning=FALSE}
 plot_ppcheck(perceptual_mullerlyer_rt)
 ```
 
@@ -515,7 +515,7 @@ data <- filter(perceptual, Illusion_Type == "VerticalHorizontal")
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_verticalhorizontal_error_desc, message=FALSE, warning=FALSE}
 plot_desc_errors(data)
 ```
 
@@ -551,7 +551,7 @@ save(perceptual_verticalhorizontal_err, file="models/perceptual_verticalhorizont
 load("models/perceptual_verticalhorizontal_err.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_verticalhorizontal_error, message=FALSE, warning=FALSE}
 plot_model_errors(data, perceptual_verticalhorizontal_err)
 ```
 
@@ -571,7 +571,7 @@ data <- filter(perceptual, Illusion_Type == "VerticalHorizontal", Error == 0)
 
 ### Descriptive
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_verticalhorizontal_rt_desc, message=FALSE, warning=FALSE}
 plot_desc_rt(data)
 ```
 
@@ -616,7 +616,7 @@ save(perceptual_verticalhorizontal_rt, file="models/perceptual_verticalhorizonta
 load("models/perceptual_verticalhorizontal_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_verticalhorizontal_rt, message=FALSE, warning=FALSE}
 plot_model_rt(data, perceptual_verticalhorizontal_rt)
 ```
 
@@ -627,22 +627,22 @@ performance::performance(perceptual_verticalhorizontal_rt, metrics = c("R2", "IC
   display()
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r p_perceptual_verticalhorizontal_rt_ppcheck, message=FALSE, warning=FALSE}
 plot_ppcheck(perceptual_verticalhorizontal_rt)
 ```
 
 
 # Individual Scores 
 
-```{r message=FALSE, warning=FALSE, fig.width=fig.width*2, fig.height=fig.height*3}
+```{r figure_perceptual_models, message=FALSE, warning=FALSE, fig.width=fig.width*2, fig.height=fig.height*3}
 get_scores <- function(model, illusion="Ebbinghaus") {
   family <- insight::find_response(model)
   scores <- modelbased::estimate_grouplevel(model) |> 
     data_filter(str_detect(Level, "Participant")) |> 
-    mutate(Group = str_remove(Group, ": Participant"),
-           Level = str_remove(Level, "Participant."),
+    mutate(Level = str_remove(Level, "Participant."),
            Level = str_remove(Level, "_beta."),
            Level = str_remove(Level, "_sigma."),
+           Group = str_remove(Group, ": Participant"),
            Group = str_remove_all(Group, "cbrtmod"),
            Group = str_remove_all(Group, "sqrtmod"),
            Group = str_remove_all(Group, "sqrt"),
@@ -652,19 +652,28 @@ get_scores <- function(model, illusion="Ebbinghaus") {
            Group = str_replace(Group, "Intercept__sigma", "InterceptSigma"),
            Group = str_replace(Group, "Intercept__beta", "InterceptBeta"),
            Group = str_replace(Group, "Diff__sigma", "DiffSigma"),
-           Group = str_replace(Group, "Diff__beta", "DiffBeta")) 
+           Group = str_replace(Group, "Diff__beta", "DiffBeta")) |> 
+    mutate(Parameter = case_when(str_detect(Parameter, "Intercept") ~ "Intercept", 
+                                 str_detect(Parameter, "Illusion_Difference") ~ "Diff", 
+                                            TRUE ~ "PROBLEM"),
+           Group = str_remove(str_remove(Group, "__"), "Participant"),
+           Group = paste0(Parameter, tools::toTitleCase(Group)))
+  
+  colors <- c("Diff" = "#210c4a", "Intercept" = "#e45a31",
+              "DiffBeta" = "#57106e", "InterceptBeta" = "#f98e09",
+              "DiffSigma" = "#8a226a", "InterceptSigma" = "#f9cb35")
   
   p <- scores |> 
     ggplot(aes(x = Median, y = Level)) +
-    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), size=0.5) +
-    scale_color_flat_d(guide = "none") +
-    scale_fill_flat_d(guide = "none") +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), linewidth=0.2, size=0.25) +
+    scale_color_manual(values = colors, guide = "none") +
+    scale_fill_manual(values = colors, guide = "none") +
     labs(y = "Participants") +
     theme_modern() +
     theme(strip.placement = "oustide",
           axis.title.x = element_blank(),
           axis.text.y = element_blank()) +
-    ggside::geom_xsidedensity(aes(fill=Group, y = after_stat(scaled)), color = NA, alpha = 0.3) +
+    ggside::geom_xsidedensity(aes(fill=Group, y = after_stat(scaled)), color = NA, alpha = 0.7) +
     ggside::theme_ggside_void() +
     ggside::scale_xsidey_continuous(expand = c(0, 0)) +
     ggside::ggside() +
@@ -675,17 +684,17 @@ get_scores <- function(model, illusion="Ebbinghaus") {
     select(Group, Participant = Level, Median) |> 
     pivot_wider(names_from = "Group", values_from = "Median") |> 
     data_rename("Diff", 
-                paste0("Perception_", illusion, "_Difficulty_", family)) |> 
+                paste0("Perception_", illusion, "_Difficulty_", family), verbose=FALSE) |> 
     data_rename("DiffSigma", 
-                paste0("Perception_", illusion, "_Difficulty_SigmaRT")) |> 
+                paste0("Perception_", illusion, "_Difficulty_SigmaRT"), verbose=FALSE) |> 
     data_rename("DiffBeta", 
-                paste0("Perception_", illusion, "_Difficulty_BetaRT")) |> 
+                paste0("Perception_", illusion, "_Difficulty_BetaRT"), verbose=FALSE) |> 
     data_rename("Intercept", 
-                paste0("Perception_", illusion, "_Intercept_", family)) |> 
+                paste0("Perception_", illusion, "_Intercept_", family), verbose=FALSE) |> 
     data_rename("InterceptSigma", 
-                paste0("Perception_", illusion, "_Intercept_SigmaRT")) |> 
+                paste0("Perception_", illusion, "_Intercept_SigmaRT"), verbose=FALSE) |> 
     data_rename("InterceptBeta", 
-                paste0("Perception_", illusion, "_Intercept_BetaRT")) 
+                paste0("Perception_", illusion, "_Intercept_BetaRT"), verbose=FALSE) 
   list(scores = scores, p = p)
   
 }
@@ -697,11 +706,15 @@ mullerlyer_rt <- get_scores(perceptual_mullerlyer_rt, illusion="MullerLyer")
 verticalhorizontal_err <- get_scores(perceptual_verticalhorizontal_err, illusion="VerticalHorizontal")
 verticalhorizontal_rt <- get_scores(perceptual_verticalhorizontal_rt, illusion="VerticalHorizontal")
 
-p <- (ebbinghaus_err$p + ebbinghaus_rt$p) /
-  (mullerlyer_err$p + mullerlyer_rt$p) /
-  (verticalhorizontal_err$p + verticalhorizontal_rt$p) +
-  plot_layout(guides = "collect") +
-  plot_annotation(title = "Inter- and Intra- Variability of Perceptual Scores", theme = theme(plot.title = element_text(face = "bold", hjust = 0.5))) 
+p <- (
+  (ebbinghaus_err$p + ebbinghaus_rt$p +
+  plot_layout(guides = "collect", widths = c(0.3, 0.7))) /
+  (mullerlyer_err$p + mullerlyer_rt$p +
+  plot_layout(guides = "collect", widths = c(0.3, 0.7))) /
+  (verticalhorizontal_err$p + verticalhorizontal_rt$p +
+  plot_layout(guides = "collect", widths = c(0.3, 0.7)))
+  ) +
+  plot_annotation(title = "Inter- and Intra- Variability of Perceptual Scores", theme = theme(plot.title = element_text(face = "bold", hjust = 0.5)))
 p
 
 scores <- ebbinghaus_err$scores |> 

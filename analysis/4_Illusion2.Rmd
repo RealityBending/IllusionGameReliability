@@ -26,7 +26,7 @@ options(
 cache <- FALSE
 runModels <- TRUE
 bestModels <- TRUE
-fig.width <- see::golden_ratio(7)
+fig.width <- 7 * sqrt(2)  # see::golden_ratio(7)
 fig.height <- 7
 
 knitr::opts_chunk$set(
@@ -65,7 +65,7 @@ df <- read.csv("../data/preprocessed_illusion1.csv") |>
 
 ```{r message=FALSE, warning=FALSE}
 # Retrieve get_scores() function
-knitr::read_chunk("3_Illusion1.Rmd", labels="get_scores", from=956, to=1008)
+knitr::read_chunk("3_Illusion1.Rmd", labels="get_scores", from=958, to=1019)
 eval(parse(text = knitr::knit_code$get()$get_scores))
 
 load("models/illusion1_ebbinghaus_err.Rdata")
@@ -112,19 +112,19 @@ get_params <- function(model, data, prior_scale = 1) {
 }
 
 
+# out <- data.frame()
+# already_done <- c()
 
 out <- read.csv("../data/scores_individual.csv")
 
-already_done <- summarize(group_by(out, Participant), n = n()) |> 
-  filter(n == 4) |> 
+already_done <- summarize(group_by(out, Participant), n = n()) |>
+  filter(n == 4) |>
   pull(Participant)
 
 out <- filter(out, Participant %in% already_done)
 
-already_done <- c(already_done, "S110") # Missing key observations
-
-
-for(sub in setdiff(unique(df$Participant), already_done)) {
+# S110 has no data.
+for(sub in setdiff(unique(df$Participant), c(already_done, "S110"))) {
   print(sub)
   for(prior_scale in c(0.5, 1, 2, 4)) {
     print(paste0("  ", prior_scale))
@@ -171,20 +171,30 @@ for(sub in setdiff(unique(df$Participant), already_done)) {
 ## Comparison
 
 ```{r message=FALSE, warning=FALSE}
-df <- read.csv("../data/scores_individual.csv") |> 
-  standardize(exclude = c("Participant", "PriorScale")) |> 
-  pivot_longer(-one_of(c("Participant", "PriorScale")),
+data <- read.csv("../data/scores_individual.csv") |> 
+  # standardize(exclude = c("Participant", "PriorScale")) |> 
+  data_to_long(-starts_with("Participant|PriorScale"),
                values_to = "IndividualModel",
                names_to = "Score") |>
   mutate(Score = str_remove(Score, "Ind_")) |> 
   full_join(
     read.csv("../data/scores_illusion1.csv") |> 
-      standardize() |> 
-      pivot_longer(-Participant, values_to = "MixedModel", names_to = "Score"),
+      # standardize(exclude = c("Participant")) |> 
+      data_to_long(-Participant, values_to = "MixedModel", names_to = "Score"),
     by = c("Participant", "Score")) |> 
   mutate(PriorScale = as.factor(PriorScale))
    
-model <- lm(MixedModel ~ Score / (IndividualModel * PriorScale), data=df)
+data1 <- read.csv("../data/scores_individual.csv") |> 
+  filter(PriorScale == 1) |> 
+  full_join(datawizard::data_addprefix(read.csv("../data/scores_illusion1.csv"), "Mod_", exclude = "Participant"), by = "Participant")
+
+  
+correlation(select(data1, starts_with("Ind_")), select(data1, starts_with("Mod_"))) |> 
+  mutate(Parameter1 = str_remove_all(Parameter1, "Ind_"),
+         Parameter2 = str_remove_all(Parameter2, "Mod_")) |> 
+  filter(Parameter1 == Parameter2) 
+
+model <- lm(MixedModel ~ Score / (IndividualModel * PriorScale), data=data)
 slopes <- estimate_slopes(model, trend = "IndividualModel", at = c("Score", "PriorScale"))
 
 slopes |> 

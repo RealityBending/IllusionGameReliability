@@ -1,0 +1,732 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Factor Structure"
+author: "Dominique Makowski et al."
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: paper
+    code_folding: hide
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+cache <- TRUE
+runModels <- TRUE
+bestModels <- TRUE
+fig.width <- see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.path = "./figures/5_Structure-",
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+library(lavaan)
+library(ggraph)
+
+dfsub <- read.csv("../data/scores_sem.csv") |> 
+  full_join(
+    read.csv("../data/preprocessed_questionnaires.csv") |> 
+    select(!ends_with("_SD") & !ends_with("_RT")), 
+    by="Participant") |> 
+  select(-starts_with("Item_"), -starts_with("AttentionCheck")) |> 
+  mutate(
+    Education = fct_relevel(Education, "Prefer not to say", "Other", "High school", "Bachelor", "Master", "Doctorate")
+  ) |> 
+  right_join(
+    read.csv("../data/preprocessed_illusion1.csv") |> 
+      select(Participant, Screen_Size, Screen_Refresh, Task_Order) |> 
+      dplyr::distinct(),
+    by = "Participant"
+  )
+
+# Variables
+DVs <- c(
+  "Ebbinghaus" = "#2196F3",
+  "VerticalHorizontal" = "#FF5722",
+  "MullerLyer" = "#4CAF50",
+  "i" = "#9C27B0",
+  "Ebbinghaus_Strength_Error" = "blue",
+  "VerticalHorizontal_Strength_Error" = "red",
+  "MullerLyer_Strength_Error" = "green",
+  "Ebbinghaus_Interaction_Error" = "blue",
+  "VerticalHorizontal_Interaction_Error" = "red",
+  "MullerLyer_Interaction_Error" = "green"
+)
+
+DVs_p <- c(
+  "p_Error" = "#FFC107",
+  "p_RT" = "#F44336"
+  # "p_BetaRT" = "#E91E63"
+)
+```
+
+```{r message=FALSE, warning=FALSE}
+prettify <- function(x) {
+  x <- str_remove_all(x, "IPIP6_|PID5_|ASQ_|SPQ_|PHQ4_|MAIA_|IAS_|GCBS_|LIE_|PI_")
+  case_when(
+    x == "VerticalHorizontal" ~ "Vertical-Horizontal",
+    x == "MullerLyer" ~ "Müller-Lyer",
+    x == "i" ~ "Factor i",
+    # Perceptual
+    x == "p_RT" ~ "Perception (RT)",
+    x == "p_Error" ~ "Perception (Error)",
+    x == "p_BetaRT" ~ "Perception (Attention)",
+    # Questionnaires
+    x == "HonestyHumility" ~ "Honesty-Humility",
+    x == "NegativeAffect" ~ "Negative Affect",
+    TRUE ~ x
+  )
+}
+
+
+make_correlation <- function(x, y) {
+  # Base matrix
+  r <- correlation::correlation(x,
+    y,
+    bayesian = TRUE,
+    bayesian_prior = "medium.narrow",
+    sort = TRUE
+  ) 
+  
+  # Add Spearman
+  cor <- r |>
+    datawizard::data_remove(c("ROPE_Percentage"))
+  cor$`BF (Spearman)` <- format_bf(
+    correlation::correlation(
+      x, y,
+      bayesian = TRUE,
+      ranktransform = TRUE,
+      bayesian_prior = "medium.narrow"
+    )$BF,
+    name = NULL, stars = TRUE
+  )
+
+  cor <- cor |>
+    select(-starts_with("Prior")) |> 
+    arrange(desc(BF))
+  
+  table <- filter(cor, (BF > 3) | (BF < 1/10))
+  if(nrow(table) == 0) table <- data.frame(Results = "No significant correlations.")
+  
+  list(r = cor, table = display(table), m = summary(r))
+}
+
+
+plot_correlation <- function(dfsub, x="I", y="IPIP6_Agreeableness", fill="grey") {
+  param <- cor_test(dfsub, x, y, bayesian = TRUE, bayesian_prior = "medium.narrow")
+
+  # Format stat output
+  r <- str_replace(str_remove(insight::format_value(param$rho), "^0+"), "^-0+", "-")
+  CI_low <- str_replace(str_remove(insight::format_value(param$CI_low, zap_small=TRUE), "^0+"), "^-0+", "-")
+  CI_high <- str_replace(str_remove(insight::format_value(param$CI_high, zap_small=TRUE), "^0+"), "^-0+", "-")
+
+  stat <- paste0("italic(r)~'= ", r, ", 95% CI [", CI_low, ", ", CI_high, "], BF'['10']~'", paste0(insight::format_bf(param$BF, name = "")), "'")
+
+  label <- data.frame(x = min(dfsub[[x]], na.rm=TRUE),
+                      y = max(dfsub[[y]], na.rm=TRUE))
+  
+  # Plot
+  dfsub[c(x, y)] |> 
+    na.omit() |> 
+    ggplot(aes(x=!!sym(x), y=!!sym(y))) +
+    geom_point2(size=3,
+                  color = fill,
+                  # color = DVs[x],
+                  alpha=2/3) +
+    geom_smooth(method="lm", color="black", formula="y ~ x", alpha=0.3)  +
+    labs(y = prettify(y),
+         x = ifelse(x == "I",
+                    expression("Factor"~ italic(i)),
+                    prettify(x))) +
+    annotate("label", x = label$x, y = label$y, label = stat, parse=TRUE, hjust=0, vjust=1) +
+      theme_modern() +
+      ggside::geom_xsidedensity(fill=DVs[x], color="white") +
+      ggside::geom_ysidedensity(fill=fill, color="white") +
+      ggside::theme_ggside_void() +
+      ggside::scale_ysidex_continuous(expand = c(0, 0)) +
+      ggside::scale_xsidey_continuous(expand = c(0, 0))
+}
+```
+
+
+# Perceptual
+
+
+```{r, message=FALSE, warning=FALSE}
+r <- make_correlation(dfsub[names(DVs_p)], dfsub[names(DVs)])
+r$r
+plot(r$m)
+```
+
+# Contextual
+
+## Screen Characteristics {.tabset}
+
+### Illusion
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+contextual <- make_correlation(dfsub[names(DVs)], dfsub[c("Screen_Size", "Screen_Refresh")])
+contextual$table
+
+dfsub |>
+  select(Participant, all_of(names(DVs)), Screen_Size, Screen_Refresh) |> 
+  pivot_longer(all_of(names(DVs)), names_to = "Index", values_to = "Score") |>
+  na.omit() |> 
+  ggplot(aes(x = Screen_Refresh, y = Score)) +
+  geom_point2(aes(color = Index), alpha = 0.1, size = 2) +
+  geom_smooth(aes(color = Index, group = Index, linetype = Index), se = FALSE, method = "lm", formula = 'y ~ x') +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_size_manual(values = c("NS" = 0.5, "*" = 1)) +
+  scale_linetype_manual(values = c("p_RT" = "solid", setNames(rep("dotted", 9), names(DVs)[!names(DVs) %in% c("p_RT")])), guide = "none") +
+  scale_color_manual(values = DVs) +
+  theme_modern() +
+  labs(y = "Illusion Sensitivity", x = "Screen Rehresh Rate", linetype = "Significance", size = "Significance") +
+  ggside::geom_xsidedensity(data = dfsub, fill = "grey", color = "white") +
+  ggside::geom_ysidedensity(aes(y = Score, color = Index)) +
+  ggside::theme_ggside_void() +
+  ggside::scale_ysidex_continuous(expand = c(0, 0)) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0))
+```
+
+### Perceptual
+
+```{r message=FALSE, warning=FALSE, cache=cache}
+contextual <- make_correlation(dfsub[names(DVs_p)], dfsub[c("Screen_Size", "Screen_Refresh")])
+contextual$table
+```
+
+## Task Order 
+
+```{r taskorder, message=FALSE, warning=FALSE, cache=cache}
+sig <- list()
+params <- data.frame()
+for (i in c(names(DVs), names(DVs_p))) {
+  model <- lm(paste0(i, " ~ Task_Order"), data = dfsub)
+  param <- parameters::parameters(model)
+  param$Index <- i
+  param$ymiddle <- param$Coefficient[1] + diff(param$Coefficient) / 2
+  param$BF <- parameters::parameters(BayesFactor::ttestBF(formula = as.formula(paste0(i, " ~ Task_Order")), data = dfsub[!is.na(dfsub[[i]]), ]))$BF
+  params <- rbind(params, as.data.frame(param[2, ]))
+}
+
+data <- dfsub |>
+  pivot_longer(all_of( c(names(DVs), names(DVs_p))), names_to = "Index", values_to = "Score") |>
+  mutate(
+    Index = fct_relevel(Index,  c(names(DVs), names(DVs_p))),
+    Index = fct_relabel(Index, ~ prettify(.x)),
+    Task_Order = as.factor(Task_Order)
+  ) |> 
+  select(Participant, Index, Score, Task_Order) |> 
+  na.omit()
+
+
+p_order <- data |>
+  ggplot(aes(x = Index, y = Score)) +
+  stat_slab(data = filter(data, Task_Order == "1"), aes(fill = Task_Order), side = "left", scale = 0.5, position = "dodge") +
+  stat_slab(data = filter(data, Task_Order == "2"), aes(fill = Task_Order), side = "right", scale = 0.5, position = "dodge") +
+  stat_pointinterval(aes(group = Task_Order), point_interval = "mean_qi", position = "dodge") +
+  geom_text(data = mutate(params, sig = insight::format_bf(BF, stars_only = TRUE), Index = prettify(Index)), aes(label = sig, y = ymiddle), size = 6) +
+  geom_label(
+    data = mutate(params, label = insight::format_bf(BF, protect_ratio = TRUE, stars = TRUE), Index = prettify(Index)),
+    aes(label = label), y = 2.7, size = 3
+  ) +
+  scale_fill_manual(values = c("1" = "blue", "2" = "orange")) +
+  scale_x_discrete(labels = function(x) ifelse(x == "i", "Factor i", x)) +
+  theme_minimal() +
+  labs(fill = "", x = "Task Order", y = "Illusion Sensitivity", title = "Task Order") +
+  theme(
+    legend.position = "top",
+    axis.title.x = element_blank(),
+    plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5)
+  )
+p_order
+# ggsave("figures/figure_sex.png", p_gender, width=15166, height=5000, bg="white", units = "px", limitsize = FALSE, scale = 0.3)
+```
+
+
+# Demographics
+
+## Sex {.tabset}
+
+### Illusion
+
+```{r isex, message=FALSE, warning=FALSE, cache=cache}
+sig <- list()
+params <- data.frame()
+for (i in names(DVs)) {
+  model <- lm(paste0(i, " ~ Sex"), data = dfsub)
+  param <- parameters::parameters(model)
+  param$Index <- i
+  param$ymiddle <- param$Coefficient[1] + diff(param$Coefficient) / 2
+  param$BF <- parameters::parameters(BayesFactor::ttestBF(formula = as.formula(paste0(i, " ~ Sex")), data = dfsub[!is.na(dfsub[[i]]), ]))$BF
+  params <- rbind(params, as.data.frame(param[2, ]))
+}
+
+format_table(params) |> 
+  mutate(Parameter = "Female - Male") |> 
+  display()
+
+# Plot
+data <- dfsub |>
+  pivot_longer(all_of(names(DVs)), names_to = "Index", values_to = "Score") |>
+  mutate(
+    Index = fct_relevel(Index, names(DVs)),
+    Index = fct_relabel(Index, ~ prettify(.x))
+  ) |> 
+  select(Participant, Index, Score, Sex) |> 
+  na.omit()
+
+
+p_gender <- data |>
+  ggplot(aes(x = Index, y = Score)) +
+  stat_slab(data = filter(data, Sex == "Male"), aes(fill = Sex), side = "left", scale = 0.5, position = "dodge") +
+  stat_slab(data = filter(data, Sex == "Female"), aes(fill = Sex), side = "right", scale = 0.5, position = "dodge") +
+  stat_pointinterval(aes(group = fct_rev(Sex)), point_interval = "mean_qi", position = "dodge") +
+  geom_text(data = mutate(params, sig = insight::format_bf(BF, stars_only = TRUE), Index = prettify(Index)), aes(label = sig, y = ymiddle), size = 6) +
+  geom_label(
+    data = mutate(params, label = insight::format_bf(BF, protect_ratio = TRUE, stars = TRUE), Index = prettify(Index)),
+    aes(label = label), y = 1, size = 3
+  ) +
+  scale_fill_manual(values = c("Male" = "#2196F3", "Female" = "#E91E63"), guide = guide_legend(reverse = TRUE)) +
+  theme_minimal() +
+  labs(fill = "", x = "Sex", y = "Illusion Sensitivity", title = "Sex") +
+  theme(
+    legend.position = "top",
+    axis.title.x = element_blank(),
+    plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5)
+  )
+
+p_gender
+# ggsave("figures/figure_sex.png", p_gender, width=15166, height=5000, bg="white", units = "px", limitsize = FALSE, scale = 0.3)
+```
+
+
+### Perceptual
+
+```{r psex, message=FALSE, warning=FALSE, cache=cache}
+sig <- list()
+params <- data.frame()
+for (i in names(DVs_p)) {
+  model <- lm(paste0(i, " ~ Sex"), data = dfsub)
+  param <- parameters::parameters(model)
+  param$Index <- i
+  param$BF <- parameters::parameters(BayesFactor::ttestBF(formula = as.formula(paste0(i, " ~ Sex")), data = dfsub[!is.na(dfsub[[i]]), ]))$BF
+  params <- rbind(params, as.data.frame(param[2, ]))
+}
+
+format_table(params) |> 
+  mutate(Parameter = "Female - Male") |> 
+  display()
+```
+
+
+
+<!-- ## Age -->
+
+<!-- ```{r age_stats, message=FALSE, warning=FALSE, cache=cache} -->
+<!-- preds <- data.frame() -->
+<!-- for (i in names(DVs)) { -->
+<!--   gam <- brms::brm(paste0(i, " ~ s(Age)"), data = dfsub, refresh = 0) -->
+<!--   model <- brms::brm(paste0(i, " ~ poly(Age, 3)"), data = dfsub, refresh = 0) -->
+
+<!--   param <- parameters::parameters(model) -->
+<!--   slopes <- estimate_slopes(gam, trend = "Age") -->
+
+<!--   pred <- get_datagrid(gam, at = "Age", length = 50) -->
+<!--   pred$Predicted <- get_predicted(gam, data = pred) -->
+
+<!--   pred$ylabel <- pred$Predicted[50] -->
+<!--   pred$Index <- i -->
+<!--   pred$Effect <- slopes$Coefficient -->
+<!--   pred$pd_gam <- slopes$pd -->
+<!--   pred$pd_poly1 <- param$pd[2] -->
+<!--   pred$pd_poly2 <- param$pd[3] -->
+<!--   preds <- rbind(preds, pred) -->
+<!-- } -->
+
+<!-- preds |> -->
+<!--   group_by(Index) |> -->
+<!--   slice(1) |> -->
+<!--   select(-Predicted, -Age) |> -->
+<!--   arrange(desc(pd_gam)) -->
+
+<!-- p_age <- preds |> -->
+<!--   mutate( -->
+<!--     pd_gam = format_pd(pd_gam, stars_only = TRUE), -->
+<!--     pd_gam = ifelse(pd_gam == "", "NS", pd_gam) -->
+<!--   ) |> -->
+<!--   ggplot(aes(x = Age, y = Predicted)) + -->
+<!--   geom_line(aes(color = Index, group = Index, linetype = pd_gam, size = pd_gam)) + -->
+<!--   ggrepel::geom_label_repel( -->
+<!--     data = preds |> -->
+<!--       group_by(Index) |> -->
+<!--       slice(1) |> -->
+<!--       mutate(label = prettify_itemName(ifelse(Index == "i", "Factor i", Index))), -->
+<!--     aes(y = ylabel, label = label, x = 69, color = Index), hjust = 0, direction = "y", -->
+<!--     min.segment.length = 3 -->
+<!--   ) + -->
+<!--   scale_size_manual(values = c("NS" = 0.5, "*" = 1, "**" = 1, "***" = 1)) + -->
+<!--   scale_linetype_manual(values = c("NS" = "dotted", "*" = "solid", "**" = "solid", "***" = "solid")) + -->
+<!--   scale_x_continuous(expand = c(0, 0)) + -->
+<!--   scale_color_manual(values = DVs) + -->
+<!--   guides(size = "none", linetype = "none", color = "none") + -->
+<!--   theme_modern() + -->
+<!--   labs(y = "Illusion Sensitivity", title = "Age") + -->
+<!--   theme( -->
+<!--     legend.position = "top", -->
+<!--     axis.title.x = element_blank(), -->
+<!--     axis.title.y = element_blank(), -->
+<!--     plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5) -->
+<!--   ) -->
+
+<!-- p_age -->
+<!-- ``` -->
+
+
+
+<!-- ## Education -->
+
+<!-- ```{r education_stats, message=FALSE, warning=FALSE, cache=cache} -->
+<!-- preds <- data.frame() -->
+<!-- for (i in names(DVs)) { -->
+<!--   model <- brms::brm(paste0(i, " ~ mo(as.numeric(Education))"), data = filter(dfsub, !Education %in% c("Other", "Prefer not to Say")), refresh = 0) -->
+<!--   param <- bayestestR::describe_posterior(as.data.frame(model)["bsp_moas.numericEducation"]) -->
+
+<!--   pred <- estimate_relation(model) -->
+<!--   pred$Index <- i -->
+<!--   pred$sig <- param$pd -->
+<!--   preds <- rbind(preds, pred) -->
+<!-- } -->
+
+<!-- preds |> -->
+<!--   mutate( -->
+<!--     sig = format_pd(sig, stars_only = TRUE), -->
+<!--     sig = ifelse(sig == "", "NS", sig) -->
+<!--   ) |> -->
+<!--   ggplot(aes(x = Education, y = Predicted)) + -->
+<!--   geom_line(aes(color = Index, group = Index, linetype = sig, size = sig)) + -->
+<!--   scale_size_manual(values = c("NS" = 0.5, "*" = 1)) + -->
+<!--   scale_linetype_manual(values = c("NS" = "dotted", "*" = "solid")) + -->
+<!--   theme_modern() -->
+<!-- ``` -->
+
+
+
+
+
+## Ethnicity {.tabset}
+
+### Illusion
+
+```{r education_stats, message=FALSE, warning=FALSE, cache=cache}
+params <- data.frame()
+means <- data.frame()
+for (i in names(DVs)) {
+  # model <- brms::brm(paste0(i, " ~ Ethnicity"), data = filter(dfsub, !Ethnicity %in% c("Other")), refresh = 0)
+  model <- lm(paste0(i, " ~ Ethnicity"), data = filter(dfsub, !Ethnicity %in% c("Other")))
+  param <- estimate_contrasts(model, contrast="Ethnicity", p_adjust = "holm")
+  mean <- estimate_means(model, at="Ethnicity")
+  
+  param$Index <- i
+  param$sig <- param$pd
+  params <- rbind(params, param)
+  mean$Index <- i
+  means <- rbind(means, mean)
+}
+
+params |> 
+  arrange(p) |> 
+  filter(p < .1) |> 
+  format_table() |> 
+  display()
+
+means |>
+  mutate(Index = prettify(Index)) |> 
+  ggplot(aes(x = Ethnicity, y = Mean, color = Index, group=Index)) +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  geom_line(position = position_dodge(width = 0.15)) +
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high), position = position_dodge(width = 0.15)) +
+  scale_color_manual(values = setNames(DVs, prettify(names(DVs)))) +
+  theme_modern() +
+  theme(axis.title.x = element_blank())
+
+
+# params |>
+#   mutate(Contrast = paste0(Level1, " - ", Level2),
+#          Index = prettify(Index)) |> 
+#   ggplot(aes(x = Contrast, y = Difference, color = Index, group=Index)) +
+#   geom_hline(yintercept = 0, linetype = "dotted") +
+#   geom_line(position = position_dodge(width = 0.1)) +
+#   geom_pointrange(aes(ymin = CI_low, ymax = CI_high), position = position_dodge(width = 0.1)) +
+#   scale_color_manual(values = setNames(DVs, prettify(names(DVs)))) +
+#   theme_modern() +
+#   theme(axis.text.x = element_text(angle= 45, hjust = 1),
+#         axis.title.x = element_blank())
+```
+
+### Perceptual
+
+```{r education_stats, message=FALSE, warning=FALSE, cache=cache}
+params <- data.frame()
+means <- data.frame()
+for (i in names(DVs_p)) {
+  # model <- brms::brm(paste0(i, " ~ Ethnicity"), data = filter(dfsub, !Ethnicity %in% c("Other")), refresh = 0)
+  model <- lm(paste0(i, " ~ Ethnicity"), data = filter(dfsub, !Ethnicity %in% c("Other")))
+  param <- estimate_contrasts(model, contrast="Ethnicity", p_adjust = "holm")
+  mean <- estimate_means(model, at="Ethnicity")
+  
+  param$Index <- i
+  param$sig <- param$pd
+  params <- rbind(params, param)
+  mean$Index <- i
+  means <- rbind(means, mean)
+}
+
+params |> 
+  arrange(p) |> 
+  filter(p < .1) |> 
+  format_table() |> 
+  display()
+
+means |>
+  mutate(Index = prettify(Index)) |> 
+  ggplot(aes(x = Ethnicity, y = Mean, color = Index, group=Index)) +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  geom_line(position = position_dodge(width = 0.15)) +
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high), position = position_dodge(width = 0.15)) +
+  scale_color_manual(values = setNames(DVs_p, prettify(names(DVs_p)))) +
+  theme_modern() +
+  theme(axis.title.x = element_blank())
+```
+
+
+# Personality {.tabset}
+
+## IPIP6 {.tabset}
+
+### Illusion
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+ipip <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("IPIP")))
+ipip$table
+ipip$r
+```
+
+### Perceptual
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+ipip_p <- make_correlation(dfsub[names(DVs_p)], select(dfsub, starts_with("IPIP")))
+ipip_p$table
+
+plot_correlation(dfsub, x="p_RT", y="IPIP6_Agreeableness", fill="grey")
+plot_correlation(dfsub, x="p_RT", y="IPIP6_Openness", fill="grey")
+```
+
+## PID-5
+
+### Illusion
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+pid <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("PID")))
+pid$table
+pid$r
+plot(pid$m)
+```
+
+### Perceptual
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+pid_p <- make_correlation(dfsub[names(DVs_p)], select(dfsub, starts_with("PID")))
+pid_p$table
+```
+
+# Psychopathology {.tabset}
+
+## ASQ
+
+```{r, message=FALSE, warning=FALSE}
+asq <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("ASQ_")))
+asq$table
+```
+
+## SPQ
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+spq <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("SPQ_"))) 
+spq$table
+```
+
+## BPD
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+bpd <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("BPD"))) 
+bpd$table
+```
+
+## PHQ
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+phq <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("PHQ4_"))) 
+phq$table
+```
+
+# Interoception {.tabset}
+
+## IAS 
+
+```{r, message=FALSE, warning=FALSE}
+dfsub$IAS_General <- rowMeans(select(dfsub, starts_with("IAS")))
+ias <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("IAS")))
+ias$table
+```
+
+## MAIA
+
+```{r, message=FALSE, warning=FALSE}
+maia <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("MAIA")))
+maia$table
+```
+
+# Other {.tabset}
+
+## Primal Beliefs
+
+```{r, message=FALSE, warning=FALSE}
+pi <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("PI_")))
+pi$table
+```
+
+## Lie Scale
+
+```{r, message=FALSE, warning=FALSE}
+lie <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("LIE_")))
+lie$table
+```
+
+## Conspiracy Beliefs
+
+```{r, message=FALSE, warning=FALSE}
+gcbs <- make_correlation(dfsub[names(DVs)], select(dfsub, starts_with("GCBS_")))
+gcbs$table
+```
+
+
+# Figure
+
+
+```{r ipip_stats, message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+data <- rbind(
+  mutate(ipip$r, Domain = "Normal Personality"),
+  mutate(pid$r, Domain = "Maladaptive Personality"),
+  mutate(asq$r, Domain = "Autististic Traits"),
+  mutate(spq$r, Domain = "Schizotypic Traits"),
+  mutate(bpd$r, Domain = "Mood"),
+  mutate(phq$r, Domain = "Mood"),
+  filter(mutate(ias$r, Domain = "Interoception"), Parameter2 == "IAS_General"),
+  mutate(maia$r, Domain = "Interoception"),
+  mutate(gcbs$r, Domain = "Conspiracy Beliefs"),
+  mutate(lie$r, Domain = "Lying Profile"),
+  mutate(pi$r, Domain = "Primal World Beliefs")
+) |> 
+  mutate(alpha = case_when(`BF (Spearman)` >= 10 ~ "BF >= 10", `BF (Spearman)` < .01 ~ "BF < 1/10", TRUE ~ "BF < 10"),
+         Domain = fct_relevel(Domain, "Normal Personality", "Maladaptive Personality", "Autististic Traits", "Schizotypic Traits", "Mood", "Interoception", "Conspiracy Beliefs", "Lying Profile", "Primal World Beliefs"),
+         Parameter1 = prettify(Parameter1),
+         Parameter2 = prettify(Parameter2),
+         color = paste0(as.character(sign(rho)), Domain)) 
+
+colors <- c(
+    "-1Normal Personality" = "#43A047", 
+    "1Normal Personality" = "#43A047",
+    "-1Maladaptive Personality" = "#00897B", 
+    "1Maladaptive Personality" = "#00897B", 
+    "-1Autististic Traits" = "#00BCD4",
+    "1Autististic Traits" = "#00BCD4", 
+    "-1Schizotypic Traits" = "#03A9F4",
+    "1Schizotypic Traits" = "#03A9F4", 
+    "-1Mood" = "#2196F3", 
+    "1Mood" = "#2196F3",
+    "-1Interoception" = "#F44336", 
+    "1Interoception" = "#F44336",
+    "-1Conspiracy Beliefs" = "#9C27B0", 
+    "1Conspiracy Beliefs" = "#9C27B0",
+    "-1Lying Profile" = "#3F51B5", 
+    "1Lying Profile" = "#3F51B5",
+    "-1Primal World Beliefs" = "#FFC107", 
+    "1Primal World Beliefs" = "#FFC107")
+
+p_cor <- data |>
+  mutate(Parameter2 = fct_relevel(Parameter2, arrange(filter(data, Parameter1 == "Perception (Attention)"), Domain, rho)[["Parameter2"]])) |>
+  ggplot(aes(x = rho, y = Parameter2)) +
+  geom_bar(aes(alpha = alpha, fill = color), stat = "identity") +
+  geom_linerange(aes(alpha = alpha, xmin = CI_low, xmax = CI_high, color = color)) +
+  geom_vline(xintercept = 0) +
+  facet_grid(Domain~Parameter1, scales="free_y", switch ="y") +
+  scale_alpha_manual(values = c(0.2, 0.9), guide="none") +
+  scale_colour_manual(values = colors, guide="none") +
+  scale_fill_manual(values = colors, guide="none") +
+  scale_x_continuous(expand = c(0, 0), breaks = seq(-0.2, 0.2, by=0.1)) +
+  coord_cartesian(xlim = c(-0.3, 0.3)) +
+  labs(title = "Correlation with Dispositional Traits") +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        plot.title = element_text(size = rel(1.5), face = "bold", hjust = 0.5),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        strip.placement.y = "outside",
+        strip.background.x = element_rect(fill = "#E0E0E0", color = "white"),
+        strip.text.x = element_text(face = "bold", size = rel(1.1)),
+        strip.text.y = element_text(face = "bold", size = rel(0.95)))
+p_cor
+
+# Final plot
+load_plot <- function(x) patchwork::wrap_elements(grid::rasterGrob(png::readPNG(x), interpolate = TRUE))
+
+p_demo <- (
+  load_plot("figures/1_Preprocessing-p_demographics_country-1.png") |
+    load_plot("figures/1_Preprocessing-p_demographics_age-1.png") | 
+  load_plot("figures/1_Preprocessing-p_demographics_ethnicity-1.png") |
+    load_plot("figures/1_Preprocessing-p_demographics_education-1.png")
+) + plot_annotation(title = "Demographic Information", subtitle = "N = 497 (49.9% ♀)",
+                    theme = theme(plot.title = element_text(size = rel(1.5), face = "bold", hjust = 0.5),
+                                  plot.subtitle = element_text(size = rel(1.1), face = "italic", hjust = 0.5)))
+p_demo
+
+
+# p_demo <- patchwork::wrap_elements(grid::rasterGrob(png::readPNG("figures/figure_demographics.png"), interpolate = TRUE))
+p <- (patchwork::wrap_elements(p_demo) / 
+        patchwork::wrap_elements(patchwork::wrap_elements(p_cor + theme(plot.title = element_blank())) + plot_annotation(
+          title = "Correlation with Dispositional Traits", 
+          theme = theme(plot.title = element_text(size = rel(1.5), face = "bold", hjust = 0.5))))
+      ) + plot_layout(heights = c(1/4, 3/4))
+ggsave("figures/figure_correlations.png", p, width = 12 * sqrt(2), height=12 * sqrt(2), dpi=150)
+```
+
+

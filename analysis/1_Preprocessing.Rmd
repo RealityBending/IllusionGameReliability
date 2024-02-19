@@ -26,12 +26,12 @@ options(
 cache <- FALSE
 runModels <- FALSE
 bestModels <- TRUE
-fig.width <- see::golden_ratio(7)
-fig.height <- 7
+fig.width <- 6 * sqrt(2) # see::golden_ratio(7)
+fig.height <- 6
 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  dpi = 450,
+  dpi = 300,
   fig.path = "./figures/1_Preprocessing-",
   fig.width = fig.width,
   fig.height = fig.height
@@ -206,10 +206,10 @@ for(i in 1:5) {
   plot_distribution()
 }
 p <- patchwork::wrap_plots(p, ncol=5, nrow=1) + plot_layout(guides = "collect")
-ggsave("figures/1_Preprocessing-outliers_RT.png", p, width = 7*5, height = 24, dpi = 150)
+ggsave("figures/1_Preprocessing-p_outliers_RT.png", p, width = 7*5, height = 24, dpi = 150)
 ```
 ```{r message=FALSE, warning=FALSE, cache=cache, out.width="100%"}
-knitr::include_graphics("figures/1_Preprocessing-outliers_RT.png")
+knitr::include_graphics("figures/1_Preprocessing-p_outliers_RT.png")
 ```
 
 
@@ -227,7 +227,7 @@ perceptual <- filter(perceptual, !(Participant %in% outliers_perceptual_block2 &
 
 For each block, we computed the error rate and, if more than 50%, we discarded the whole block (as it likely indicates that instructions got mixed up, for instance participants were selecting the smaller instead of the bigger circle).
 
-```{r outliers_errorblock, message=FALSE, warning=FALSE}
+```{r p_outliers_errorblock, message=FALSE, warning=FALSE}
 data <- rbind(illusion1, illusion2, perceptual) |>
   group_by(Participant, Task, Illusion_Type, Block) |>
   summarize(ErrorRate_per_block = sum(Error) / n()) |>
@@ -351,7 +351,7 @@ check_trials <- function(df) {
 
 ### Illusion Task (Session 1)
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r p_outliers_RTtrials_session1, message=FALSE, warning=FALSE, results='asis'}
 out <- check_trials(illusion1)
 print(paste("Illusion (session 1):", out$text))
 out$p
@@ -361,7 +361,7 @@ illusion1 <- out$data
 
 ### Illusion Task (Session 2)
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r p_outliers_RTtrials_session2, message=FALSE, warning=FALSE, results='asis'}
 out <- check_trials(illusion2)
 print(paste("Illusion (session 2):", out$text))
 out$p
@@ -371,7 +371,7 @@ illusion2 <- out$data
 
 ### Perceptual Task
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r p_outliers_RTtrials_perceptual, message=FALSE, warning=FALSE, results='asis'}
 out <- check_trials(perceptual)
 print(paste("Perceptual task:", out$text))
 out$p
@@ -499,85 +499,111 @@ The final sample included `r report::report_participants(sub, age="Age", sex="Se
 
 ## Country of Origin
 
-```{r message=FALSE, warning=FALSE}
-select(sub, region = Nationality) |>
+```{r p_demographics_country, message=FALSE, warning=FALSE, dpi=200}
+p_country <- select(sub, region = Nationality) |>
   group_by(region) |>
   summarize(n = n()) |>
   right_join(map_data("world"), by = "region") |>
   ggplot(aes(long, lat, group = group)) +
   geom_polygon(aes(fill = n)) +
   scale_fill_gradientn(colors = c("#FFEB3B", "red", "purple")) +
-  labs(fill = "Number") +
+  labs(fill = "N") +
   theme_void() +
-  ggtitle("Number of participants by country of origin")
+  labs(title = "Origin", subtitle = "N participants by country")  +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2))
+  )
+p_country
 ```
 
 ## Age
 
-```{r message=FALSE, warning=FALSE}
-estimate_density(sub$Age) |>
+```{r p_demographics_age, message=FALSE, warning=FALSE, dpi=200}
+p_age <- estimate_density(sub$Age) |>
   normalize(select = y) |> 
-  ggplot(aes(x = x, y = y)) +
-  geom_area(fill = "#607D8B") +
-  geom_vline(xintercept = mean(sub$Age), color = "red") +
-  geom_label(data = data.frame(x = mean(sub$Age) * 1.1, y = 0.95), color = "red", label = paste0("Mean = ", format_value(mean(sub$Age)))) +
+  mutate(y = y * 86) |>  # To match the binwidth
+  ggplot(aes(x = x)) +
+  geom_histogram(data=sub, aes(x = Age), fill = "#616161", bins=28) +
+  geom_line(aes(y = y), color = "orange", linewidth=2) +
+  geom_vline(xintercept = mean(sub$Age), color = "red", linewidth=1.5) +
+  geom_label(data = data.frame(x = mean(sub$Age) * 1.15, y = 0.95 * 75), aes(y = y), color = "red", label = paste0("Mean = ", format_value(mean(sub$Age)))) +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
-  labs(title = "Age", y = "Distribution", color = NULL) +
+  labs(title = "Age", y = "Number of Participants", color = NULL, subtitle = "Distribution of participants' age") +
   theme_modern(axis.title.space = 10) +
   theme(
-    plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(face = "italic", hjust = 0.5),
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = rel(0.8)),
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
     axis.title.x = element_blank()
   )
+p_age
 ```
 
 
 ## Ethnicity
 
-```{r message=FALSE, warning=FALSE}
+```{r p_demographics_ethnicity, message=FALSE, warning=FALSE, dpi=200}
 plot_waffle <- function(sub, what = "Nationality", title = what, rows = 8, size = 3) {
   ggwaffle::waffle_iron(sub, what, rows = rows) |>
     ggplot(aes(x, y)) +
     geom_point(aes(color = group), shape = "square", size = size) +
     coord_equal() +
     ggtitle(title) +
-    labs(fill = "", color = "") +
+    labs(fill = "", color = "", subtitle = "N participants per self-declared group") + # (each square represents one participant)"
     theme_void() +
     theme(
-      plot.title = element_text(face = "bold", hjust = 0.5),
+      plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+      plot.subtitle = element_text(size = rel(1.2)),
       legend.key.height = unit(1, "mm"),
       legend.key.width = unit(1, "mm")
     )
 }
 
-plot_waffle(sub, "Ethnicity", rows = 20, size = 5) +
+p_ethni <- plot_waffle(sub, "Ethnicity", rows = 20, size = 8) +
   scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Asian" = "#FFC107", "Other" = "#795548"))
+p_ethni
 ```
 
 
 ## Education
 
-```{r message=FALSE, warning=FALSE}
-sub |>
+```{r p_demographics_education, message=FALSE, warning=FALSE, dpi=200}
+p_edu <- sub |>
   ggplot(aes(x = Education)) +
   geom_bar(aes(fill = Education)) +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
   scale_fill_viridis_d(guide = "none") +
-  labs(title = "Education", y = "Number of Participants") +
+  labs(title = "Education", y = "Number of Participants", subtitle = "N participants per achieved education level") +
   theme_modern(axis.title.space = 15) +
   theme(
-    plot.title = element_text(size = rel(1), face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(face = "italic", hjust = 0.5),
-    axis.text.y = element_text(size = rel(0.8)),
-    axis.text.x = element_text(size = rel(0.8)),
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
     axis.title.x = element_blank()
   )
+p_edu
 ```
 
 
+
+```{r p_demographics, message=FALSE, warning=FALSE, fig.height=12, fig.width=12 * sqrt(2)}
+load_plot <- function(x) patchwork::wrap_elements(grid::rasterGrob(png::readPNG(x), interpolate = TRUE))
+
+p <- (
+  load_plot("figures/1_Preprocessing-p_demographics_country-1.png") |
+    load_plot("figures/1_Preprocessing-p_demographics_age-1.png")) / (
+  load_plot("figures/1_Preprocessing-p_demographics_ethnicity-1.png") |
+    load_plot("figures/1_Preprocessing-p_demographics_education-1.png")
+) + plot_annotation(title = "Demographic Information", subtitle = paste0("N = ", nrow(sub), " (49.9% ♀)"),
+                    theme = theme(plot.title = element_text(size = rel(1.5), face = "bold", hjust = 0.5),
+                                  plot.subtitle = element_text(size = rel(1.1), face = "italic", hjust = 0.5)))
+p
+ggsave("figures/figure_demographics.png", p, width = 12 * sqrt(2), height=12)
+```
 
 # Save Preprocessed
 
