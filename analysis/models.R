@@ -1,7 +1,7 @@
 library(tidyverse)
 library(brms)
 
-path <- "/mnt/lustre/users/psych/dmm56/FictionEro/models/"
+path <- "/mnt/lustre/users/psych/dmm56/IllusionGameReliability/models/"
 # path <- "./models/"
 iter <- 1000
 cores <- parallel::detectCores(logical = FALSE)
