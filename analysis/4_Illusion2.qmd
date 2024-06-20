@@ -1,19 +1,23 @@
 ---
 title: "Illusion Game Reliability"
-subtitle: "Score Reliability"
-author: "Dominique Makowski et al."
-output:
-  html_document:
-    toc: true
-    toc_depth: 2
-    theme: paper
-    code_folding: hide
+subtitle: "Test-retest reliability"
 date: "`r Sys.Date()`"
+editor: source
 editor_options: 
   chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute: 
+  cache: false
 ---
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+```{r}
+#| echo: false
+
 options(
   digits = 3,
   mc.cores = 4,
@@ -23,28 +27,22 @@ options(
   knitr.kable.NA = ""
 )
 
-cache <- FALSE
-runModels <- TRUE
-bestModels <- TRUE
 fig.width <- 7 * sqrt(2)  # see::golden_ratio(7)
 fig.height <- 7
 
 knitr::opts_chunk$set(
   collapse = TRUE,
   dpi = 450,
-  fig.path = "./figures/4-Illusion2-",
   fig.width = fig.width,
   fig.height = fig.height
 )
 ```
 
 
+```{r}
+#| message: false
+#| warning: false
 
-# Individual models
-
-## Computation
-
-```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggdist)
 library(ggside)
@@ -63,10 +61,12 @@ df <- read.csv("../data/preprocessed_illusion1.csv") |>
   )
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 # Retrieve get_scores() function
-knitr::read_chunk("3_Illusion1.Rmd", labels="get_scores", from=958, to=1019)
+knitr::read_chunk("3_Illusion1.qmd", labels="get_scores", from=992, to=1020)
 eval(parse(text = knitr::knit_code$get()$get_scores))
+knitr::read_chunk("3_Illusion1.qmd", labels="tidy_scores", from=1119, to=1127)
+eval(parse(text = knitr::knit_code$get()$tidy_scores))
 
 load("models/illusion1_ebbinghaus_err.Rdata")
 load("models/illusion1_ebbinghaus_rt.Rdata")
@@ -76,7 +76,14 @@ load("models/illusion1_verticalhorizontal_err.Rdata")
 load("models/illusion1_verticalhorizontal_rt.Rdata")
 ```
 
-```{r message=FALSE, warning=FALSE, eval=FALSE}
+
+## Individual models
+
+### Computation
+
+```{r}
+#| eval: false
+
 get_params <- function(model, data, prior_scale = 1) {
   family <- insight::find_response(model)
   f <- insight::find_formula(model)
@@ -168,9 +175,11 @@ for(sub in setdiff(unique(df$Participant), c(already_done, "S110"))) {
 }
 ```
 
-## Comparison
+### Comparison
 
-```{r message=FALSE, warning=FALSE}
+#### Correlation
+
+```{r}
 data <- read.csv("../data/scores_individual.csv") |> 
   # standardize(exclude = c("Participant", "PriorScale")) |> 
   data_to_long(-starts_with("Participant|PriorScale"),
@@ -184,24 +193,37 @@ data <- read.csv("../data/scores_individual.csv") |>
     by = c("Participant", "Score")) |> 
   mutate(PriorScale = as.factor(PriorScale))
    
+
 data1 <- read.csv("../data/scores_individual.csv") |> 
-  filter(PriorScale == 1) |> 
+  filter(PriorScale == 4) |> 
   full_join(datawizard::data_addprefix(read.csv("../data/scores_illusion1.csv"), "Mod_", exclude = "Participant"), by = "Participant")
 
   
 correlation(select(data1, starts_with("Ind_")), select(data1, starts_with("Mod_"))) |> 
   mutate(Parameter1 = str_remove_all(Parameter1, "Ind_"),
          Parameter2 = str_remove_all(Parameter2, "Mod_")) |> 
-  filter(Parameter1 == Parameter2) 
+  filter(Parameter1 == Parameter2) |> 
+  separate(Parameter1, into = c("Illusion", "Parameter"), sep = "_", extra="merge") |>
+  select(-Parameter2, -Method, -n_Obs) |> 
+  arrange(Illusion, desc(r)) |>
+  insight::format_table() |> 
+  gt::gt() |> 
+  gt::opt_stylize() |> 
+  gt::tab_header("Individual Model vs. Mixed Model Correlation")
+```
 
+#### Effect of Priors
+
+```{r}
 model <- lm(MixedModel ~ Score / (IndividualModel * PriorScale), data=data)
-slopes <- estimate_slopes(model, trend = "IndividualModel", at = c("Score", "PriorScale"))
+slopes <- estimate_slopes(model, trend = "IndividualModel", by = c("Score", "PriorScale"))
 
 slopes |> 
   cbind(
     effectsize::t_to_r(slopes$t, slopes$df_error) |> 
       datawizard::data_addprefix("r_", exclude = "r")) |> 
   ggplot(aes(x = PriorScale, y = r)) +
+  geom_line(aes(color = Score, group=Score), position = position_dodge(width = 0.2)) +
   geom_pointrange(aes(ymin = r_CI_low, ymax = r_CI_high, color = Score), 
                   position = position_dodge(width = 0.2)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -209,25 +231,80 @@ slopes |>
 ```
 
 
-# Test-Retest
+## Test-Retest
 
-## Session 2 Scores
+### Session 2 Scores
 
-```{r message=FALSE, warning=FALSE}
-df <- read.csv("../data/preprocessed_illusion2.csv") |>
+```{r}
+df2 <- read.csv("../data/preprocessed_illusion2.csv") |>
   mutate(
     Block = as.factor(Block),
-    Illusion_Side = as.factor(Illusion_Side)
+    Illusion_Side = as.factor(Illusion_Side),
+    Illusion_Effect = fct_relevel(as.factor(Illusion_Effect), "Incongruent", "Congruent")
   )
 ```
 
 
 
-```{r message=FALSE, warning=FALSE}
-# illusion2_ebbinghaus_err <- update(illusion1_ebbinghaus_err, 
-#                                    newdata=filter(df, Illusion_Type == "Ebbinghaus"))
+```{r}
+#| eval: false
 
-# get_scores()
+illusion2_ebbinghaus_err <- update(illusion1_ebbinghaus_err,
+                                   newdata=filter(df2, Illusion_Type == "Ebbinghaus"))
+save(illusion2_ebbinghaus_err, file = "models/illusion2_ebbinghaus_err.Rdata")
+
+illusion2_ebbinghaus_rt <- update(illusion1_ebbinghaus_rt,
+                                  newdata=filter(df2, Illusion_Type == "Ebbinghaus", Error==0))
+save(illusion2_ebbinghaus_rt, file = "models/illusion2_ebbinghaus_rt.Rdata")
+
+illusion2_mullerlyer_err <- update(illusion1_mullerlyer_err,
+                                  newdata=filter(df2, Illusion_Type == "MullerLyer"))
+save(illusion2_mullerlyer_err, file = "models/illusion2_mullerlyer_err.Rdata")
+
+illusion2_mullerlyer_rt <- update(illusion1_mullerlyer_rt,
+                                 newdata=filter(df2, Illusion_Type == "MullerLyer", Error==0))
+save(illusion2_mullerlyer_rt, file = "models/illusion2_mullerlyer_rt.Rdata")
+
+illusion2_verticalhorizontal_err <- update(illusion1_verticalhorizontal_err,
+                                          newdata=filter(df2, Illusion_Type == "VerticalHorizontal"))
+save(illusion2_verticalhorizontal_err, file = "models/illusion2_verticalhorizontal_err.Rdata")
+
+illusion2_verticalhorizontal_rt <- update(illusion1_verticalhorizontal_rt,
+                                         newdata=filter(df2, Illusion_Type == "VerticalHorizontal", Error==0))
+save(illusion2_verticalhorizontal_rt, file = "models/illusion2_verticalhorizontal_rt.Rdata")
 ```
 
-## Comparison
+### Comparison
+
+```{r}
+# for(m in c("ebbinghaus", "mullerlyer", "verticalhorizontal")) {
+#   for(i in c("err", "rt")) {
+#     load(paste0("models/illusion2_", m, "_", i, ".Rdata"))
+#   }
+# }
+load("models/illusion2_ebbinghaus_err.Rdata")
+load("models/illusion2_mullerlyer_err.Rdata")
+load("models/illusion2_verticalhorizontal_err.Rdata")
+
+scores2 <- tidy_scores(get_scores(illusion2_ebbinghaus_err, "Ebbinghaus")) |> 
+  full_join(tidy_scores(get_scores(illusion2_mullerlyer_err, "MullerLyer")), by = "Participant") |> 
+  full_join(tidy_scores(get_scores(illusion2_verticalhorizontal_err, "VerticalHorizontal")), by = "Participant") 
+```
+
+```{r}
+scores <- scores2 |> 
+  datawizard::data_addsuffix("_S2", exclude="Participant") |> 
+  dplyr::full_join(read.csv("../data/scores_illusion1.csv"), by = "Participant")
+
+correlation(select(scores, -ends_with("_S2")), select(scores, ends_with("_S2"))) |> 
+  mutate(Parameter2 = str_remove(Parameter2, "_S2")) |>
+  filter(Parameter1 == Parameter2) |> 
+  separate(Parameter1, into = c("Illusion", "Parameter"), sep = "_", extra="merge") |>
+  select(-Parameter2, -Method, -n_Obs) |> 
+  arrange(Illusion, desc(r)) |>
+  insight::format_table() |> 
+  gt::gt() |> 
+  gt::opt_stylize() |> 
+  gt::tab_header("Test-Retest Correlations")
+```
+
