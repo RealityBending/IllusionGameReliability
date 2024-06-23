@@ -33,35 +33,35 @@ write.csv(as.data.frame(log), paste0(path, "log.csv"))
 # Session 1 ===============================================================
 # Ebbinghaus --------------------------------------------------------------
 
-t0 <- Sys.time()
-
-formula <- brms::bf(
-  Error ~ Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) +
-    (1 + Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
-  family = "bernoulli",
-  decomp = "QR"
-)
-
-illusion1_ebbinghaus_err <- brms::brm(formula,
-                                      data = filter(df, Illusion_Type == "Ebbinghaus"),
-                                      refresh = 100,
-                                      normalize = FALSE,
-                                      init = 0,
-                                      seed=123,
-                                      iter=iter,
-                                      chains=cores,
-                                      cores=cores,
-                                      stan_model_args = list(stanc_options = list("O1"))
-                                      )
-
-
-
-t1 <- Sys.time()
-log <- c(log, "m1" = as.numeric(difftime(t1, t0, units = "min")))
-write.csv(as.data.frame(log), paste0(path, "log.csv"))
-save(illusion1_ebbinghaus_err,
-     file = paste0(path, "models/illusion1_ebbinghaus_err.Rdata"))
-rm(illusion1_ebbinghaus_err)
+# t0 <- Sys.time()
+#
+# formula <- brms::bf(
+#   Error ~ Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) +
+#     (1 + Illusion_Effect / (logmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
+#   family = "bernoulli",
+#   decomp = "QR"
+# )
+#
+# illusion1_ebbinghaus_err <- brms::brm(formula,
+#                                       data = filter(df, Illusion_Type == "Ebbinghaus"),
+#                                       refresh = 100,
+#                                       normalize = FALSE,
+#                                       init = 0,
+#                                       seed=123,
+#                                       iter=iter,
+#                                       chains=cores,
+#                                       cores=cores,
+#                                       stan_model_args = list(stanc_options = list("O1"))
+#                                       )
+#
+#
+#
+# t1 <- Sys.time()
+# log <- c(log, "m1" = as.numeric(difftime(t1, t0, units = "min")))
+# write.csv(as.data.frame(log), paste0(path, "log.csv"))
+# save(illusion1_ebbinghaus_err,
+#      file = paste0(path, "models/illusion1_ebbinghaus_err.Rdata"))
+# rm(illusion1_ebbinghaus_err)
 
 
 
@@ -81,7 +81,6 @@ formula <- brms::bf(
 illusion1_ebbinghaus_rt <- brms::brm(formula,
                                      data = filter(df, Illusion_Type == "Ebbinghaus", Error == 0),
                                      refresh = 100,
-                                     init = 0,
                                      normalize = FALSE,
                                      init = 0,
                                      seed=123,
@@ -149,7 +148,6 @@ formula <- brms::bf(
 illusion1_mullerlyer_rt <- brms::brm(formula,
                                      data = filter(df, Illusion_Type == "MullerLyer", Error == 0),
                                      refresh = 100,
-                                     init = 0,
                                      normalize = FALSE,
                                      init = 0,
                                      seed=123,
@@ -217,7 +215,6 @@ formula <- brms::bf(
 illusion1_verticalhorizontal_rt <- brms::brm(formula,
                                      data = filter(df, Illusion_Type == "VerticalHorizontal", Error == 0),
                                      refresh = 100,
-                                     init = 0,
                                      normalize = FALSE,
                                      init = 0,
                                      seed=123,
