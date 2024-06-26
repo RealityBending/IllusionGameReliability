@@ -1,0 +1,198 @@
+---
+title: "Illusion Game Reliability"
+subtitle: "Factor Structure"
+date: "`r Sys.Date()`"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute: 
+  cache: false
+---
+
+
+```{r}
+#| echo: false
+
+options(
+  digits = 3,
+  mc.cores = 4,
+  brms.algorithm = "sampling",
+  brms.backend = "cmdstanr",
+  dplyr.summarise.inform = FALSE,
+  knitr.kable.NA = ""
+)
+
+fig.width <- 7 * sqrt(2)  # see::golden_ratio(7)
+fig.height <- 7
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 450,
+  fig.width = fig.width,
+  fig.height = fig.height
+)
+```
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(ggdist)
+library(ggside)
+library(easystats)
+library(patchwork)
+library(brms)
+library(lavaan)
+library(ggraph)
+library(tidySEM)
+```
+
+## Perceptual Task
+
+```{r}
+perceptual <- read.csv("../data/scores_perceptual.csv") |> 
+  select(-contains("Sigma")) |> 
+  select(-contains("Beta")) |> 
+  # mutate(across(ends_with("_Error"), \(x) -1*x)) |>  # So that higher score = More errors
+  mutate(across(ends_with("Intercept_Error"), \(x) -1*x)) |>  # Not the intercept (re-reverse)
+  mutate(across(ends_with("_RT"), \(x) -1*x)) |>  # So that higher score = Longer RTs
+  mutate(across(ends_with("Intercept_RT"), \(x) -1*x))  # Not the intercept (re-reverse)
+
+for(i in names(perceptual)[names(perceptual) != "Participant"]) {
+  perceptual[check_outliers(perceptual[[i]], method = "zscore_robust", threshold = 5), i] <- NA 
+}
+
+perceptual <- standardize(perceptual) |> 
+   mutate(across(where(is.numeric), as.numeric))
+
+outliers <- colSums(is.na(perceptual)) / nrow(perceptual)
+```
+
+We removed a maximum of `r insight::format_percent(max(outliers))` observations (average = `r insight::format_percent(mean(outliers))`).
+
+
+### Distribution
+
+```{r}
+perceptual |> 
+  estimate_density(method = "kernSmooth") |> 
+  separate(Parameter, into = c("Task", "Illusion", "Parameter", "Model")) |> 
+  ggplot(aes(x=x, y=y, color=Parameter)) +
+  geom_line(linewidth=1) +
+  facet_grid(Illusion~Model) +
+  theme_minimal()
+```
+
+
+
+### Correlation
+
+
+```{r message=FALSE, warning=FALSE, cache=cache, eval=TRUE}
+cor <- correlation::correlation(perceptual, redundant = TRUE, p_adjust = "none")
+
+p_data <- cor |>
+  mutate(Parameter1 = str_replace_all(str_remove(Parameter1, "Perception_"), "_", " "),
+         Parameter2 = str_replace_all(str_remove(Parameter2, "Perception_"), "_", " ")) |>
+  correlation::cor_sort(hclust_method = "ward.D2") |>
+  cor_lower() |>
+  mutate(
+    Text = insight::format_value(r, zap_small = TRUE, digits = 3),
+    Text = str_replace(str_remove(Text, "^0+"), "^-0+", "-"),
+    Text = paste0(Text, insight::format_p(p, stars_only = TRUE)),
+    Parameter2 = fct_rev(Parameter2)
+  )
+
+
+p_data |> 
+  ggplot(aes(x = Parameter2, y = Parameter1)) +
+  geom_tile(aes(fill = r)) +
+  geom_text(aes(label = Text), size = rel(2), alpha=2/3) +
+  scale_fill_gradient2(low = "#2196F3", mid = "white", high = "#F44336", midpoint = 0, limit = c(-1, 1), space = "Lab", name = "Correlation", guide = "legend") +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(title = "Correlation Matrix of Perceptual Task Scores", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+### Exploratory Graph Analysis (EGA)
+
+```{r ega_all}
+#| fig-height: 20
+#| fig-width: 12
+
+make_egas <- function(data) {
+  egas <- list()
+  for (model in c("glasso")) {  # , "TMFG"
+    for (algo in c("walktrap", "louvain")) {
+      for (type in c("ega", "ega.fit")) { # "" # "hierega"
+        if (type == "ega.fit" & algo == "louvain") next # Too slow
+        egas[[paste0(model, "_", algo, "_", type)]] <- EGAnet::bootEGA(
+          data = data,
+          seed = 123,
+          model = model,
+          algorithm = algo,
+          EGA.type = type,
+          type = "resampling",
+          plot.itemStability = FALSE,
+          verbose = FALSE
+        )
+      }
+    }
+  }
+
+  p <- EGAnet::compare.EGA.plots(
+    egas$glasso_walktrap_ega, 
+    # egas$glasso_walktrap_ega.fit,
+    egas$glasso_louvain_ega, 
+    # egas$TMFG_louvain_ega,
+    # egas$TMFG_walktrap_ega, 
+    # egas$TMFG_walktrap_ega.fit,
+    labels = c(
+      "glasso_walktrap_ega", 
+      # "glasso_walktrap_ega.fit",
+      "glasso_louvain_ega" 
+      # "TMFG_louvain_ega",
+      # "TMFG_walktrap_ega", 
+      # "TMFG_walktrap_ega.fit"
+    ),
+    rows = 3,
+    plot.all = FALSE
+  )$all
+  list(egas = egas, p = p)
+}
+
+
+egas_all <- make_egas(select(perceptual, -Participant))
+egas_all$p
+patchwork::wrap_plots(lapply(egas_all$egas, plot), nrow = 3)
+
+ega <- EGAnet::bootEGA(
+          data = select(perceptual, -Participant),
+          seed = 123,
+          model = "glasso",
+          algorithm = "leiden",
+          EGA.type = "riEGA",
+          type = "resampling",
+          plot.itemStability = FALSE,
+          verbose = FALSE,
+          ncores=1
+        )
+ega
+plot(ega)
+plot(ega$EGA)
+```

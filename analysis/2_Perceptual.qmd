@@ -22,7 +22,7 @@ options(
   digits = 3,
   mc.cores = 4,
   brms.algorithm = "sampling",
-  brms.backend = "cmdstanr",
+  brms.backend = "cmdstanr"
 )
 
 fig.width <- 6 * sqrt(2) # see::golden_ratio(7)
