@@ -100,35 +100,35 @@ write.csv(as.data.frame(log), paste0(path, "log.csv"))
 
 # MullerLyer --------------------------------------------------------------
 
-t0 <- Sys.time()
-
-formula <- brms::bf(
-  Error ~ Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 + Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
-  family = "bernoulli",
-  decomp = "QR"
-)
-
-illusion1_mullerlyer_err <- brms::brm(formula,
-                                      data = filter(df, Illusion_Type == "MullerLyer"),
-                                      refresh = 100,
-                                      normalize = FALSE,
-                                      init = 0,
-                                      seed=123,
-                                      iter=iter,
-                                      chains=cores,
-                                      cores=cores,
-                                      stan_model_args = list(stanc_options = list("O1"))
-)
-
-
-
-t1 <- Sys.time()
-log <- c(log, "m3" = as.numeric(difftime(t1, t0, units = "min")))
-write.csv(as.data.frame(log), paste0(path, "log.csv"))
-save(illusion1_mullerlyer_err,
-     file = paste0(path, "models/illusion1_mullerlyer_err.Rdata"))
-rm(illusion1_mullerlyer_err)
+# t0 <- Sys.time()
+#
+# formula <- brms::bf(
+#   Error ~ Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+#     (1 + Illusion_Effect / (logmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
+#   family = "bernoulli",
+#   decomp = "QR"
+# )
+#
+# illusion1_mullerlyer_err <- brms::brm(formula,
+#                                       data = filter(df, Illusion_Type == "MullerLyer"),
+#                                       refresh = 100,
+#                                       normalize = FALSE,
+#                                       init = 0,
+#                                       seed=123,
+#                                       iter=iter,
+#                                       chains=cores,
+#                                       cores=cores,
+#                                       stan_model_args = list(stanc_options = list("O1"))
+# )
+#
+#
+#
+# t1 <- Sys.time()
+# log <- c(log, "m3" = as.numeric(difftime(t1, t0, units = "min")))
+# write.csv(as.data.frame(log), paste0(path, "log.csv"))
+# save(illusion1_mullerlyer_err,
+#      file = paste0(path, "models/illusion1_mullerlyer_err.Rdata"))
+# rm(illusion1_mullerlyer_err)
 
 
 t0 <- Sys.time()
