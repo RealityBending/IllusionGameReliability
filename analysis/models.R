@@ -131,38 +131,38 @@ write.csv(as.data.frame(log), paste0(path, "log.csv"))
 # rm(illusion1_mullerlyer_err)
 
 
-t0 <- Sys.time()
-
-formula <- brms::bf(
-  RT ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
-  sigma ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (1 | Participant),
-  beta ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
-    (1 | Participant),
-  family = "exgaussian",
-  decomp = "QR"
-)
-
-
-illusion1_mullerlyer_rt <- brms::brm(formula,
-                                     data = filter(df, Illusion_Type == "MullerLyer", Error == 0),
-                                     refresh = 100,
-                                     normalize = FALSE,
-                                     init = 0,
-                                     seed=123,
-                                     iter=iter,
-                                     chains=cores,
-                                     cores=cores,
-                                     stan_model_args = list(stanc_options = list("O1"))
-)
-
-t1 <- Sys.time()
-log <- c(log, "m4" = as.numeric(difftime(t1, t0, units = "min")))
-write.csv(as.data.frame(log), paste0(path, "log.csv"))
-save(illusion1_mullerlyer_rt,
-     file = paste0(path, "models/illusion1_mullerlyer_rt.Rdata"))
-rm(illusion1_mullerlyer_rt)
+# t0 <- Sys.time()
+#
+# formula <- brms::bf(
+#   RT ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+#     (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) | Participant),
+#   sigma ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+#     (1 | Participant),
+#   beta ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * abs(Illusion_Strength)) + poly(ISI, 2) +
+#     (1 | Participant),
+#   family = "exgaussian",
+#   decomp = "QR"
+# )
+#
+#
+# illusion1_mullerlyer_rt <- brms::brm(formula,
+#                                      data = filter(df, Illusion_Type == "MullerLyer", Error == 0),
+#                                      refresh = 100,
+#                                      normalize = FALSE,
+#                                      init = 0,
+#                                      seed=123,
+#                                      iter=iter,
+#                                      chains=cores,
+#                                      cores=cores,
+#                                      stan_model_args = list(stanc_options = list("O1"))
+# )
+#
+# t1 <- Sys.time()
+# log <- c(log, "m4" = as.numeric(difftime(t1, t0, units = "min")))
+# write.csv(as.data.frame(log), paste0(path, "log.csv"))
+# save(illusion1_mullerlyer_rt,
+#      file = paste0(path, "models/illusion1_mullerlyer_rt.Rdata"))
+# rm(illusion1_mullerlyer_rt)
 
 
 # Vertical-Horizontal --------------------------------------------------------------
