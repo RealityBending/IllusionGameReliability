@@ -166,36 +166,36 @@ write.csv(as.data.frame(log), paste0(path, "log.csv"))
 
 
 # Vertical-Horizontal --------------------------------------------------------------
-
-t0 <- Sys.time()
-
-formula <- brms::bf(
-  Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
-    (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
-  family = "bernoulli",
-  decomp = "QR"
-)
-
-illusion1_verticalhorizontal_err <- brms::brm(formula,
-                                      data = filter(df, Illusion_Type == "VerticalHorizontal"),
-                                      refresh = 100,
-                                      normalize = FALSE,
-                                      init = 0,
-                                      seed=123,
-                                      iter=iter,
-                                      chains=cores,
-                                      cores=cores,
-                                      stan_model_args = list(stanc_options = list("O1"))
-)
-
-
-
-t1 <- Sys.time()
-log <- c(log, "m5" = as.numeric(difftime(t1, t0, units = "min")))
-write.csv(as.data.frame(log), paste0(path, "log.csv"))
-save(illusion1_verticalhorizontal_err,
-     file = paste0(path, "models/illusion1_verticalhorizontal_err.Rdata"))
-rm(illusion1_verticalhorizontal_err)
+#
+# t0 <- Sys.time()
+#
+# formula <- brms::bf(
+#   Error ~ Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) +
+#     (1 + Illusion_Effect / (sqrtmod(Illusion_Difference) * sqrtmod(abs(Illusion_Strength))) | Participant),
+#   family = "bernoulli",
+#   decomp = "QR"
+# )
+#
+# illusion1_verticalhorizontal_err <- brms::brm(formula,
+#                                       data = filter(df, Illusion_Type == "VerticalHorizontal"),
+#                                       refresh = 100,
+#                                       normalize = FALSE,
+#                                       init = 0,
+#                                       seed=123,
+#                                       iter=iter,
+#                                       chains=cores,
+#                                       cores=cores,
+#                                       stan_model_args = list(stanc_options = list("O1"))
+# )
+#
+#
+#
+# t1 <- Sys.time()
+# log <- c(log, "m5" = as.numeric(difftime(t1, t0, units = "min")))
+# write.csv(as.data.frame(log), paste0(path, "log.csv"))
+# save(illusion1_verticalhorizontal_err,
+#      file = paste0(path, "models/illusion1_verticalhorizontal_err.Rdata"))
+# rm(illusion1_verticalhorizontal_err)
 
 
 t0 <- Sys.time()
