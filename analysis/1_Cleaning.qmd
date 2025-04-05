@@ -110,8 +110,6 @@ outliers_illusion2 <- c(
 
 We removed `r length(outliers_illusion1)`, `r length(outliers_perceptual)`, and `r length(outliers_illusion2)` participants for the illusion task - session 1, perceptual task, and illusion task - session 2 respectively, upon inspection of the average error rage (when close to 50%, suggesting random answers) and/or when the reaction time distribution was implausibly fast. 
 
-::: {.panel-tabset}
-
 
 ### Descriptive Table
 
@@ -153,11 +151,13 @@ data.frame(Participant = c("Average"), t(sapply(table[2:ncol(table)], mean, na.r
 
 ### Reaction Time Distribution
 
+::: {.panel-tabset}
+
 
 ```{r}
 plot_distribution <- function(data) {
   data |>
-    estimate_density(select = "RT", at = c("Participant", "Task", "Block")) |>
+    estimate_density(select = "RT", by = c("Participant", "Task", "Block")) |>
     group_by(Participant) |>
     normalize(select = "y") |>
     ungroup() |>
@@ -193,19 +193,70 @@ plot_distribution <- function(data) {
     labs(y = "", x = "Reaction Time (s)")
 }
 
-p <- list()
-for(i in 1:5) {
-  p[[i]] <- data |>
-  filter((as.numeric(gsub("\\D", "", Participant)) > (i - 1) * 100) & (as.numeric(gsub("\\D", "", Participant)) <= 100 * i)) |>
-  plot_distribution()
-}
-p <- patchwork::wrap_plots(p, ncol=5, nrow=1) + plot_layout(guides = "collect")
-ggsave("figures/1_Preprocessing-p_outliers_RT.png", p, width = 7*5, height = 24, dpi = 150)
-```
-```{r}
-knitr::include_graphics("figures/1_Preprocessing-p_outliers_RT.png")
+# p <- list()
+# for(i in 1:5) {
+#   p[[i]] <- data |>
+#   filter((as.numeric(gsub("\\D", "", Participant)) > (i - 1) * 100) & (as.numeric(gsub("\\D", "", Participant)) <= 100 * i)) |>
+#   plot_distribution()
+# }
+# p <- patchwork::wrap_plots(p, ncol=5, nrow=1) + plot_layout(guides = "collect")
+# ggsave("figures/1_Preprocessing-p_outliers_RT.png", p, width = 7*5, height = 24, dpi = 150)
+# ```
+# ```{r}
+# knitr::include_graphics("figures/1_Preprocessing-p_outliers_RT.png")
 ```
 
+#### 1-100
+
+```{r}
+#| warning: false
+#| fig-height: 20
+#| fig-width: 10
+
+plot_distribution(filter(data, Participant %in% sort(sub$Participant)[1:100]))
+```
+
+#### 101-200
+
+```{r}
+#| warning: false
+#| fig-height: 20
+#| fig-width: 10
+
+plot_distribution(filter(data, Participant %in% sort(sub$Participant)[101:200]))
+```
+
+#### 201-300
+
+```{r}
+#| warning: false
+#| fig-height: 20
+#| fig-width: 10
+
+plot_distribution(filter(data, Participant %in% sort(sub$Participant)[201:300]))
+```
+
+#### 301-400
+
+```{r}
+#| warning: false
+#| fig-height: 20
+#| fig-width: 10
+
+plot_distribution(filter(data, Participant %in% sort(sub$Participant)[301:400]))
+```
+
+#### 401-500
+
+```{r}
+#| warning: false
+#| fig-height: 20
+#| fig-width: 10
+
+plot_distribution(filter(data, Participant %in% sort(sub$Participant)[401:500]))
+```
+
+:::
 
 ```{r message=FALSE, warning=FALSE}
 illusion1 <- filter(illusion1, !Participant %in% outliers_illusion1)
@@ -215,7 +266,6 @@ perceptual <- filter(perceptual, !Participant %in% outliers_perceptual)
 perceptual <- filter(perceptual, !(Participant %in% outliers_perceptual_block2 & Block == 2))
 ```
 
-:::
 
 ## Outliers Detection (Blocks)
 
@@ -293,7 +343,7 @@ check_trials <- function(df) {
 
   p1 <- data |>
     filter(RT < 10) |>
-    estimate_density(select = "RT", at = "Participant") |>
+    estimate_density(select = "RT", by = "Participant") |>
     group_by(Participant) |>
     normalize(select = "y") |>
     ungroup() |>

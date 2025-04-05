@@ -20,8 +20,8 @@ execute:
 
 options(
   digits = 3,
-  mc.cores = 4,
-  brms.algorithm = "sampling",
+  mc.cores = parallel::detectCores() - 1,
+  brms.algorithm = "sampling", # "sampling", pathfinder
   brms.backend = "cmdstanr"
 )
 
@@ -158,7 +158,7 @@ plot_desc_errors <- function(data) {
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
     geom_histogram(data=filter(data, Error == 1), 
-                   aes(y=..count../sum(..count..), fill = Illusion_Side), 
+                   aes(y=after_stat(count)/sum(after_stat(count)), fill = Illusion_Side), 
                    binwidth = diff(range(data$Illusion_Difference)) / 10, color = "white",
                    position="dodge") +
     geom_smooth(aes(y = Error, color = Illusion_Side), 
@@ -188,8 +188,8 @@ plot_desc_errors(data)
 formula <- brms::bf(
   Error ~ sqrtmod(Illusion_Difference) +
     (1 + sqrtmod(Illusion_Difference) | Participant),
-  family = "bernoulli",
-  decomp = "QR"
+  family = "bernoulli"
+  # decomp = "QR"
 )
 
 # brms::get_prior(formula, data = data)
@@ -198,11 +198,15 @@ formula <- brms::bf(
 perceptual_ebbinghaus_err <- brms::brm(formula,
   data = data,
   refresh = 0,
-  normalize = FALSE
+  # normalize = FALSE,
+  chains = 8,
+  algorithm="sampling"
 )
 
 save(perceptual_ebbinghaus_err, file="models/perceptual_ebbinghaus_err.Rdata")
 ```
+
+
 
 #### Model Inspection
 
@@ -218,7 +222,7 @@ plot_model_errors <- function(data, model) {
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
     geom_histogram(data=filter(data, Error == 1), 
-                   aes(y=..count../sum(..count..)), 
+                   aes(y=after_stat(count)/sum(after_stat(count))), 
                    color="white",
                    binwidth = diff(range(data$Illusion_Difference)) / 20) +
     geom_ribbon(data = pred,
@@ -240,10 +244,13 @@ plot_model_errors(data, perceptual_ebbinghaus_err)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_ebbinghaus_err, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_ebbinghaus_err, metrics = c("R2")) |> 
   display()
 ```
 
+```{r}
+performance::performance_dvour(perceptual_ebbinghaus_err)
+```
 
 ### Response Time
 
@@ -260,7 +267,7 @@ plot_desc_rt <- function(data) {
     # ggpointdensity::geom_pointdensity(size = 3, alpha=0.5) +
     # scale_color_gradientn(colors = c("grey", "black"), guide = "none") +
     # ggnewscale::new_scale_color() +
-    stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE) +
+    stat_density_2d(aes(fill = after_stat(density)), geom = "raster", contour = FALSE) +
     scale_fill_gradientn(colors = c("white", "black"), guide = "none") +
     ggnewscale::new_scale_fill() +
     geom_smooth(aes(color = Illusion_Side, fill = Illusion_Side), 
@@ -330,7 +337,7 @@ plot_model_rt <- function(data, model) {
   
   data |> 
     ggplot(aes(x = Illusion_Difference)) +
-    stat_density_2d(aes(fill = ..density.., y = RT), geom = "raster", contour = FALSE) +
+    stat_density_2d(aes(fill = after_stat(density), y = RT), geom = "raster", contour = FALSE) +
     scale_fill_gradientn(colors = c("white", "black"), guide = "none") +
     ggnewscale::new_scale_fill() +
     geom_ribbon(data = pred,
@@ -352,7 +359,7 @@ plot_model_rt(data, perceptual_ebbinghaus_rt)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_ebbinghaus_rt, metrics = c("R2")) |> 
   display()
 ```
 
@@ -446,7 +453,7 @@ plot_model_errors(data, perceptual_mullerlyer_err)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_mullerlyer_err, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_mullerlyer_err, metrics = c("R2")) |> 
   display()
 ```
 
@@ -507,7 +514,7 @@ plot_model_rt(data, perceptual_mullerlyer_rt)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_mullerlyer_rt, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_mullerlyer_rt, metrics = c("R2")) |> 
   display()
 ```
 
@@ -578,7 +585,7 @@ plot_model_errors(data, perceptual_verticalhorizontal_err)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_verticalhorizontal_err, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_verticalhorizontal_err, metrics = c("R2")) |> 
   display()
 ```
 
@@ -640,7 +647,7 @@ plot_model_rt(data, perceptual_verticalhorizontal_rt)
 #### Model Performance
 
 ```{r}
-performance::performance(perceptual_verticalhorizontal_rt, metrics = c("R2", "ICC")) |> 
+performance::performance(perceptual_verticalhorizontal_rt, metrics = c("R2")) |> 
   display()
 ```
 
